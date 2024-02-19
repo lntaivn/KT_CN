@@ -7,7 +7,7 @@
 /vendor
 vendor
 /vendor/composer
-.env
+
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
