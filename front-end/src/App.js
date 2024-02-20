@@ -1,7 +1,28 @@
+
+import { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import axios from 'axios';
+
 function App() {
+
+  const handleGetUser = () => {
+    axios.get(`http://127.0.0.1:8000/user`, {
+      withCredentials: true
+    })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    handleGetUser();
+  }, [])
+
   return (
     <div className="App">
       <header className="App-header">
