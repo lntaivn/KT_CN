@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     /**
      * Hiển thị danh sách các users.
-     *
+     * 
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -18,4 +18,56 @@ class UserController extends Controller
         return response()->json($users); // Trả về view với dữ liệu users
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        // Validate dữ liệu đầu vào
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users',
+        ]);
+
+        // Tạo một người dùng mới
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+
+        // Trả về thông tin của người dùng vừa tạo
+        return response()->json($user, 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Validate dữ liệu đầu vào
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email,' . $id,
+        ]);
+
+        // Tìm người dùng cần cập nhật
+        $user = User::findOrFail($id);
+
+        // Cập nhật thông tin người dùng
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+
+        // Trả về thông tin của người dùng đã cập nhật
+        return response()->json($user, 200);
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+
+        $user->delete();
+
+        return response()->json(['message' => 'User deleted successfully'], 200);
+    }
 }

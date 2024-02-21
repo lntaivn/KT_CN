@@ -18,4 +18,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/user', [UserController::class, 'index']);
+Route::get('/users', [UserController::class, 'index']);
+
+Route::post('/users', [UserController::class, 'store']);
+
+Route::put('/users/{id}', [UserController::class, 'update'])->withoutMiddleware(['web']);
+
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->withoutMiddleware(['web']);
