@@ -1,28 +1,25 @@
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import React, { useState, useEffect } from 'react';
+import { UserList, UserUpdate } from './components/UserList/UserList';
 
-function UserList() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:8000/test')
-      .then(response => response.json())
-      .then(data => {
-        setUsers(data);
-      })
-      .catch(error => console.error('Error fetching users:', error));
-  }, []);
-
+function App() {
   return (
-    <div>
-      <h1>User List</h1>
-      <ul>
-        {users.map(user => (
-          <li key={user.id}>{user.id}</li>
-        ))}
-      </ul>
-    </div>
+    <Router>
+      <div>
+     
+          {/* Tuyến đường cho danh sách người dùng */}
+          <Route exact path="/user-list">
+            <UserList />
+          </Route>
+          {/* Tuyến đường cho cập nhật người dùng */}
+          <Route path="/test/update/:id">
+            <UserUpdate />
+          </Route>
+        
+      </div>
+    </Router>
   );
 }
 
-export default UserList;
+export default App;

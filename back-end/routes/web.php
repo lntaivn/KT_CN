@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 /*
@@ -22,4 +22,6 @@ Route::get('/home', function () {
 });
 
 route::get('/test', [UserController::class, 'index']);
-
+route::post('/test', [UserController::class, 'NewOB']);
+route::get('/test/update/{id}', [UserController::class, 'LoadOB']);
+route::put('/test/update/{id}', [UserController::class, 'UpdateOB']);
