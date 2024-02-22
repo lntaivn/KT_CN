@@ -2,6 +2,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ImageUploadController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,3 +27,8 @@ route::get('/test', [UserController::class, 'index']);
 route::post('/test', [UserController::class, 'NewOB']);
 route::get('/test/update/{id}', [UserController::class, 'LoadOB']);
 route::put('/test/update/{id}', [UserController::class, 'UpdateOB']);
+
+route::get('/new', [NewsController::class, 'index']);
+route::get('/news/detail/{glug}', [NewsController::class, 'getNewByGlug']);
+route::post('/news/createNew/', [NewsController::class, 'saveNews']);
+Route::post('/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');
