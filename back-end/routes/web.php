@@ -19,7 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-<<<<<<< HEAD
 Route::get('/users', [UserController::class, 'index']);
 
 Route::post('/users', [UserController::class, 'store']);
@@ -29,7 +28,6 @@ Route::put('/users/{id}', [UserController::class, 'update'])->withoutMiddleware(
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->withoutMiddleware(['web']);
 
 Route::get('/users/{id}', [UserController::class, 'findByIdUser'])->withoutMiddleware(['web']);
-=======
 Route::get('/home', function () {
     return view('welcome');
 });
@@ -51,4 +49,3 @@ route::get('/new/category/selectAllNewByAdmissions', [NewsController::class, 'se
 Route::get('/new/category/getCategoryActivityById/{id}', [NewsController::class, 'getCategoryActivityById']);
 Route::get('/new/category/getCategoryAdmissionById/{id}', [NewsController::class, 'getCategoryAdmissionById']);
 
->>>>>>> 953b3e70e3e3c9fa03c8b30615825db1f9ee3db4

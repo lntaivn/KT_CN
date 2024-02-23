@@ -14,11 +14,6 @@ class VerifyCsrfToken extends Middleware
 
     protected $addHttpCookie = true;
     protected $except = [
-<<<<<<< HEAD
-        //
-        'http://127.0.0.1:8000/users'
-=======
         '*'
->>>>>>> 953b3e70e3e3c9fa03c8b30615825db1f9ee3db4
     ];
 }

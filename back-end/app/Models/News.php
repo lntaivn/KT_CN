@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -16,13 +15,3 @@ class News extends Model
     }
 }
 
-=======
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class News extends Model
-{
-    public $timestamps = false;
-    protected $table = 'news'; 
-}
->>>>>>> 953b3e70e3e3c9fa03c8b30615825db1f9ee3db4
