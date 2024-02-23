@@ -8,32 +8,21 @@ import NewsDetail from './components/NewsDetail/NewsDetail';
 import Editor from './components/Editor/Editor';
 =======
 
-import { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+<<<<<<< HEAD
 >>>>>>> 2aa395381c88720e2b3e6668995a02fb0986d593
 
 import axios from 'axios';
+=======
+import { Route, Routes } from 'react-router-dom';
+import Client from './layouts/Client';
+import Admin from './layouts/Admin';
+>>>>>>> dc3f65b550b40803d71c2685f2bddae5ee94810e
 
 function App() {
-
-  const handleGetUser = () => {
-    axios.get(`http://127.0.0.1:8000/user`, {
-      withCredentials: true
-    })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  useEffect(() => {
-    handleGetUser();
-  }, [])
-
   return (
+<<<<<<< HEAD
     <div className='App'>
             
             <Routes>
@@ -41,6 +30,13 @@ function App() {
               <Route path="/news/detail/:glug" element={<NewsDetail/>} />
               <Route path="/Edit" element={<Editor/>} />
             </Routes>
+=======
+    <div className="App">
+      <Routes>
+        <Route path="/admin/*" element={<Admin/>}/>
+        <Route path="" element={<Client/>}/>
+      </Routes>
+>>>>>>> dc3f65b550b40803d71c2685f2bddae5ee94810e
     </div>
   );
 }
