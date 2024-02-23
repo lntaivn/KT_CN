@@ -19,13 +19,18 @@ class UserController extends Controller
     }
 
     /**
+<<<<<<< HEAD
      * Store a newly created resource in storage.
+=======
+     * Thêm một user mới.
+>>>>>>> 953b3e70e3e3c9fa03c8b30615825db1f9ee3db4
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+<<<<<<< HEAD
         // Validate dữ liệu đầu vào
         $request->validate([
             'name' => 'required|string',
@@ -77,5 +82,23 @@ class UserController extends Controller
 
 
         return response()->json($user);
+=======
+        // Validate request data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            //Thêm validation rules khác nếu cần thiết
+        ]);
+
+        // Tạo một user mới với dữ liệu từ request
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            //Thêm các trường khác nếu cần thiết
+        ]);
+
+        // Trả về thông báo và dữ liệu user đã được tạo
+        return response()->json(['message' => 'User created successfully', 'user' => $user], 201);
+>>>>>>> 953b3e70e3e3c9fa03c8b30615825db1f9ee3db4
     }
 }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
@@ -37,6 +38,28 @@ function App() {
             </Routes>
         </div>
     );
+=======
+import React from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { UserList, UserUpdate } from './components/UserList/UserList';
+import News from './components/News/News';
+import NewsDetail from './components/NewsDetail/NewsDetail';
+import Editor from './components/Editor/Editor';
+import Admin from './layouts/Admin';
+import Client from './layouts/Client';
+
+function App() {
+  return (
+    <div className="App">
+      <Routes>
+        <Route path="/admin/*" element={<Admin/>}/>
+        <Route path="/edit" element={<Editor />}/>
+        <Route path="" element={<Client />}/>
+      </Routes>
+    </div>
+  );
+>>>>>>> 953b3e70e3e3c9fa03c8b30615825db1f9ee3db4
 }
 
 export default App;
