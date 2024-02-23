@@ -7,7 +7,7 @@
 /vendor
 vendor
 /vendor/composer
-# .env
+.env
 # .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
@@ -17,3 +17,5 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+
+.gitignore
