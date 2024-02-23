@@ -2,8 +2,7 @@
 import './Header.css';
 import { Link } from 'react-router-dom';
 import {
-    Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenu, NavbarMenuItem,
-    NavbarContent, NavbarItem, Button, Avatar,
+    Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Avatar,
     Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Tooltip
 }
     from "@nextui-org/react";
@@ -18,7 +17,7 @@ function Header() {
 
     const { t, i18n } = useTranslation();
 
-    const [selectedKeys, setSelectedKeys] = useState(new Set([i18n.language]));
+    const [selectedKeys, setSelectedKeys] = useState(new Set([i18n.language ? i18n.language : "vi"]));
 
     const selectedValue = useMemo(
         () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
@@ -26,17 +25,18 @@ function Header() {
     );
 
     return (
-        <div className="Header">
+        <div className="Header hidden lg:flex">
             <Navbar
                 disableAnimation
                 // isBordered
                 maxWidth="full"
                 classNames={{
-                    base: "px-4 h-12",
+                    base: "px-4 h-12 pr-2 sm:pr-4",
                     wrapper: "px-0",
+                    item: "hover:scale-95 duration-300"
                 }}
             >
-                <NavbarContent className="hidden sm:flex gap-4text-xs" justify="center">
+                <NavbarContent className="hidden lg:flex gap-4text-xs" justify="center">
                     <NavbarBrand>
                         <Link to="http://www.tvu.edu.vn/">
                             <p className="font-bold text-inherit text-sm">{t('header.left_text_tvu')}</p>
@@ -71,7 +71,7 @@ function Header() {
 
                 <NavbarContent justify="end" className='gap-2'>
                     <NavbarItem>
-                        <Link variant="default" className="font-semibold text-sm hidden sm:flex text-orange-500" to="/login">
+                        <Link variant="default" className="font-semibold text-sm hidden lg:flex text-orange-500" to="/login">
                             {t('header.login_button_text')}
                         </Link>
                     </NavbarItem>
