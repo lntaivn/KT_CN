@@ -25,3 +25,5 @@ Route::post('/users', [UserController::class, 'store']);
 Route::put('/users/{id}', [UserController::class, 'update'])->withoutMiddleware(['web']);
 
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->withoutMiddleware(['web']);
+
+Route::get('/users/{id}', [UserController::class, 'findByIdUser'])->withoutMiddleware(['web']);

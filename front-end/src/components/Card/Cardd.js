@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Card, Pagination } from "antd";
+import { Card } from "antd";
 import { GetAllUser } from "../../service/ApiService";
 import { Link } from "react-router-dom";
 
-const Home = () => {
+const Cardd = () => {
     const [userData, setUserData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(2);
 
     const getUser = async () => {
         try {
@@ -21,20 +19,7 @@ const Home = () => {
         getUser();
     }, []);
 
-    const onShowSizeChange = (current, size) => {
-        setCurrentPage(1); // Reset về trang đầu tiên khi thay đổi kích thước trang
-        setPageSize(size);
-    };
-
-    const onPageChange = (page) => {
-        setCurrentPage(page);
-    };
-
-    const indexOfLastItem = currentPage * pageSize;
-    const indexOfFirstItem = indexOfLastItem - pageSize;
-    const currentItems = userData.slice(indexOfFirstItem, indexOfLastItem);
-
-    const cardList = currentItems.map((user) => (
+    const cardList = userData.map((user) => (
         <Link key={user.id} to={`/detailnew/${user.id}`}>
             <Card
                 key={user.id}
@@ -57,19 +42,7 @@ const Home = () => {
         </Link>
     ));
 
-    return (
-        <div>
-            {cardList}
-            <Pagination
-                // showSizeChanger
-                onShowSizeChange={onShowSizeChange}
-                onChange={onPageChange}
-                defaultCurrent={1}
-                total={userData.length}
-                pageSize={pageSize}
-            />
-        </div>
-    );
+    return <div>{cardList}</div>;
 };
 
-export default Home;
+export default Cardd;
