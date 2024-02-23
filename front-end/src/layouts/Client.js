@@ -11,7 +11,7 @@ function Client() {
         <div className="Client">
             <Header />
             <Image
-                className='w-[100vw]'
+                className='w-[100vw] hidden lg:flex'
                 radius="none"
                 src="https://ktcn.tvu.edu.vn/ht96_image/bg.png"
             />
