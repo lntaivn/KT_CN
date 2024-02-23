@@ -13,8 +13,12 @@ return new class extends Migration {
     public function up()
     {
         //
-        Schema::dropIfExists('new_en');
-        Schema::dropIfExists('news');
+        Schema::table('news', function (Blueprint $table) {
+            $table->foreign('id_category')
+                ->references('id_category')
+                ->on('categories');
+        });
+
     }
 
     /**
@@ -25,5 +29,7 @@ return new class extends Migration {
     public function down()
     {
         //
+        Schema::dropIfExists('news');
+
     }
 };
