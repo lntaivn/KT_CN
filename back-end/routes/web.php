@@ -22,13 +22,3 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('welcome');
 });
-
-route::get('/test', [UserController::class, 'index']);
-route::post('/test', [UserController::class, 'NewOB']);
-route::get('/test/update/{id}', [UserController::class, 'LoadOB']);
-route::put('/test/update/{id}', [UserController::class, 'UpdateOB']);
-
-route::get('/new', [NewsController::class, 'index']);
-route::get('/news/detail/{glug}', [NewsController::class, 'getNewByGlug']);
-route::post('/news/createNew/', [NewsController::class, 'saveNews']);
-Route::post('/upload', [ImageUploadController::class, 'upload'])->name('upload.image');
