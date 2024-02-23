@@ -36,7 +36,7 @@ function App() {
         <Route path="/admin/*" element={<Admin/>}/>
         <Route path="" element={<Client/>}/>
       </Routes>
->>>>>>> dc3f65b550b40803d71c2685f2bddae5ee94810e
+
     </div>
   );
 }
