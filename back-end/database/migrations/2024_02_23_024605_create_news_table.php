@@ -27,6 +27,7 @@ class CreateNewsTable extends Migration
             $table->foreign('id_vi')
                 ->references('id_vi')
                 ->on('news_vi');
+                
             $table->date('time_upload');
             $table->date('time_update');
             $table->string('category');
