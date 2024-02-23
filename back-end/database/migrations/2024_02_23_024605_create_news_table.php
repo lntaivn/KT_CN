@@ -15,22 +15,22 @@ class CreateNewsTable extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->increments('id_new');
-            $table->unsignedBigInteger('id_user');
+            $table->unsignedInteger('id_user');
             $table->foreign('id_user')
-                    ->references('id_user') 
-                    ->on('users');
-            $table->unsignedBigInteger('id_en');
+                ->references('id_user')
+                ->on('users');
+            $table->unsignedInteger('id_en');
             $table->foreign('id_en')
-                    ->references('id_en')
-                    ->on('news_en');
-            $table->unsignedBigInteger('id_vi');
+                ->references('id_en')
+                ->on('news_en');
+            $table->unsignedInteger('id_vi');
             $table->foreign('id_vi')
-                    ->references('id_vi')
-                    ->on('news_vi');
+                ->references('id_vi')
+                ->on('news_vi');
             $table->date('time_upload');
             $table->date('time_update');
             $table->string('category');
-            $table->integer('status');    
+            $table->integer('status');
             $table->timestamps();
         });
     }
