@@ -28,7 +28,15 @@ route::post('/test', [UserController::class, 'NewOB']);
 route::get('/test/update/{id}', [UserController::class, 'LoadOB']);
 route::put('/test/update/{id}', [UserController::class, 'UpdateOB']);
 
-route::get('/new', [NewsController::class, 'index']);
+
 route::get('/news/detail/{glug}', [NewsController::class, 'getNewByGlug']);
 route::post('/news/createNew/', [NewsController::class, 'saveNews']);
 Route::post('/upload', [ImageUploadController::class, 'upload'])->name('upload.image');
+
+
+route::get('/new',[NewsController::class, 'getAllNews']);
+route::get('/new/category/selectAllNewByActivity', [NewsController::class, 'selectAllNewByActivity']);
+route::get('/new/category/selectAllNewByAdmissions', [NewsController::class, 'selectAllNewByAdmissions']);
+Route::get('/new/category/getCategoryActivityById/{id}', [NewsController::class, 'getCategoryActivityById']);
+Route::get('/new/category/getCategoryAdmissionById/{id}', [NewsController::class, 'getCategoryAdmissionById']);
+

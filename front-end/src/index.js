@@ -5,7 +5,7 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { NextUIProvider } from '@nextui-org/react'
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
+
 // import { DataStoreProvider } from './components/Database';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

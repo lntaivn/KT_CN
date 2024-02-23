@@ -5,13 +5,16 @@ import { UserList, UserUpdate } from './components/UserList/UserList';
 import News from './components/News/News';
 import NewsDetail from './components/NewsDetail/NewsDetail';
 import Editor from './components/Editor/Editor';
+import Admin from './layouts/Admin';
+import Client from './layouts/Client';
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/admin/*" element={<Admin/>}/>
-        <Route path="" element={<Client/>}/>
+        <Route path="/edit" element={<Editor />}/>
+        <Route path="" element={<Client />}/>
       </Routes>
     </div>
   );
