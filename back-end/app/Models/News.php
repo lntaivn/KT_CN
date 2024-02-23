@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 
 class News extends Model
 {
-    public $timestamps = false;
-    protected $table = 'news'; 
+    protected $primaryKey = 'id_new';
+
+    public function newEn()
+    {
+        return $this->hasOne(NewEn::class, 'id_new');
+    }
 }
+
