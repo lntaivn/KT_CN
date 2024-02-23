@@ -6,12 +6,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { NextUIProvider } from '@nextui-org/react'
 import reportWebVitals from './reportWebVitals';
 
-// import { DataStoreProvider } from './components/Database';
+import './i18n';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-
     <BrowserRouter>
       <NextUIProvider>
         <App />

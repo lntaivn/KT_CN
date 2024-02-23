@@ -1,0 +1,22 @@
+{
+    "header": {
+        "left_text_tvu" : "Trường Đại học Trà Vinh",
+        "left_text_1": "Cổng thông tin sinh viên",
+        "left_text_2": "Phòng Đào tạo",
+        "left_text_3": "Phòng Khảo thí",
+        "left_text_4": "Trung tâm học liệu",
+        "tooltip_text" : "Ngôn ngữ",
+        "login_button_text": "Đăng nhập"
+    },
+    "menu": {
+        "text_link_1": "Trang chủ",
+        "text_link_2": "Giới thiệu",
+        "text_link_3": "Tin tức",
+        "text_link_4": "Đơn vị",
+        "text_link_5": "Tuyển sinh",
+        "text_link_6": "Đào tạo",
+        "text_link_7": "Nghiên cứu",
+        "text_link_8": "Sinh viên",
+        "text_link_9": "Cựu sinh viên"
+    }
+}
