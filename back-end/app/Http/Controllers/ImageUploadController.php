@@ -8,25 +8,23 @@ use Illuminate\Http\Request;
 
 class ImageUploadController extends Controller
 {
-    public function upload(Request $request)
-    {
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            if ($image->isValid()) {
-                $imageName = time() . '_' . $image->getClientOriginalName();
+    public function upload(Request $request) {
 
-                $image->move(public_path('images'), $imageName);
+        $folder = "uploads/" . date('Y/m/d');
+        $fileName = date('H-i') . '-' . $request->file('upload')->getClientOriginalName();
+        $url = $request->file('upload')->move($folder, $fileName);
+        
+        $path = env('APP_URL') . '/' . $folder . '/' . $fileName;
 
-                // Sử dụng URL chứa cổng 8000
-                $imageUrl = asset('images/' . $imageName, true);
-
-                return response()->json(['url' => $imageUrl]);
-            } else {
-                return response()->json(['error' => 'Invalid file uploaded'], 400);
-            }
-        } else {
-            return response()->json(['error' => 'No file uploaded'], 400);
+        if ($request->input('res_filename')) {
+            return response(["fileUrl" => $folder . '/' . $fileName]);
         }
+
+        return response([
+                    "fileName" => $fileName,
+                    "uploaded" => 1,
+                    "url" => $path
+                ]);
     }
 }
 

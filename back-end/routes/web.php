@@ -31,4 +31,4 @@ route::put('/test/update/{id}', [UserController::class, 'UpdateOB']);
 route::get('/new', [NewsController::class, 'index']);
 route::get('/news/detail/{glug}', [NewsController::class, 'getNewByGlug']);
 route::post('/news/createNew/', [NewsController::class, 'saveNews']);
-Route::post('/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');
+Route::post('/upload', [ImageUploadController::class, 'upload'])->name('upload.image');

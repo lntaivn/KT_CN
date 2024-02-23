@@ -82,7 +82,10 @@ const Editor = () => {
                     }}
                     config={{
                         ckfinder: {
-                            uploadUrl: 'http://localhost:8000/upload-image',
+                            uploadUrl: 'http://localhost:8000/upload',
+                            options: {
+                                resourceType: 'Images',
+                            }
                         },
                     }}
                 />
