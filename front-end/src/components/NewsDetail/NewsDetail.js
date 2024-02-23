@@ -47,9 +47,6 @@ const NewsDetail = () => {
             
           </div>
 
-
-
-
           <div>
             
           </div>
