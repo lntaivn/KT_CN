@@ -8,13 +8,11 @@ import Editor from './components/Editor/Editor';
 
 function App() {
   return (
-    <div className='App'>
-            
-            <Routes>
-              <Route path="/" element={<News/>} />
-              <Route path="/news/detail/:glug" element={<NewsDetail/>} />
-              <Route path="/Edit" element={<Editor/>} />
-            </Routes>
+    <div className="App">
+      <Routes>
+        <Route path="/admin/*" element={<Admin/>}/>
+        <Route path="" element={<Client/>}/>
+      </Routes>
     </div>
   );
 }
