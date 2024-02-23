@@ -39,4 +39,8 @@ route::get('/new/category/selectAllNewByActivity', [NewsController::class, 'sele
 route::get('/new/category/selectAllNewByAdmissions', [NewsController::class, 'selectAllNewByAdmissions']);
 Route::get('/new/category/getCategoryActivityById/{id}', [NewsController::class, 'getCategoryActivityById']);
 Route::get('/new/category/getCategoryAdmissionById/{id}', [NewsController::class, 'getCategoryAdmissionById']);
+Route::get('/new/category/getCategoryActivityById/{id}', [NewsController::class, 'getCategoryActivityById']);
+Route::get('/new/category/getCategoryActivityById/{id}', [NewsController::class, 'getCategoryActivityById']);
+Route::get('/new/category/getTop5RelativeCategoryNewsById/{id}', [NewsController::class, 'getTop5RelativeCategoryNewsById']);
+
 
