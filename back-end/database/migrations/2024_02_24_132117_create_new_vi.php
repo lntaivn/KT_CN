@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNewsViTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateNewsViTable extends Migration
      */
     public function up()
     {
-        Schema::create('news_vi', function (Blueprint $table) {
-            $table->increments('id_vi'); // Đặt id_vi là khóa chính
+        Schema::create('new_vi', function (Blueprint $table) {
+            $table->id('id_vi');
             $table->string('title');
-            $table->integer('view_count');
-            $table->string('thumbnail');
-            $table->integer('status');
+            $table->unsignedInteger('count_view')->default(0); // k âm, mặc định không.
+            $table->string('thumbnail')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateNewsViTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('news_vi');
+        Schema::dropIfExists('new_vi');
     }
-}
+};

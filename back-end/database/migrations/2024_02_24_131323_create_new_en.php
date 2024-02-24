@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNewsEnTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,12 +12,12 @@ class CreateNewsEnTable extends Migration
      */
     public function up()
     {
-        Schema::create('news_en', function (Blueprint $table) {
-            $table->increments('id_en'); // Đặt id_en là khóa chính
+        Schema::create('new_en', function (Blueprint $table) {
+            $table->id('id_en');
             $table->string('title');
-            $table->integer('view_count');
-            $table->string('thumbnail');
-            $table->integer('status');
+            $table->unsignedInteger('count_view')->default(0); // k âm, mặc định không.
+            $table->string('thumbnail')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateNewsEnTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('news_en');
+        Schema::dropIfExists('new_en');
     }
-}
+};

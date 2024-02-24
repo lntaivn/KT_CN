@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,9 +12,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->increments('id_category');
-            $table->string('name_category', 100);
+        Schema::create('users', function (Blueprint $table) {
+            $table->id('id_user');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->timestamps(); // Thêm cột created_at và updated_at
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('users');
     }
 };
