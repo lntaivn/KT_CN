@@ -5,6 +5,7 @@ import Menu from '../components/pages/Client/Menu/Menu';
 import './Layout.css';
 import { Route, Routes } from 'react-router-dom';
 import { Image } from "@nextui-org/react";
+import About from '../components/pages/Client/About/About';
 
 function Client() {
     return (
@@ -18,7 +19,8 @@ function Client() {
             <Menu />
             <Routes>
                 <Route path="" element={<Home />} />
-            </Routes>
+                <Route path="/about" element={<About/>} />
+           </Routes>
             <footer>Footer</footer>
         </div>
     );
