@@ -25,45 +25,45 @@ function Header() {
     );
 
     return (
-        <div className="Header hidden lg:flex">
+        <div className="Header hidden xl:flex">
             <Navbar
                 disableAnimation
                 // isBordered
                 maxWidth="full"
                 classNames={{
-                    base: "px-4 h-12 pr-2 sm:pr-4",
+                    base: "px-6 h-12 pr-2 sm:pr-4",
                     wrapper: "px-0",
                     item: "hover:scale-95 duration-300"
                 }}
             >
                 <NavbarContent className="hidden lg:flex gap-4text-xs" justify="center">
                     <NavbarBrand>
-                        <Link to="http://www.tvu.edu.vn/">
+                        <Link to="http://www.tvu.edu.vn/" target='_blank'>
                             <p className="font-bold text-inherit text-sm">{t('header.left_text_tvu')}</p>
                         </Link>
                     </NavbarBrand>
                     <NavbarItem>
-                        <Link className='text-[14px] text-orange-500 font-normal' to="http://ttsv.tvu.edu.vn/">
+                        <Link className='text-[14px] text-orange-500 font-normal' to="http://ttsv.tvu.edu.vn/" target='_blank'>
                             {t('header.left_text_1')}
                         </Link>
                     </NavbarItem>
                     <NavbarItem>
-                        <Link className='text-[14px] text-orange-500 font-normal' to="http://daotao.tvu.edu.vn/">
+                        <Link className='text-[14px] text-orange-500 font-normal' to="http://daotao.tvu.edu.vn/" target='_blank'>
                             {t('header.left_text_2')}
                         </Link>
                     </NavbarItem>
                     <NavbarItem>
-                        <Link className='text-[14px] text-orange-500 font-normal' to="http://khaothi.tvu.edu.vn/">
+                        <Link className='text-[14px] text-orange-500 font-normal' to="http://khaothi.tvu.edu.vn/" target='_blank'>
                             {t('header.left_text_3')}
                         </Link>
                     </NavbarItem>
                     <NavbarItem>
-                        <Link className='text-[14px] text-orange-500 font-normal' to="https://celri.tvu.edu.vn/">
+                        <Link className='text-[14px] text-orange-500 font-normal' to="https://celri.tvu.edu.vn/" target='_blank'>
                             {t('header.left_text_4')}
                         </Link>
                     </NavbarItem>
                     <NavbarItem>
-                        <Link className='text-[14px] text-orange-500 font-normal' to="http://ret.tvu.edu.vn/">
+                        <Link className='text-[14px] text-orange-500 font-normal' to="http://ret.tvu.edu.vn/" target='_blank'>
                             RET
                         </Link>
                     </NavbarItem>
@@ -86,7 +86,7 @@ function Header() {
                                         <div className='flex gap-2 items-center'>
                                             {selectedValue === "vi" ?
                                                 <Avatar alt="Việt Nam" className="w-5 h-5" src="https://flagcdn.com/vn.svg" /> :
-                                                <Avatar alt="English" className="w-5 h-5" src="https://flagcdn.com/us.svg" />
+                                                <Avatar alt="English" className="w-5 h-5" src="https://flagcdn.com/gb.svg" />
                                             }
                                             <i className="fa-solid fa-caret-down"></i>
                                         </div>
@@ -109,7 +109,7 @@ function Header() {
                                 </DropdownItem>
                                 <DropdownItem
                                     key="en"
-                                    startContent={<Avatar alt="English" className="w-5 h-5" src="https://flagcdn.com/us.svg" />
+                                    startContent={<Avatar alt="English" className="w-5 h-5" src="https://flagcdn.com/gb.svg" />
                                     }
                                     onClick={() => i18n.changeLanguage('en')}
                                 >

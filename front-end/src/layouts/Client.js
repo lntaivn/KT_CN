@@ -5,21 +5,24 @@ import Menu from '../components/pages/Client/Menu/Menu';
 import './Layout.css';
 import { Route, Routes } from 'react-router-dom';
 import { Image } from "@nextui-org/react";
+import Footer from '../components/pages/Client/Footer/Footer';
 
 function Client() {
     return (
         <div className="Client">
-            <Header />
-            <Image
-                className='w-[100vw] hidden lg:flex'
-                radius="none"
-                src="https://ktcn.tvu.edu.vn/ht96_image/bg.png"
-            />
-            <Menu />
-            <Routes>
-                <Route path="" element={<Home />} />
-            </Routes>
-            <footer>Footer</footer>
+            <div className='flex-1'>
+                <Header />
+                <Image
+                    className='w-[100vw] hidden xl:flex'
+                    radius="none"
+                    src="https://ktcn.tvu.edu.vn/ht96_image/bg.png"
+                />
+                <Menu />
+                <Routes>
+                    <Route path="" element={<Home />} />
+                </Routes>
+            </div>
+            <Footer />
         </div>
     );
 }
