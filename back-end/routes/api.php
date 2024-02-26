@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NewViEnController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -34,15 +35,15 @@ Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByCategory']);
 Route::post('/news', [NewsController::class, 'create']);
 
 
+//News vi_en
+Route::get('/new-vi-en', [NewViEnController::class, 'getAll']);
+Route::get('/new-vi-en/{id}', [NewViEnController::class, 'get']);
+
 //News vi
-Route::get('/new-vi', [NewViController::class, 'getAll']);
 Route::post('/new-vi', [NewViController::class, 'create']);
-Route::get('/new-vi/{id_vi}', [NewViController::class, 'get']);
 
 //News en
-Route::get('/new-en', [NewViController::class, 'getAll']);
 Route::post('/new-en', [NewEnController::class, 'create']);
-Route::get('/new-en/{id_en}', [NewViController::class, 'get']);
 
 //Category
 Route::get('/categories', [CategoryController::class, 'getAll']);

@@ -4,15 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\NewEn;
+use App\Models\NewVi;
 
 class NewEnController extends Controller
 {
-    public function getAll()
-    {
-        $newEns = NewEn::all();
-
-        return response()->json($newEns, 200);
-    }
     public function create(Request $request)
     {
         $request->validate([
@@ -30,16 +25,6 @@ class NewEnController extends Controller
         return response()->json($newEn, 201);
     }
 
-    public function get($id)
-    {
-        $newEn = NewEn::find($id);
-
-        if (!$newEn) {
-            return response()->json(['message' => 'Bài Enết mới không tồn tại'], 404);
-        }
-
-        return response()->json($newEn, 200);
-    }
 
 
 }
