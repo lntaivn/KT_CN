@@ -22,7 +22,7 @@ function Client() {
                 <Routes>
                     <Route path="" element={<Home />} />
                     <Route path="/about" element={<About/>} />
-           </Routes>
+                </Routes>
             </div>
             <Footer />
         </div>

@@ -76,8 +76,7 @@ class UserController extends Controller
     public function findByIdUser($id)
     {
         $user = User::findOrFail($id);
-
-
         return response()->json($user);
     }
+    
 }

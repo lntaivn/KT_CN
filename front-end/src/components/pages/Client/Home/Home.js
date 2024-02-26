@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Link } from "react-router-dom";
 import "./Home.css"
-import About from "../About/About";
 const Home = () => {
     const { t } = useTranslation();
 
@@ -72,9 +71,6 @@ const Home = () => {
                     />
                 </Link>
             </div>
-
-
-
             <div className="About_Khoa">
                 <div>
                     <h1>

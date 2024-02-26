@@ -14,8 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->increments('id_category');
-            $table->string('name_category', 100);
+            $table->id('id_category'); // Tạo cột id_category là primary key
+            $table->string('name'); // Tạo cột name là string
+            $table->timestamps(); // Thêm cột created_at và updated_at
         });
     }
 

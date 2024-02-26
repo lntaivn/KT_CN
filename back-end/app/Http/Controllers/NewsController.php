@@ -76,5 +76,4 @@ class NewsController extends Controller
         $news->save();
         return response()->json($news);
     }
-
 }
