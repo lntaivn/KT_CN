@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-
-class NewEn extends Model
+class NewVi extends Model
 {
-    protected $table = 'new_en';
-    protected $primaryKey = 'id_en';
+    protected $table = 'new_vi';
+    protected $primaryKey = 'id_vi';
 
     protected $fillable = [
         'title',
