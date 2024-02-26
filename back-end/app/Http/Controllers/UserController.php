@@ -20,6 +20,8 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
+
+     * Thêm một user mới.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

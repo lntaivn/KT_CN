@@ -46,9 +46,24 @@ class NewsController extends Controller
         }
         return response()->json($news);
     }
+    public function getTop5RelativeCategoryNewsById($id): JsonResponse 
+    {
+        $newsItems = News::where('id_new', $id)->get();
 
+        if ($newsItems->isEmpty()) {
+            return response()->json(['error' => 'News items not found'], 404);
+        }
+        $category = $newsItems->first()->category;
+
+        $relatedNews = News::where('category', $category)
+                            ->where('id_new', '!=', $id) 
+                            ->orderBy('created_at', 'desc')
+                            ->take(5)
+                            ->get();
+
+        return response()->json($relatedNews);
+    }
     
-
     public function getNewByGlug($id) {
         $news = News::find($id);
         return response()->json($news);
@@ -62,7 +77,6 @@ class NewsController extends Controller
         $news->time_upload = $request->time_upload;
         $news->image = $request->image;
         $news->save();
-
         return response()->json($news);
     }
 

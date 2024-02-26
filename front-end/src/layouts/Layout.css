@@ -1,3 +1,6 @@
 .Client{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     min-height: 2000px;
 }
