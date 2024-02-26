@@ -19,30 +19,25 @@ class UserController extends Controller
     }
 
     /**
-<<<<<<< HEAD
      * Store a newly created resource in storage.
-=======
-     * Thêm một user mới.
->>>>>>> 953b3e70e3e3c9fa03c8b30615825db1f9ee3db4
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        // Validate dữ liệu đầu vào
         $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
         ]);
 
-        // Tạo một người dùng mới
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->save();
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password'))
+        ]);
 
-        // Trả về thông tin của người dùng vừa tạo
         return response()->json($user, 201);
     }
 
@@ -75,9 +70,9 @@ class UserController extends Controller
         return response()->json(['message' => 'User deleted successfully'], 200);
     }
 
-    public function findByIdUser($id)
+    public function findByIdUser($id_user)
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id_user);
 
 
         return response()->json($user);

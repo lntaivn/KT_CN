@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class NewEn extends Model
 {
-    protected $table = 'new_en'; 
-    protected $primaryKey = 'id_en'; 
+    protected $table = 'new_vi';
+    protected $primaryKey = 'id_vi'; 
 
     protected $fillable = [
         'title',

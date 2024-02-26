@@ -14,25 +14,28 @@ class NewsController extends Controller
     }
 
 
-    public function selectAllNewByActivity(): JsonResponse
+    public function getAllByCategory($category_id)
     {
-        $news = News::where('category', 'activity')->get();
+        $news = News::where('id_category', $category_id)->get();
+
         return response()->json($news);
     }
-    
-    public function selectAllNewByAdmissions(): JsonResponse
+
+    public function getCategoryByNews($news_id)
     {
-        $news = News::where('category', 'admissions')->get();
-        return response()->json($news);
-    }
-    
-    public function getCategoryActivityById($id): JsonResponse
-    {
-        $news = News::where('id_new', $id)->where('category', 'activity')->first();
+        $news = News::find($news_id);
+
         if (!$news) {
-            return response()->json(['error' => 'News not found'], 404);
+            return response()->json(['error' => 'Tin tức không tồn tại'], 404);
         }
-        return response()->json($news);
+
+        $category = $news->category;
+
+        if (!$category) {
+            return response()->json(['error' => 'Không có danh mục cho tin tức này'], 404);
+        }
+
+        return response()->json($category);
     }
 
     public function getCategoryAdmissionById($id): JsonResponse
