@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Card, Pagination } from "antd";
 import { GetAllUser } from "../../../../service/ApiService";
+import { useTranslation } from 'react-i18next';
 
 import { Link } from "react-router-dom";
 import "./Home.css"
+import About from "../About/About";
 const Home = () => {
+    const { t } = useTranslation();
+
     const [userData, setUserData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(2);
@@ -74,15 +78,14 @@ const Home = () => {
             <div className="About_Khoa">
                 <div>
                     <h1>
-                        GIỚI THIỆU KHOA
+                        {t('about.text_about_1')}
 
                     </h1>
-                    <h3>KHOA KỸ THUẬT VÀ CÔNG NGHỆ, THÀNH TỰU VÀ PHÁT TRIỂN</h3>
+                    <h3>{t('about.text_about_2')}</h3>
                     <p>
-                        Với sự phát triển của kỹ thuật hiện đại, Kỹ thụât và Công nghệ đóng một vai trò rất quan trọng
-                        trong phát triển công nghiệp, Khoa Kỹ thuật và Công nghệ (KT&CN) được thành lập theo quyết định số: 179/QĐ-ĐHTV ngày 20/10/2006 của Hiệu trưởng trường Đại học Trà Vinh với 5 đơn vị: Bộ môn Công nghệ Thông tin, bộ môn Điện - Điện tử, bộ môn Cơ khí - Động lực, bộ môn Xây dựng và Văn phòng Khoa. Hiện tại, đội ngũ của Khoa có 80 viên chức, tất cả họ đều trẻ, năng động và ham học hỏi. Vì thế, Khoa tạo nhiều cơ hội để họ được bồi dưỡng và nâng cao nghề nghiệp. Hằng năm, Khoa tuyển mới trên 500 sinh viên. Đặc biệt, số lượng sinh viên tìm được việc làm sau 1 năm tốt nghiệp là trên 90%.
+                        {t('about.text_about_summary')}
                     </p>
-                    <Link to="/About">Xem thêm</Link>
+                    <Link to="/About">{t('about.Button')}</Link>
                 </div>
             </div>
             {cardList}
