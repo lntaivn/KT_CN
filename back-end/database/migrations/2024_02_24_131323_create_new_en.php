@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddAgeToUsersTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,8 +12,12 @@ class AddAgeToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->integer('age')->nullable();
+        Schema::create('new_en', function (Blueprint $table) {
+            $table->id('id_en');
+            $table->string('title');
+            $table->string('content')->nullable();
+            $table->boolean('status')->default(true);
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddAgeToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('age');
-        });
+        Schema::dropIfExists('new_en');
     }
-}
+};
