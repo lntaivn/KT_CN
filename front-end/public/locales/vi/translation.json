@@ -9,17 +9,53 @@
         "login_button_text": "Đăng nhập"
     },
     "menu": {
+        "SET_name": "Khoa Kỹ thuật và Công nghệ",
         "text_link_1": "Trang chủ",
-        "text_link_2": "Giới thiệu",
-        "text_link_3": "Tin tức",
-        "text_link_4": "Đơn vị",
+        "text_link_2": {
+            "title": "Giới thiệu",
+            "sub1": "Giới thiệu Khoa",
+            "sub2": "Về tổ chức"
+        },
+        "text_link_3": {
+            "title": "Tin tức",
+            "sub1": "Hoạt động TVU",
+            "sub2": "Tuyển sinh"
+        },
+        "text_link_4": {
+            "title": "Đơn vị",
+            "sub1": "Văn phòng Khoa",
+            "sub2": "Công nghệ thông tin",
+            "sub3": "Cơ khí - Động lực",
+            "sub4": "Điện - Điện tử",
+            "sub5": "Xây dựng"
+        },
         "text_link_5": "Tuyển sinh",
-        "text_link_6": "Đào tạo",
-        "text_link_7": "Nghiên cứu",
-        "text_link_8": "Sinh viên",
+        "text_link_6": {
+            "title": "Đào tạo",
+            "sub1": "Sau Đại học",
+            "sub2": "Đại học"
+        },
+        "text_link_7": {
+            "title": "Nghiên cứu",
+            "sub1": "Đề tài",
+            "sub2": "Dự án",
+            "sub3": "Hội thảo RET",
+            "sub4": "Bài báo RET6"
+        },
+        "text_link_8": {
+            "title": "Sinh viên",
+            "sub1": "Sinh viên RET",
+            "sub2": "Học viên cao học",
+            "sub3": "Nghiên cứu sinh"
+        },
         "text_link_9": "Cựu sinh viên",
         "section_text_1": "Về TVU",
         "section_text_2": "Khác"
+    },
+    "footer": {
+        "address": "Số 126 Nguyễn Thiện Thành, Khóm 4, Phường 5, TP. Trà Vinh, tỉnh Trà Vinh",
+        "copyright": "Copyright © 2024 Bản quyền thuộc về Khoa Kỹ thuật và Công nghệ, Trường Đại học Trà Vinh",
+        "explore_text": "Khám phá"
     },
     "about": {
         "text_about_1": "GIỚI THIỆU KHOA",

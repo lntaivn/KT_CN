@@ -4,7 +4,9 @@ import LogoSET from "../../../../assets/KTCN-in.png"
 
 import {
     Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem,
-    NavbarMenu, NavbarContent, NavbarItem, Button, Avatar, DropdownTrigger, Dropdown, DropdownMenu, DropdownItem, Tooltip, DropdownSection
+    NavbarMenu, NavbarContent, NavbarItem, Button, Avatar,
+    DropdownTrigger, Dropdown, DropdownMenu, DropdownItem,
+    Tooltip, DropdownSection, Accordion, AccordionItem
 } from "@nextui-org/react";
 
 import { useMemo, useState } from 'react';
@@ -34,73 +36,158 @@ function Menu() {
                     base: "px-3 pl-6 md:px-10 bg-[#e95a13]",
                     wrapper: "px-0",
                     content: "gap-0",
-                    item: "h-full items-center flex px-4 hover:bg-[white] hover:text-[#e95a13]"
+                    item: "h-full items-center flex px-4 hover:bg-[white] hover:text-[#e95a13] duration-300",
+                    menuItem: "py-3 border-b-[1px] border-gray-300"
                 }}
                 height="50px"
             >
 
-                <NavbarContent className="lg:hidden flex gap-5" justify="start">
+                <NavbarContent className="xl:hidden flex gap-5" justify="start">
                     <NavbarMenuToggle className='text-[#fff]' />
                     <Link to="/">
-                        <img src={LogoSET} width={20} className='mr-0' />
+                        <img src={LogoSET} width={18} className='mr-0' />
                     </Link>
+                    <p className='text-[#fff] hidden sm:block font-semibold'>
+                        {t('menu.SET_name')}
+                    </p>
+                    <p className='text-[#fff] block sm:hidden font-semibold'>
+                        SET
+                    </p>
 
                 </NavbarContent>
 
-                <NavbarContent className="hidden lg:flex text-[#fff]" justify="center">
+                <NavbarContent className="hidden xl:flex text-[#fff]" justify="center">
                     <Link to="/">
-                        <img src={LogoSET} width={20} className='mr-5' />
+                        <img src={LogoSET} width={18} className='mr-5' />
                     </Link>
                     <NavbarItem>
-                        <Link to="#" className='font-medium uppercase text-[15px] h-full flex items-center'>
+                        <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center'>
                             {t('menu.text_link_1')}
                         </Link>
                     </NavbarItem>
                     <NavbarItem>
-                        <Link to="#" className='font-medium uppercase text-[15px] h-full flex items-center'>
-                            {t('menu.text_link_2')}
-                        </Link>
+                        <div className='h-full relative group/prarent-link'>
+                            <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center '>
+                                {t('menu.text_link_2.title')}<i className="fa-solid fa-sort-down ml-3 -translate-y-1"></i>
+                            </Link>
+                            <div className="absolute flex flex-col -translate-x-4 invisible group-hover/prarent-link:visible delay-100">
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_2.sub1')}
+                                </Link>
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_2.sub2')}
+                                </Link>
+                            </div>
+                        </div>
                     </NavbarItem>
                     <NavbarItem>
-                        <Link to="#" className='font-medium uppercase text-[15px] h-full flex items-center'>
-                            {t('menu.text_link_3')}
-                        </Link>
+                        <div className='h-full relative group/prarent-link'>
+                            <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center '>
+                                {t('menu.text_link_3.title')}<i className="fa-solid fa-sort-down ml-3 -translate-y-1"></i>
+                            </Link>
+                            <div className="absolute flex flex-col -translate-x-4 invisible group-hover/prarent-link:visible delay-100">
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_3.sub1')}
+                                </Link>
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_3.sub2')}
+                                </Link>
+                            </div>
+                        </div>
                     </NavbarItem>
                     <NavbarItem>
-                        <Link to="#" className='font-medium uppercase text-[15px] h-full flex items-center'>
-                            {t('menu.text_link_4')}
-                        </Link>
+                        <div className='h-full relative group/prarent-link'>
+                            <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center '>
+                                {t('menu.text_link_4.title')}<i className="fa-solid fa-sort-down ml-3 -translate-y-1"></i>
+                            </Link>
+                            <div className="absolute flex flex-col -translate-x-4 invisible group-hover/prarent-link:visible delay-100">
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_4.sub1')}
+                                </Link>
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_4.sub2')}
+                                </Link>
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_4.sub3')}
+                                </Link>
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_4.sub4')}
+                                </Link>
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_4.sub5')}
+                                </Link>
+                            </div>
+                        </div>
                     </NavbarItem>
                     <NavbarItem>
-                        <Link to="#" className='font-medium uppercase text-[15px] h-full flex items-center'>
+                        <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center'>
                             {t('menu.text_link_5')}
                         </Link>
                     </NavbarItem>
                     <NavbarItem>
-                        <Link to="#" className='font-medium uppercase text-[15px] h-full flex items-center'>
-                            {t('menu.text_link_6')}
-                        </Link>
+                        <div className='h-full relative group/prarent-link'>
+                            <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center '>
+                                {t('menu.text_link_6.title')}<i className="fa-solid fa-sort-down ml-3 -translate-y-1"></i>
+                            </Link>
+                            <div className="absolute flex flex-col -translate-x-4 invisible group-hover/prarent-link:visible delay-100">
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_6.sub1')}
+                                </Link>
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_6.sub2')}
+                                </Link>
+                            </div>
+                        </div>
                     </NavbarItem>
                     <NavbarItem>
-                        <Link to="#" className='font-medium uppercase text-[15px] h-full flex items-center'>
-                            {t('menu.text_link_7')}
-                        </Link>
+                        <div className='h-full relative group/prarent-link'>
+                            <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center '>
+                                {t('menu.text_link_7.title')}<i className="fa-solid fa-sort-down ml-3 -translate-y-1"></i>
+                            </Link>
+                            <div className="absolute flex flex-col -translate-x-4 invisible group-hover/prarent-link:visible delay-100">
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_7.sub1')}
+                                </Link>
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_7.sub2')}
+                                </Link>
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_7.sub3')}
+                                </Link>
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_7.sub4')}
+                                </Link>
+                            </div>
+                        </div>
                     </NavbarItem>
                     <NavbarItem>
-                        <Link to="#" className='font-medium uppercase text-[15px] h-full flex items-center'>
-                            {t('menu.text_link_8')}
-                        </Link>
+                        <div className='h-full relative group/prarent-link'>
+                            <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center '>
+                                {t('menu.text_link_8.title')}<i className="fa-solid fa-sort-down ml-3 -translate-y-1"></i>
+                            </Link>
+                            <div className="absolute flex flex-col -translate-x-4 invisible group-hover/prarent-link:visible delay-100">
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_8.sub1')}
+                                </Link>
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_8.sub2')}
+                                </Link>
+                                <Link className='bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300'>
+                                    <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_8.sub3')}
+                                </Link>
+                            </div>
+                        </div>
                     </NavbarItem>
                     <NavbarItem>
-                        <Link to="#" className='font-medium uppercase text-[15px] h-full flex items-center'>
+                        <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center'>
                             {t('menu.text_link_9')}
                         </Link>
                     </NavbarItem>
                 </NavbarContent>
 
-                <NavbarContent justify="end">
+                <NavbarContent justify="end" style={{ flexGrow: 0 }}>
                     <Dropdown >
-                        <DropdownTrigger className='lg:hidden'>
+                        <DropdownTrigger className='xl:hidden'>
                             <Button
                                 variant="light"
                                 size='sm'
@@ -131,7 +218,7 @@ function Menu() {
                         </DropdownMenu>
                     </Dropdown>
                     <Dropdown>
-                        <DropdownTrigger className='lg:hidden'>
+                        <DropdownTrigger className='xl:hidden'>
                             <Button
                                 variant="light"
                                 size='sm'
@@ -140,7 +227,7 @@ function Menu() {
                                     <div className='flex gap-2 items-center'>
                                         {selectedValue === "vi" ?
                                             <Avatar alt="Việt Nam" className="w-5 h-5" src="https://flagcdn.com/vn.svg" /> :
-                                            <Avatar alt="English" className="w-5 h-5" src="https://flagcdn.com/us.svg" />
+                                            <Avatar alt="English" className="w-5 h-5" src="https://flagcdn.com/gb.svg" />
                                         }
                                         <i className="fa-solid fa-caret-down text-[white]"></i>
                                     </div>
@@ -163,7 +250,7 @@ function Menu() {
                             </DropdownItem>
                             <DropdownItem
                                 key="en"
-                                startContent={<Avatar alt="English" className="w-5 h-5" src="https://flagcdn.com/us.svg" />
+                                startContent={<Avatar alt="English" className="w-5 h-5" src="https://flagcdn.com/gb.svg" />
                                 }
                                 onClick={() => i18n.changeLanguage('en')}
                             >
@@ -179,46 +266,132 @@ function Menu() {
                     </Button>
                 </NavbarContent>
 
-                <NavbarMenu className='pt-5 gap-4'>
+                <NavbarMenu className='pt-5 gap-0'>
                     <NavbarMenuItem>
                         <Link to="#" className='font-medium uppercase'>
                             {t('menu.text_link_1')}
                         </Link>
                     </NavbarMenuItem>
-                    <NavbarMenuItem>
-                        <Link to="#" className='font-medium uppercase'>
-                            {t('menu.text_link_2')}
-                        </Link>
-                    </NavbarMenuItem>
-                    <NavbarMenuItem>
-                        <Link to="#" className='font-medium uppercase'>
-                            {t('menu.text_link_3')}
-                        </Link>
-                    </NavbarMenuItem>
-                    <NavbarMenuItem>
-                        <Link to="#" className='font-medium uppercase'>
-                            {t('menu.text_link_4')}
-                        </Link>
+                    <NavbarMenuItem className='p-0'>
+                        <Accordion className='gap-5 p-0'>
+                            <AccordionItem key="1" aria-label={t('menu.text_link_2')} title={t('menu.text_link_2.title')}
+                                classNames={{
+                                    trigger: "py-3",
+                                    title: "font-medium uppercase"
+                                }}
+                            >
+                                <div className='flex flex-col gap-4 pl-4 pb-2'>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_2.sub1')}
+                                    </Link>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_2.sub2')}
+                                    </Link>
+                                </div>
+                            </AccordionItem>
+                            <AccordionItem key="2" aria-label={t('menu.text_link_2')} title={t('menu.text_link_3.title')}
+                                classNames={{
+                                    trigger: "py-3",
+                                    title: "font-medium uppercase"
+                                }}
+                            >
+                                <div className='flex flex-col gap-4 pl-4 pb-2'>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_3.sub1')}
+                                    </Link>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_3.sub2')}
+                                    </Link>
+                                </div>
+                            </AccordionItem>
+                            <AccordionItem key="3" aria-label={t('menu.text_link_2')} title={t('menu.text_link_4.title')}
+                                classNames={{
+                                    trigger: "py-3",
+                                    title: "font-medium uppercase"
+                                }}
+                            >
+                                <div className='flex flex-col gap-4 pl-4 pb-2'>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_4.sub1')}
+                                    </Link>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_4.sub2')}
+                                    </Link>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_4.sub3')}
+                                    </Link>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_4.sub4')}
+                                    </Link>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_4.sub5')}
+                                    </Link>
+                                </div>
+                            </AccordionItem>
+                        </Accordion>
                     </NavbarMenuItem>
                     <NavbarMenuItem>
                         <Link to="#" className='font-medium uppercase'>
                             {t('menu.text_link_5')}
                         </Link>
                     </NavbarMenuItem>
-                    <NavbarMenuItem>
-                        <Link to="#" className='font-medium uppercase'>
-                            {t('menu.text_link_6')}
-                        </Link>
-                    </NavbarMenuItem>
-                    <NavbarMenuItem>
-                        <Link to="#" className='font-medium uppercase'>
-                            {t('menu.text_link_7')}
-                        </Link>
-                    </NavbarMenuItem>
-                    <NavbarMenuItem>
-                        <Link to="#" className='font-medium uppercase'>
-                            {t('menu.text_link_8')}
-                        </Link>
+                    <NavbarMenuItem className='p-0'>
+                        <Accordion className='gap-5 p-0'>
+                            <AccordionItem key="4" title={t('menu.text_link_6.title')}
+                                classNames={{
+                                    trigger: "py-3",
+                                    title: "font-medium uppercase"
+                                }}
+                            >
+                                <div className='flex flex-col gap-4 pl-4 pb-2'>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_6.sub1')}
+                                    </Link>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_6.sub2')}
+                                    </Link>
+                                </div>
+                            </AccordionItem>
+                            <AccordionItem key="5" aria-label={t('menu.text_link_2')} title={t('menu.text_link_7.title')}
+                                classNames={{
+                                    trigger: "py-3",
+                                    title: "font-medium uppercase"
+                                }}
+                            >
+                                <div className='flex flex-col gap-4 pl-4 pb-2'>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_7.sub1')}
+                                    </Link>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_7.sub2')}
+                                    </Link>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_7.sub3')}
+                                    </Link>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_7.sub4')}
+                                    </Link>
+                                </div>
+                            </AccordionItem>
+                            <AccordionItem key="6" aria-label={t('menu.text_link_2')} title={t('menu.text_link_8.title')}
+                                classNames={{
+                                    trigger: "py-3",
+                                    title: "font-medium uppercase"
+                                }}
+                            >
+                                <div className='flex flex-col gap-4 pl-4 pb-2'>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_8.sub1')}
+                                    </Link>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_8.sub2')}
+                                    </Link>
+                                    <Link to="#" className='font-medium'>
+                                        <i className="fa-solid fa-caret-right mr-3"></i>{t('menu.text_link_8.sub3')}
+                                    </Link>
+                                </div>
+                            </AccordionItem>
+                        </Accordion>
                     </NavbarMenuItem>
                     <NavbarMenuItem>
                         <Link to="#" className='font-medium uppercase'>

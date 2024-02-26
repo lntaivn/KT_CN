@@ -9,17 +9,53 @@
         "login_button_text": "Login"
     },
     "menu": {
+        "SET_name": "School of Engineering & Technology",
         "text_link_1": "Home",
-        "text_link_2": "About us",
-        "text_link_3": "News",
-        "text_link_4": "Units",
+        "text_link_2": {
+            "title": "About us",
+            "sub1": "About us",
+            "sub2": "Organization"
+        },
+        "text_link_3": {
+            "title": "News",
+            "sub1": "TVU Activities",
+            "sub2": "Admissions"
+        },
+        "text_link_4": {
+            "title": "Units",
+            "sub1": "Admin Office",
+            "sub2": "Department of Information Technology",
+            "sub3": "Department of Mechanical Engineering",
+            "sub4": "Department of Electrical and Electronic Engineering",
+            "sub5": "Department of Civil Engineering"
+        },
         "text_link_5": "Admissions",
-        "text_link_6": "Study Programs",
-        "text_link_7": "Researchs",
-        "text_link_8": "Students",
+        "text_link_6": {
+            "title": "Study Programs",
+            "sub1": "Higher Education",
+            "sub2": "Undergraduate"
+        },
+        "text_link_7": {
+            "title": "Researchs",
+            "sub1": "Projects",
+            "sub2": "International Projects",
+            "sub3": "RET Conference",
+            "sub4": "RET6's Scientific Articles"
+        },
+        "text_link_8": {
+            "title": "Students",
+            "sub1": "Undergraduate Students",
+            "sub2": "Graduate Students",
+            "sub3": "PhD Students"
+        },
         "text_link_9": "Alumni",
         "section_text_1": "About TVU",
         "section_text_2": "Orther"
+    },
+    "footer": {
+        "address": "126 Nguyen Thien Thanh, Hamlet 4, Ward 5, Tra Vinh city",
+        "copyright": "Copyright © 2024 School of Engineering and Technology, Tra Vinh University",
+        "explore_text": "Explore"
     },
     "about": {
         "text_about_1": "ABOUT US",
