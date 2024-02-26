@@ -15,8 +15,7 @@ return new class extends Migration {
         Schema::create('new_en', function (Blueprint $table) {
             $table->id('id_en');
             $table->string('title');
-            $table->unsignedInteger('count_view')->default(0); // k âm, mặc định không.
-            $table->string('thumbnail')->nullable();
+            $table->string('content')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

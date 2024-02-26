@@ -38,14 +38,7 @@ class NewsController extends Controller
         return response()->json($category);
     }
 
-    public function getCategoryAdmissionById($id): JsonResponse
-    {
-        $news = News::where('id_new', $id)->where('category', 'admissions')->first();
-        if (!$news) {
-            return response()->json(['error' => 'News not found'], 404);
-        }
-        return response()->json($news);
-    }
+    
     public function getTop5RelativeCategoryNewsById($id): JsonResponse 
     {
         $newsItems = News::where('id_new', $id)->get();
@@ -68,6 +61,7 @@ class NewsController extends Controller
         $news = News::find($id);
         return response()->json($news);
     }
+
     public function saveNews(Request $request) {
         $news = new News();
         $news->title = $request->title;
