@@ -16,6 +16,10 @@ function App() {
   const [showScrollButton, setShowScrollButton] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
 
@@ -36,9 +40,9 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/admin/*" element={<Admin/>}/>
-        <Route path="/edit" element={<Editor />}/>
-        <Route path="" element={<Client />}/>
+        <Route path="/admin/*" element={<Admin />} />
+        <Route path="/edit" element={<Editor />} />
+        <Route path="" element={<Client />} />
         <Route path="/admin/*" element={<Admin />} />
         <Route path="*" element={<Client />} />
       </Routes>

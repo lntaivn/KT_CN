@@ -18,9 +18,11 @@ function Client() {
                     src="https://ktcn.tvu.edu.vn/ht96_image/bg.png"
                 />
                 <Menu />
-                <Routes>
-                    <Route path="" element={<Home />} />
-                </Routes>
+                <div className='max-w-[2000px]'>
+                    <Routes>
+                        <Route path="" element={<Home />} />
+                    </Routes>
+                </div>
             </div>
             <Footer />
         </div>
