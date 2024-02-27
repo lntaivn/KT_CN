@@ -23,4 +23,10 @@ const GetNewViEn = (lang) => {
     return axios.get(`http://127.0.0.1:8000/api/new-vi-en`, { params: data });
 };
 
-export { CreateUser, GetAllUser, GetUserById ,GetNewViEn};
+const GetNewViEnById = (lang, id) => {
+    const data = { lang: lang };
+    console.log("nn :", data);
+    console.log("id :", id);
+    return axios.get(`http://127.0.0.1:8000/api/new-vi-en/${id}`, { params: data });
+};
+export { CreateUser, GetAllUser, GetUserById ,GetNewViEn,GetNewViEnById};
