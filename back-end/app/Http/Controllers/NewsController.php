@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NewEn;
+use App\Models\NewVi;
 use Illuminate\Http\JsonResponse;
 use App\Models\News;
 use Illuminate\Http\Request;
@@ -96,6 +98,31 @@ class NewsController extends Controller
         ]);
 
         return response()->json($news, 201);
+    }
+
+    public function get5LatestNews(Request $request)
+    {
+        $lang = $request->input('lang', 'vi');
+
+        $table = ($lang === 'en') ? NewEn::class : NewVi::class;
+
+        $news = $table::orderBy('created_at', 'desc')->take(5)->get();
+
+        return response()->json($news, 200);
+    }
+
+    public function getTop5ViewCount(Request $request)
+    {
+        $lang = $request->input('lang', 'vi');
+
+        // $table = ($lang === 'en') ? NewEn::class : NewVi::class;
+        $newsTable = ($lang === 'en') ? 'new_en' : 'new_vi';
+        // $news = $table::orderBy('view_count', 'desc')->take(5)->get();
+        $news = News::join($newsTable, 'news.id_' . $lang, '=', $newsTable . '.id_' . $lang)
+            ->select('new_' . $lang . '.title', 'news.id_new', 'news.view_count', 'news.thumbnail')
+            ->orderBy('view_count', 'desc')->take(5)->get();
+
+        return response()->json($news, 200);
     }
 
 }

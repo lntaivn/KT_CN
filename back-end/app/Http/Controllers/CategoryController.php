@@ -17,11 +17,13 @@ class CategoryController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
+            'name_vi' => 'required|string',
+            'name_en' => 'required|string',
         ]);
 
         $category = Category::create([
-            'name' => $request->input('name'),
+            'name_vi' => $request->input('name_vi'),
+            'name_en' => $request->input('name_en'),
         ]);
 
         return response()->json($category, 201);

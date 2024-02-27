@@ -9,6 +9,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NewViController;
 use App\Http\Controllers\NewEnController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,6 +34,8 @@ Route::get('/news/{id_new}', [NewsController::class, 'getNewByID']);
 Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);
 Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByCategory']);
 Route::post('/news', [NewsController::class, 'create']);
+Route::get('/get5LatestNews', [NewsController::class, 'get5LatestNews']);
+Route::get('/getTop5ViewCount', [NewsController::class, 'getTop5ViewCount']);
 
 
 //News vi_en

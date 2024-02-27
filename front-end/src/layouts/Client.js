@@ -7,6 +7,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Image } from "@nextui-org/react";
 import Footer from '../components/pages/Client/Footer/Footer';
 import About from '../components/pages/Client/About/About';
+import NewsDetail from '../components/pages/Client/NewsDetail/NewsDetail';
 // import NewsDetail from '../components/pages/Client/NewsDetail/NewsDetail';
 
 function Client() {

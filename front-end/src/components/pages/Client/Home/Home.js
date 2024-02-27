@@ -102,7 +102,7 @@ const Home = () => {
                 </div>
             </div>
             <div>
-                <h1>{t('News.text_new_1')}</h1>
+                <h1>{t("News.text_new_1")}</h1>
             </div>
             <div className="News w-full">
                 <div className="grid gap-4 w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -121,9 +121,15 @@ const Home = () => {
                             key={news.id_new}
                             hoverable
                             style={{ width: 300 }}
-                            cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                            cover={
+                                <img
+                                    alt="example"
+                                    src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                                />
+                            }
                         >
                             <Meta title={news.title} />
+                            <div>{news.view_count}</div>
                             <div>
                                 {news.view_count}
 
