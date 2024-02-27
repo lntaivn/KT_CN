@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Link } from "react-router-dom";
 import "./Home.css"
+import i18next from "i18next";
 const Home = () => {
     const { t } = useTranslation();
 
@@ -14,7 +15,7 @@ const Home = () => {
 
     const getNews = async () => {
         try {
-            const response = await GetNewViEn("en");
+            const response = await GetNewViEn(i18next.language);
             console.log("News data:", response.data);
             setNewsData(response.data); // Set dữ liệu tin tức vào state
         } catch (error) {
@@ -24,7 +25,7 @@ const Home = () => {
 
     useEffect(() => {
         getNews();
-    }, []);
+    }, [i18next.language]);
 
     const onShowSizeChange = (current, size) => {
         setCurrentPage(1); // Reset về trang đầu tiên khi thay đổi kích thước trang
