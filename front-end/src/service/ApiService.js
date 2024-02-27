@@ -20,6 +20,7 @@ const GetUserById = (id) => {
 const GetNewViEn = (lang) => {
     const data = new FormData();
     data.append("lang", lang);
+    console.log("nn :",lang);
     return axios.get(`http://127.0.0.1:8000/api/new-vi-en`,data);
 }
 
