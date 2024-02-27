@@ -41,4 +41,6 @@ class NewViController extends Controller
 
         return response()->json($newVi, 200);
     }
+
+    
 }
