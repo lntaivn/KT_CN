@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Card, Pagination } from "antd";
 import { GetNewViEn } from "../../../../service/ApiService";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 import { Link } from "react-router-dom";
-import "./Home.css"
+import "./Home.css";
+import i18next from "i18next";
 const Home = () => {
     const { t } = useTranslation();
 
@@ -14,13 +15,14 @@ const Home = () => {
 
     const getNews = async () => {
         try {
-            const response = await GetNewViEn('en'); // Fetch news data
+            const response = await GetNewViEn("en");
             console.log("News data:", response.data);
-            setNewsData(response.data); // Set news data to state
+            setNewsData(response.data); // Set dữ liệu tin tức vào state
         } catch (error) {
             console.error("Error fetching news:", error);
         }
     };
+
     useEffect(() => {
         getNews();
     }, []);
@@ -73,33 +75,34 @@ const Home = () => {
             </div>
             <div className="About_Khoa">
                 <div>
-                    <h1>
-                        {t('about.text_about_1')}
-
-                    </h1>
-                    <h3>{t('about.text_about_2')}</h3>
-                    <p>
-                        {t('about.text_about_summary')}
-                    </p>
-                    <Link to="/About">{t('about.Button')}</Link>
+                    <h1>{t("about.text_about_1")}</h1>
+                    <h3>{t("about.text_about_2")}</h3>
+                    <p>{t("about.text_about_summary")}</p>
+                    <Link to="/About">{t("about.Button")}</Link>
                 </div>
             </div>
             <div className="Admissions">
                 <div>
-                    <h1>{t('admissions.title')}</h1>
+                    <h1>{t("admissions.title")}</h1>
                 </div>
                 <div>
                     <div>
                         <div>
-                            <img src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" alt="Admissions Image 1" />
+                            <img
+                                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                                alt="Admissions Image 1"
+                            />
                         </div>
-                        <p>{t('admissions.type1')}</p>
+                        <p>{t("admissions.type1")}</p>
                     </div>
                     <div>
                         <div>
-                            <img src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" alt="Admissions Image 2" />
+                            <img
+                                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                                alt="Admissions Image 2"
+                            />
                         </div>
-                        <p>{t('admissions.type2')}</p>
+                        <p>{t("admissions.type2")}</p>
                     </div>
                 </div>
             </div>
@@ -111,9 +114,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <div>
-
-            </div>
+            <div></div>
             {cardList}
             <Pagination
                 // showSizeChanger

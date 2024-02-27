@@ -18,10 +18,9 @@ const GetUserById = (id) => {
 };
 
 const GetNewViEn = (lang) => {
-    const data = new FormData();
-    data.append("lang", lang);
-    console.log("nn :",lang);
-    return axios.get(`http://127.0.0.1:8000/api/new-vi-en`,data);
-}
+    const data = { lang: lang };
+    console.log("nn :", data);
+    return axios.get(`http://127.0.0.1:8000/api/new-vi-en`, { params: data });
+};
 
-export { CreateUser, GetAllUser, GetUserById ,GetNewViEn};
+export { CreateUser, GetAllUser, GetUserById, GetNewViEn };

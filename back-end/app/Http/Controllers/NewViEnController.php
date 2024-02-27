@@ -43,7 +43,6 @@ class NewViEnController extends Controller
         $lang = $request->input('lang', 'vi');
 
         $newsTable = ($lang === 'en') ? 'new_en' : 'new_vi';
-
         // Lấy thông tin từ cơ sở dữ liệu
         $news = News::join($newsTable, 'news.id_' . $lang, '=', $newsTable . '.id_' . $lang)
             ->join('categories', 'news.id_category', '=', 'categories.id_category')
