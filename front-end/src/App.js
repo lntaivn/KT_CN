@@ -7,15 +7,23 @@ import Admin from './layouts/Admin';
 import Client from './layouts/Client';
 
 import "./App.css"
+import { useTranslation } from 'react-i18next';
+import i18next from "i18next";
 
 function App() {
 
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const [showScrollButton, setShowScrollButton] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  useEffect(() => {
+    console.log("test: ", i18next.language);
+    // if(i18n.language)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {

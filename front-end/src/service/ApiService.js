@@ -29,4 +29,4 @@ const GetNewViEnById = (lang, id) => {
     console.log("id :", id);
     return axios.get(`http://127.0.0.1:8000/api/new-vi-en/${id}`, { params: data });
 };
-export { CreateUser, GetAllUser, GetUserById ,GetNewViEn,GetNewViEnById};
+export { CreateUser, GetAllUser, GetUserById ,GetNewViEn,GetNewViEnById };

@@ -50,12 +50,12 @@ const Home = () => {
                     width: 240,
                     margin: "10px",
                 }}
-                // cover={
-                //     <img
-                //         alt="example"
-                //         src={news.image_url} // Assuming the API response includes image_url for each news item
-                //     />
-                // }
+            // cover={
+            //     <img
+            //         alt="example"
+            //         src={news.image_url} // Assuming the API response includes image_url for each news item
+            //     />
+            // }
             >
                 <p>ID: {news.id}</p>
                 <p>Title: {news.title}</p>
@@ -104,12 +104,21 @@ const Home = () => {
             <div>
                 <h1>{t('News.text_new_1')}</h1>
             </div>
-            <div class="News">
-                
-                <div class="News_display_grid">
-                        {newsData.map(news => (
+            <div className="News w-full">
+                <div className="grid gap-4 w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    {newsData.map(news => (
+                        <div className="w-full flex h-[300px] flex-col">
+                            <div>
+                                <img src={news.thumbnail}/>
+                            </div>
+                            {news.title}
+                        </div>
+                    ))}
+                </div>
+                {/* <div className="News_display_grid">
+                    {newsData.map(news => (
                         <Card
-                            key={news.id}
+                            key={news.id_new}
                             hoverable
                             style={{ width: 300 }}
                             cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
@@ -117,15 +126,15 @@ const Home = () => {
                             <Meta title={news.title} />
                             <div>
                                 {news.view_count}
-                               
+
                             </div>
                             <div>
-                            <Link to={`/news-detail/${news.id}`}>{t('News.text_new_2')}</Link>
+                                <Link to={`/news-detail/${news.id}`}>{t('News.text_new_2')}</Link>
 
                             </div>
                         </Card>
                     ))}
-                </div>
+                </div> */}
             </div>
 
             <div>
