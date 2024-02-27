@@ -23,11 +23,4 @@ const GetNewViEn = (lang) => {
     return axios.get(`http://127.0.0.1:8000/api/new-vi-en`,data);
 }
 
-
-
-const GetNewViEn = (lang) => {
-    const data = new FormData();
-    data.append("lang", lang);
-    return axios.get(`http://127.0.0.1:8000/api/new-vi-en`,data);
-}
 export { CreateUser, GetAllUser, GetUserById ,GetNewViEn};
