@@ -6,6 +6,7 @@ import './Layout.css';
 import { Route, Routes } from 'react-router-dom';
 import { Image } from "@nextui-org/react";
 import Footer from '../components/pages/Client/Footer/Footer';
+import About from '../components/pages/Client/About/About';
 
 function Client() {
     return (
@@ -21,7 +22,8 @@ function Client() {
                 <div className='max-w-[2000px]'>
                     <Routes>
                         <Route path="" element={<Home />} />
-                    </Routes>
+                        <Route path="/about" element={<About/>} />
+                </Routes>
                 </div>
             </div>
             <Footer />

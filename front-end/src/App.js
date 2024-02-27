@@ -45,6 +45,7 @@ function App() {
         <Route path="" element={<Client />} />
         <Route path="/admin/*" element={<Admin />} />
         <Route path="*" element={<Client />} />
+
       </Routes>
       {showScrollButton && (
         <div className="scroll-to-top-button" onClick={scrollToTop}>
