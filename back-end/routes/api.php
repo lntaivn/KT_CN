@@ -37,8 +37,9 @@ Route::post('/news', [NewsController::class, 'create']);
 
 
 //News vi_en
-Route::get('/new-vi-en', [NewViEnController::class, 'getAll']);
+// Route::get('/new-vi-en', [NewViEnController::class, 'getAll']);
 Route::get('/new-vi-en/{id}', [NewViEnController::class, 'get']);
+Route::get('/new-vi-en', [NewViEnController::class, 'getAllNewViEN']);
 
 //News vi
 Route::post('/new-vi', [NewViController::class, 'create']);
