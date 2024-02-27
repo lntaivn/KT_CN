@@ -4,7 +4,7 @@ import { GetNewViEn } from "../../../../service/ApiService";
 import { useTranslation } from "react-i18next";
 
 import { Link } from "react-router-dom";
-import "./Home.css"
+import "./Home.css";
 import i18next from "i18next";
 const { Meta } = Card;
 const Home = () => {
@@ -89,47 +89,53 @@ const Home = () => {
                 <div className="Admissions_type">
                     <div>
                         <div className="Admissions_type_img">
-                            <img src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" alt="Admissions Image 1" />
+                            <img
+                                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                                alt="Admissions Image 1"
+                            />
                         </div>
-                        <p>{t('admissions.type1')}</p>
+                        <p>{t("admissions.type1")}</p>
                     </div>
                     <div>
-                       
-                        <Link className="Admissions_type_name" to="/path-of-your-page">{t('admissions.type2')}</Link>
-
+                        <Link
+                            className="Admissions_type_name"
+                            to="/path-of-your-page"
+                        >
+                            {t("admissions.type2")}
+                        </Link>
                     </div>
                 </div>
             </div>
             <div>
-                <h1>{t('News.text_new_1')}</h1>
+                <h1>{t("News.text_new_1")}</h1>
             </div>
             <div class="News">
-                
                 <div class="News_display_grid">
-                        {newsData.map(news => (
+                    {newsData.map((news) => (
                         <Card
                             key={news.id}
                             hoverable
                             style={{ width: 300 }}
-                            cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                            cover={
+                                <img
+                                    alt="example"
+                                    src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                                />
+                            }
                         >
                             <Meta title={news.title} />
+                            <div>{news.view_count}</div>
                             <div>
-                                {news.view_count}
-                               
-                            </div>
-                            <div>
-                            <Link to={`/news-detail/${news.id}`}>{t('News.text_new_2')}</Link>
-
+                                <Link to={`/news-detail/${news.id_new}`}>
+                                    {t("News.text_new_2")}
+                                </Link>
                             </div>
                         </Card>
                     ))}
                 </div>
             </div>
 
-            <div>
-
-            </div>
+            <div></div>
             {/* {cardList}
             <Pagination
                 // showSizeChanger
