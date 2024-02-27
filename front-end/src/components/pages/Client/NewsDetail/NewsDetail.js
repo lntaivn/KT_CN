@@ -1,21 +1,30 @@
+import React, { useEffect, useState } from "react";
+import { GetNewViEnById } from "../../../../service/ApiService";
+import { useTranslation } from 'react-i18next';
 
-import React , { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import "./NewsDetail.css"
+import { Link, useParams } from "react-router-dom";
+
+import i18next from "i18next";
+
 const NewsDetail = () => {
-  const { glug } = useParams();
+  const { t } = useTranslation();
+  const { id } = useParams();
+
 
   const [newsDetailData, setNewsDetailData] = useState([]);
-    useEffect(() => {
-      axios.get(`http://localhost:8000/news/detail/${glug}`)
-      .then(response => {
-              setNewsDetailData(response.data);
-            })
-            .catch(error => {
-                console.error('Loi ;', error);
-            });
-    }, []);
+  const getDetailNews = async () => {
+    try {
+        const response = await GetNewViEnById(i18next.language, id);
+        console.log("newsDetailData:", response.data);
+        setNewsDetailData(response.data);
+    } catch (error) {
+        console.error("Error fetching newsDetailData:", error);
+    }
+};
+
+useEffect(() => {
+  getDetailNews();
+}, [i18next.language]);
 
     return (
       <div className='newsDetail'>

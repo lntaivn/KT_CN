@@ -7,6 +7,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Image } from "@nextui-org/react";
 import Footer from '../components/pages/Client/Footer/Footer';
 import About from '../components/pages/Client/About/About';
+// import NewsDetail from '../components/pages/Client/NewsDetail/NewsDetail';
 
 function Client() {
     return (
@@ -23,7 +24,8 @@ function Client() {
                     <Routes>
                         <Route path="" element={<Home />} />
                         <Route path="/about" element={<About />} />
-                    </Routes>
+                        {/* <Route path="/news-detail/:id" element={<NewsDetail/>} /> */}
+                </Routes>
                 </div>
             </div>
             <Footer />
