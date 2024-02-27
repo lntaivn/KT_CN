@@ -4,8 +4,9 @@ import { GetNewViEn } from "../../../../service/ApiService";
 import { useTranslation } from "react-i18next";
 
 import { Link } from "react-router-dom";
-import "./Home.css";
+import "./Home.css"
 import i18next from "i18next";
+const { Meta } = Card;
 const Home = () => {
     const { t } = useTranslation();
 
@@ -15,7 +16,7 @@ const Home = () => {
 
     const getNews = async () => {
         try {
-            const response = await GetNewViEn("vi");
+            const response = await GetNewViEn(i18next.language);
             console.log("News data:", response.data);
             setNewsData(response.data); // Set dữ liệu tin tức vào state
         } catch (error) {
@@ -25,7 +26,7 @@ const Home = () => {
 
     useEffect(() => {
         getNews();
-    }, []);
+    }, [i18next.language]);
 
     const onShowSizeChange = (current, size) => {
         setCurrentPage(1); // Reset về trang đầu tiên khi thay đổi kích thước trang
@@ -85,37 +86,51 @@ const Home = () => {
                 <div>
                     <h1>{t("admissions.title")}</h1>
                 </div>
-                <div>
+                <div className="Admissions_type">
                     <div>
-                        <div>
-                            <img
-                                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                                alt="Admissions Image 1"
-                            />
+                        <div className="Admissions_type_img">
+                            <img src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" alt="Admissions Image 1" />
                         </div>
-                        <p>{t("admissions.type1")}</p>
+                        <p>{t('admissions.type1')}</p>
                     </div>
                     <div>
-                        <div>
-                            <img
-                                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                                alt="Admissions Image 2"
-                            />
-                        </div>
-                        <p>{t("admissions.type2")}</p>
+                       
+                        <Link className="Admissions_type_name" to="/path-of-your-page">{t('admissions.type2')}</Link>
+
                     </div>
                 </div>
             </div>
+            <div>
+                <h1>{t('News.text_new_1')}</h1>
+            </div>
             <div class="News">
+                
                 <div class="News_display_grid">
-                    <div class="card">Card 1</div>
-                    <div class="card">Card 2</div>
-                    <div class="card">Card 3</div>
+                        {newsData.map(news => (
+                        <Card
+                            key={news.id}
+                            hoverable
+                            style={{ width: 300 }}
+                            cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                        >
+                            <Meta title={news.title} />
+                            <div>
+                                {news.view_count}
+                               
+                            </div>
+                            <div>
+                            <Link to={`/news-detail/${news.id}`}>{t('News.text_new_2')}</Link>
+
+                            </div>
+                        </Card>
+                    ))}
                 </div>
             </div>
 
-            <div></div>
-            {cardList}
+            <div>
+
+            </div>
+            {/* {cardList}
             <Pagination
                 // showSizeChanger
                 onShowSizeChange={onShowSizeChange}
@@ -123,7 +138,7 @@ const Home = () => {
                 defaultCurrent={1}
                 total={newsData.length}
                 pageSize={pageSize}
-            />
+            /> */}
         </div>
     );
 };

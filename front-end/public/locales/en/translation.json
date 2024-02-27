@@ -71,5 +71,9 @@
         "title":"ADMISSIONS",
         "type1":"Higher education",
         "type2":"Under graduate"
+    },
+    "News": {
+        "text_new_1": "NEWS",
+        "text_new_2": "View More"
     }
 }
