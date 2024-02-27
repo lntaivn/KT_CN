@@ -22,8 +22,8 @@ function Client() {
                 <div className='max-w-[2000px]'>
                     <Routes>
                         <Route path="" element={<Home />} />
-                        <Route path="/about" element={<About/>} />
-                </Routes>
+                        <Route path="/about" element={<About />} />
+                    </Routes>
                 </div>
             </div>
             <Footer />
