@@ -14,13 +14,14 @@ const Home = () => {
 
     const getNews = async () => {
         try {
-            const response = await GetNewViEn('en'); // Fetch news data
+            const response = await GetNewViEn("en");
             console.log("News data:", response.data);
-            setNewsData(response.data); // Set news data to state
+            setNewsData(response.data); // Set dữ liệu tin tức vào state
         } catch (error) {
             console.error("Error fetching news:", error);
         }
     };
+
     useEffect(() => {
         getNews();
     }, []);
