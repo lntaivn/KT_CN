@@ -15,7 +15,7 @@ const Home = () => {
 
     const getNews = async () => {
         try {
-            const response = await GetNewViEn("en");
+            const response = await GetNewViEn("vi");
             console.log("News data:", response.data);
             setNewsData(response.data); // Set dữ liệu tin tức vào state
         } catch (error) {
