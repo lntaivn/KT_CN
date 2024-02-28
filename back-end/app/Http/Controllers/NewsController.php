@@ -131,8 +131,8 @@ class NewsController extends Controller
         $validatedData = $request->validate([
             'id_user' => 'required|exists:users,id_user',
             'id_category' => 'required|exists:categories,id_category',
-            'title_en' => 'required|string',
-            'title_vi' => 'required|string',
+            'title_en' => 'nullable|string',
+            'title_vi' => 'nullable|string',
             'content_en' => 'nullable|string',
             'content_vi' => 'nullable|string',
             'status' => 'boolean',
