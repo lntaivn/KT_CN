@@ -107,17 +107,19 @@ class NewsController extends Controller
         return response()->json($news, 200);
     }
 
-    public function getTop5RelatedCategory(Request $request)
+    public function getTop5RelatedCategory(Request $request, $id_new)
     {
         $lang = $request->input('lang', 'vi');
-        $id_news = $request->id_news;
-        $id_category = $request->id_category;
         $newsTable = ($lang === 'en') ? 'new_en' : 'new_vi';
         $news = News::join($newsTable, 'news.id_' . $lang, '=', $newsTable . '.id_' . $lang)
             ->join('categories', 'news.id_category', '=', 'categories.id_category')
             ->select('new_' . $lang . '.title', 'news.id_new', 'news.thumbnail', 'categories.name_' . $lang . ' as category')
-            ->where('news.id_category', '=', $id_category)
-            ->where('news.id_new', '!=', $id_news)
+            ->where('news.id_category', '=', function ($query) use ($id_new) {
+                $query->select('id_category')
+                    ->from('news')
+                    ->where('id_new', '=', $id_new);
+            })
+            ->where('news.id_new', '!=', $id_new)
             ->get();
 
         return response()->json($news, 200);
