@@ -114,7 +114,7 @@ class NewsController extends Controller
             ->join('categories', 'news.id_category', '=', 'categories.id_category')
             ->select('new_' . $lang . '.title', 'news.id_new', 'news.thumbnail', 'categories.name_' . $lang . ' as category')
             ->where('news.id_category', '=', $id_category)
-            ->whereNotIn('news.id_new', $id_news)
+            ->where('news.id_new', '!=', $id_news)
             ->get();
 
         return response()->json($news, 200);
