@@ -1,22 +1,5 @@
 import axios from "axios";
 
-const CreateUser = (name, email) => {
-    const data = new FormData();
-
-    data.append("name", name);
-    data.append("email", email);
-
-    return axios.post("http://127.0.0.1:8000/api/users", data);
-};
-
-const GetAllUser = () => {
-    return axios.get("http://127.0.0.1:8000/api/users");
-};
-
-const GetUserById = (id) => {
-    return axios.get(`http://127.0.0.1:8000/api/users/${id}`);
-};
-
 const GetNewViEn = (lang) => {
     const data = { lang: lang };
 
@@ -56,7 +39,51 @@ const getTop5RelatedCategory = (lang, id) => {
     });
 };
 
-export { CreateUser, GetAllUser, GetUserById, 
-        GetNewViEn, GetNewViEnById, 
-        getTop5RelatedCategory, getTop5ViewCount, get5LatestNews
+const GetAllCategories = () => {
+    return axios.get(`http://127.0.0.1:8000/api/categories`);
+};
+
+const SaveDataNewViEn = (id_category, title_en, title_vi, content_en, content_vi, thumbnail) => {
+    const data = { 
+        id_user: 1,
+        id_category: id_category,
+        title_en: title_en,
+        title_vi: title_vi,
+        content_en: content_en,
+        content_vi: content_vi,
+        status: true,
+        view_count: 1000,
+        thumbnail: thumbnail
     };
+
+    return axios.post(`http://127.0.0.1:8000/api/new-vi-en`, data);
+}
+
+
+export { 
+        GetNewViEn, GetNewViEnById, 
+        getTop5RelatedCategory, getTop5ViewCount, get5LatestNews,
+        GetAllCategories,
+        SaveDataNewViEn
+    };
+
+
+
+    // CreateUser, GetAllUser, GetUserById
+    // const CreateUser = (name, email) => {
+    //     const data = new FormData();
+    
+    //     data.append("name", name);
+    //     data.append("email", email);
+    
+    //     return axios.post("http://127.0.0.1:8000/api/users", data);
+    // };
+    
+    // const GetAllUser = () => {
+    //     return axios.get("http://127.0.0.1:8000/api/users");
+    // };
+    
+    // const GetUserById = (id) => {
+    //     return axios.get(`http://127.0.0.1:8000/api/users/${id}`);
+    // };
+    
