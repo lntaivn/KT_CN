@@ -46,7 +46,7 @@ class NewViEnController extends Controller
         // Lấy thông tin từ cơ sở dữ liệu
         $news = News::join($newsTable, 'news.id_' . $lang, '=', $newsTable . '.id_' . $lang)
             ->join('categories', 'news.id_category', '=', 'categories.id_category')
-            ->select('new_' . $lang . '.title', 'news.id_new', 'news.created_at', 'news.updated_at', 'news.view_count', 'new_' . $lang . '.content', 'news.thumbnail', 'categories.name as category')
+            ->select('new_' . $lang . '.title', 'news.id_new', 'news.created_at', 'news.updated_at', 'news.view_count', 'new_' . $lang . '.content', 'news.thumbnail', 'categories.name_' . $lang . ' as category')
             ->get();
 
         return response()->json($news, 200);
