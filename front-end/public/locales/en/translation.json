@@ -75,5 +75,10 @@
     "News": {
         "text_new_1": "NEWS",
         "text_new_2": "View More"
+    },
+    "NewsDetail": {
+        "related": "Related news",
+        "latest": "The latest stories",
+        "popular": "Most popular"
     }
 }

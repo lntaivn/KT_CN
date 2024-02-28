@@ -9,8 +9,9 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NewViController;
 use App\Http\Controllers\NewEnController;
-
-/*
+use App\Http\Controllers\ImageUploadController;
+/*;
+use App
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
@@ -63,3 +64,6 @@ Route::post('/users', [UserController::class, 'store']);
 Route::put('/users/{id_user}', [UserController::class, 'update']);
 Route::delete('/users/{id_user}', [UserController::class, 'destroy']);
 Route::get('/users/{id_user}', [UserController::class, 'findByIdUser']);
+
+
+Route::post('/admin/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');
