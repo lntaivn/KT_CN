@@ -53,7 +53,6 @@ const getTop5RelatedCategory = (lang, id, id_category) => {
         id_category: id_category,
         lang: lang 
     };
-    console.log("ffffffffffffffffffffffffffff",data);
     return axios.get(`http://127.0.0.1:8000/api/getTop5RelatedCategory/`, {
         params: data,
     });

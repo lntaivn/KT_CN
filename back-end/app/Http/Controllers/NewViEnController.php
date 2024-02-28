@@ -18,13 +18,16 @@ class NewViEnController extends Controller
 
         $newsTable = ($lang === 'en') ? 'new_en' : 'new_vi';
         $news = News::join($newsTable, 'news.id_' . $lang, '=', $newsTable . '.id_' . $lang)
+            ->join('categories', 'news.id_category', '=', 'categories.id_category')
             ->select(
                 'news.id_new',
+                'news.view_count',
                 'new_' . $lang . '.title',
                 'news.updated_at',
                 'new_' . $lang . '.content',
                 'news.thumbnail',
                 'news.id_category',
+                'categories.name_' . $lang . ' as category_name',
             )
             ->where('news.id_new', '=', $id)
             ->get();

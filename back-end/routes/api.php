@@ -32,7 +32,8 @@ Route::post('/login', [AuthController::class, 'login']);
 
 //New
 Route::get('/news', [NewsController::class, 'getAllNews']);
-Route::get('/news/{id_new}', [NewsController::class, 'getNewByID']);
+Route::get('/news/{id_new}', [NewsController::class, 'getNewByID']); 
+// note: /news/{id_new}
 Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);
 Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByCategory']);
 Route::post('/news', [NewsController::class, 'create']);
