@@ -134,7 +134,7 @@ class NewsController extends Controller
             'content_en' => 'nullable|string',
             'content_vi' => 'nullable|string',
             'status' => 'boolean',
-            'view_count' => 'nullable|string',
+            'view_count' => 'nullable|integer',
             'thumbnail' => 'nullable|integer'
         ]);
 
@@ -154,26 +154,31 @@ class NewsController extends Controller
                 'status' => $validatedData['status']
             ]);
 
-            if (!empty($validatedData['content_vi'])) {
+            if ($validatedData['content_en'] === null) {
                 $newEn->status = 0;
                 $newEn->save();
             }
 
-            if (!empty($validatedData['content_en'])) {
+            if ($validatedData['content_vi'] === null) {
                 $newVi->status = 0;
                 $newVi->save();
             }
-
             DB::commit();
 
             DB::beginTransaction();
+
+
+            $maxIdEn = NewEn::max('id_en');
+
+            // Tìm id lớn nhất từ bảng new_vi
+            $maxIdVi = NewVi::max('id_vi');
 
             $news = News::create([
                 'id_user' => $request->input('id_user'),
                 // 'id_en' => $newEn->id,
                 // 'id_vi' => $newVi->id,
-                'id_en' => $request->input('id_en', '1'),
-                'id_vi' => $request->input('id_vi', '1'),
+                'id_en' => $maxIdEn,
+                'id_vi' => $maxIdVi,
                 'id_category' => $request->input('id_category'),
                 'thumbnail' => $request->input('thumbnail'),
                 'view_count' => $validatedData['view_count'],
