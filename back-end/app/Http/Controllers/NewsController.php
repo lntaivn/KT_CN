@@ -85,9 +85,10 @@ class NewsController extends Controller
     {
         $lang = $request->input('lang', 'vi');
 
-        $table = ($lang === 'en') ? NewEn::class : NewVi::class;
-
-        $news = $table::orderBy('created_at', 'desc')->take(5)->get();
+        $newsTable = ($lang === 'en') ? 'new_en' : 'new_vi';
+        $news = News::join($newsTable, 'news.id_' . $lang, '=', $newsTable . '.id_' . $lang)
+            ->select('new_' . $lang . '.title', 'news.id_new', 'news.thumbnail')
+            ->orderBy('view_count', 'desc')->take(5)->get();
 
         return response()->json($news, 200);
     }
