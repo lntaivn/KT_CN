@@ -48,10 +48,13 @@ const getTop5ViewCount = (lang) => {
     });
 };
 
-const getTop5RelatedCategory = (lang, id) => {
-    const data = { lang: lang };
- 
-    return axios.get(`http://127.0.0.1:8000/api/getTop5RelatedCategory/${id}`, {
+const getTop5RelatedCategory = (lang, id, id_category) => {
+    const data = { 
+        id_news: id,
+        id_category: id_category,
+        lang: lang 
+    };
+    return axios.get(`http://127.0.0.1:8000/api/getTop5RelatedCategory/`, {
         params: data,
     });
 };

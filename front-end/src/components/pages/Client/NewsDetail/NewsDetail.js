@@ -29,7 +29,7 @@ const NewsDetail = () => {
     const getLatestNews = async () => {
         try {
             const response = await get5LatestNews(i18next.language);
-            console.log("latestNews:", response.data);
+           // console.log("latestNews:", response.data);
             setLatestNews(response.data);
         } catch (error) {
             console.error("Error fetching latestNews:", error);
@@ -39,7 +39,7 @@ const NewsDetail = () => {
     const getTopViewCountNews = async () => {
         try {
             const response = await getTop5ViewCount(i18next.language);
-            console.log("topViewCountNews:", response.data);
+            //console.log("topViewCountNews:", response.data);
             setTopViewCountNews(response.data);
         } catch (error) {
             console.error("Error fetching topViewCountNews:", error);
@@ -47,6 +47,9 @@ const NewsDetail = () => {
     };
     const getRelativeCategoryNews = async () => {
         try {
+            // if(!newsDetailData.id){
+                
+            // }
             const response = await getTop5RelatedCategory(i18next.language, id);
             console.log("relativeCategoryNews:", response.data);
             setRelativeCategoryNews(response.data);
