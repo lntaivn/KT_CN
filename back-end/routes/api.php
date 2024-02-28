@@ -39,13 +39,14 @@ Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByCategory']);
 Route::post('/news', [NewsController::class, 'create']);
 Route::get('/get5LatestNews', [NewsController::class, 'get5LatestNews']);
 Route::get('/getTop5ViewCount', [NewsController::class, 'getTop5ViewCount']);
-Route::get('/getTop5RelatedCategory', [NewsController::class, 'getTop5RelatedCategory']);
+Route::get('/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5RelatedCategory']);
 
 
 //News vi_en
 // Route::get('/new-vi-en', [NewViEnController::class, 'getAll']);
 Route::get('/new-vi-en/{id}', [NewViEnController::class, 'getDetailNews']);
 Route::get('/new-vi-en', [NewViEnController::class, 'getAllNewViEN']);
+Route::post('/new-vi-en', [NewsController::class, 'saveNews']);
 
 //News vi
 Route::post('/new-vi', [NewViController::class, 'create']);
