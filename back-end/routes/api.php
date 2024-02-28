@@ -42,7 +42,7 @@ Route::get('/getTop5RelatedCategory', [NewsController::class, 'getTop5RelatedCat
 
 //News vi_en
 // Route::get('/new-vi-en', [NewViEnController::class, 'getAll']);
-Route::get('/new-vi-en/{id}', [NewViEnController::class, 'get']);
+Route::get('/new-vi-en/{id}', [NewViEnController::class, 'getDetailNews']);
 Route::get('/new-vi-en', [NewViEnController::class, 'getAllNewViEN']);
 
 //News vi

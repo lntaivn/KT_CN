@@ -11,20 +11,30 @@ class NewViEnController extends Controller
 {
 
 
-    public function get(Request $request, $id)
+    public function getDetailNews(Request $request, $id)
     {
         // giá trị mặc địh
         $lang = $request->input('lang', 'vi');
 
-        $table = ($lang === 'en') ? NewEn::class : NewVi::class;
+        $newsTable = ($lang === 'en') ? 'new_en' : 'new_vi';
+        $news = News::join($newsTable, 'news.id_' . $lang, '=', $newsTable . '.id_' . $lang)
+            ->select(
+                'news.id_new',
+                'new_' . $lang . '.title',
+                'news.updated_at',
+                'new_' . $lang . '.content',
+                'news.thumbnail',
+                'news.id_category',
+            )
+            ->where('news.id_new', '=', $id)
+            ->get();
 
-        $new = $table::find($id);
 
-        if (!$new) {
+        if (!$news) {
             return response()->json(['message' => 'Bài viết không tồn tại'], 404);
         }
 
-        return response()->json($new, 200);
+        return response()->json($news, 200);
     }
 
     public function getAll(Request $request)
