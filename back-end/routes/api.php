@@ -68,3 +68,4 @@ Route::get('/users/{id_user}', [UserController::class, 'findByIdUser']);
 
 
 Route::post('/admin/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');
+Route::post('/admin/upload-image-', [ImageUploadController::class, 'upload1'])->name('upload.image');

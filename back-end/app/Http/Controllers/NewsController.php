@@ -137,7 +137,7 @@ class NewsController extends Controller
             'content_vi' => 'nullable|string',
             'status' => 'boolean',
             'view_count' => 'nullable|integer',
-            'thumbnail' => 'nullable|integer'
+            'thumbnail' => 'nullable|string'
         ]);
 
         try {
@@ -186,7 +186,7 @@ class NewsController extends Controller
                 'view_count' => $validatedData['view_count'],
                 'status' => $validatedData['status']
             ]);
-
+           
 
 
             DB::commit();

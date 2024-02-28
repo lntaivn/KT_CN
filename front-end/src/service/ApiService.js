@@ -55,7 +55,7 @@ const SaveDataNewViEn = (id_category, title_en, title_vi, content_en, content_vi
         view_count: 1000,
         thumbnail: thumbnail
     };
-
+    console.log(data);
     return axios.post(`http://127.0.0.1:8000/api/new-vi-en`, data);
 }
 
