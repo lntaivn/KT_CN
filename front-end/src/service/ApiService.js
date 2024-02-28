@@ -31,4 +31,34 @@ const GetNewViEnById = (lang, id) => {
         params: data,
     });
 };
+
+const get5LatestNews = (lang, id) => {
+    const data = { lang: lang };
+    console.log("GetNewViEnById :", data);
+    console.log("id :", id);
+    return axios.get(`http://127.0.0.1:8000/api/new-vi-en/${id}`, {
+        params: data,
+    });
+};
+
+
+
+const getTop5ViewCount = (lang, id) => {
+    const data = { lang: lang };
+    console.log("GetNewViEnById :", data);
+    console.log("id :", id);
+    return axios.get(`http://127.0.0.1:8000/api/new-vi-en/${id}`, {
+        params: data,
+    });
+};
+
+const getTop5RelatedCategory = (lang, id) => {
+    const data = { lang: lang };
+    console.log("GetNewViEnById :", data);
+    console.log("id :", id);
+    return axios.get(`http://127.0.0.1:8000/api/new-vi-en/${id}`, {
+        params: data,
+    });
+};
+
 export { CreateUser, GetAllUser, GetUserById, GetNewViEn, GetNewViEnById };
