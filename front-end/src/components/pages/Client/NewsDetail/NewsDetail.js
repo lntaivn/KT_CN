@@ -29,7 +29,7 @@ const NewsDetail = () => {
     const getRelativeCategoryNews = async () => {
         try {
             // note: data id_category
-                const response = await getTop5RelatedCategory(i18next.language, id, 1);
+                const response = await getTop5RelatedCategory(i18next.language, id);
                 console.log("relativeCategoryNews:", response.data);
                 setRelativeCategoryNews(response.data);
         } catch (error) {
