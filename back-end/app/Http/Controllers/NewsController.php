@@ -47,7 +47,7 @@ class NewsController extends Controller
     {
         try {
             $news = News::find($id);
-            if ($news->isEmpty()) {
+            if (!$news) {
                 return response()->json(['message' => 'ID không tồn tại.'], 404);
             }
             return response()->json($news, 200);
@@ -55,6 +55,7 @@ class NewsController extends Controller
             return response()->json(['message' => 'Đã xảy ra lỗi khi lấy dữ liệu tin tức.'], 500);
         }
     }
+
 
     public function create(Request $request)
     {
