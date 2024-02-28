@@ -45,6 +45,7 @@ Route::get('/getTop5RelatedCategory', [NewsController::class, 'getTop5RelatedCat
 // Route::get('/new-vi-en', [NewViEnController::class, 'getAll']);
 Route::get('/new-vi-en/{id}', [NewViEnController::class, 'getDetailNews']);
 Route::get('/new-vi-en', [NewViEnController::class, 'getAllNewViEN']);
+Route::post('/new-vi-en', [NewsController::class, 'saveNews']);
 
 //News vi
 Route::post('/new-vi', [NewViController::class, 'create']);

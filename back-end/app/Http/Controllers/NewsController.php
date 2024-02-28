@@ -7,6 +7,7 @@ use App\Models\NewVi;
 use Illuminate\Http\JsonResponse;
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -120,6 +121,74 @@ class NewsController extends Controller
             ->get();
 
         return response()->json($news, 200);
+    }
+
+    public function saveNews(Request $request)
+    {
+        // Validate incoming request data
+        $validatedData = $request->validate([
+            'id_user' => 'required|exists:users,id_user',
+            'id_category' => 'required|exists:categories,id_category',
+            'title_en' => 'required|string',
+            'title_vi' => 'required|string',
+            'content_en' => 'nullable|string',
+            'content_vi' => 'nullable|string',
+            'status' => 'boolean',
+            'view_count' => 'nullable|string',
+            'thumbnail' => 'nullable|integer'
+        ]);
+
+        try {
+            // Start a database transaction
+            DB::beginTransaction();
+
+            $newEn = NewEn::create([
+                'title' => $validatedData['title_en'],
+                'content' => $validatedData['content_en'],
+                'status' => $validatedData['status']
+            ]);
+
+            $newVi = NewVi::create([
+                'title' => $validatedData['title_vi'],
+                'content' => $validatedData['content_vi'],
+                'status' => $validatedData['status']
+            ]);
+
+            if (!empty($validatedData['content_vi'])) {
+                $newEn->status = 0;
+                $newEn->save();
+            }
+
+            if (!empty($validatedData['content_en'])) {
+                $newVi->status = 0;
+                $newVi->save();
+            }
+
+            DB::commit();
+
+            DB::beginTransaction();
+
+            $news = News::create([
+                'id_user' => $request->input('id_user'),
+                // 'id_en' => $newEn->id,
+                // 'id_vi' => $newVi->id,
+                'id_en' => $request->input('id_en', '1'),
+                'id_vi' => $request->input('id_vi', '1'),
+                'id_category' => $request->input('id_category'),
+                'thumbnail' => $request->input('thumbnail'),
+                'view_count' => $validatedData['view_count'],
+                'status' => $validatedData['status']
+            ]);
+
+
+
+            DB::commit();
+
+            return response()->json(['message' => 'Lưu thành công'], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['message' => 'Lưu thất bại', $e], 500);
+        }
     }
 
 }
