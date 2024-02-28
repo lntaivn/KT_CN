@@ -32,33 +32,31 @@ const GetNewViEnById = (lang, id) => {
     });
 };
 
-const get5LatestNews = (lang, id) => {
+const get5LatestNews = (lang) => {
     const data = { lang: lang };
-    console.log("GetNewViEnById :", data);
-    console.log("id :", id);
-    return axios.get(`http://127.0.0.1:8000/api/new-vi-en/${id}`, {
+
+    return axios.get(`http://127.0.0.1:8000/api/get5LatestNews`, {
         params: data,
     });
 };
 
 
-
-const getTop5ViewCount = (lang, id) => {
+const getTop5ViewCount = (lang) => {
     const data = { lang: lang };
-    console.log("GetNewViEnById :", data);
-    console.log("id :", id);
-    return axios.get(`http://127.0.0.1:8000/api/new-vi-en/${id}`, {
+    return axios.get(`http://127.0.0.1:8000/api/getTop5ViewCount`, {
         params: data,
     });
 };
 
 const getTop5RelatedCategory = (lang, id) => {
     const data = { lang: lang };
-    console.log("GetNewViEnById :", data);
-    console.log("id :", id);
-    return axios.get(`http://127.0.0.1:8000/api/new-vi-en/${id}`, {
+ 
+    return axios.get(`http://127.0.0.1:8000/api/getTop5RelatedCategory/${id}`, {
         params: data,
     });
 };
 
-export { CreateUser, GetAllUser, GetUserById, GetNewViEn, GetNewViEnById };
+export { CreateUser, GetAllUser, GetUserById, 
+        GetNewViEn, GetNewViEnById, 
+        getTop5RelatedCategory, getTop5ViewCount, get5LatestNews
+    };

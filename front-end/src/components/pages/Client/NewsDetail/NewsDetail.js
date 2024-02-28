@@ -28,7 +28,7 @@ const NewsDetail = () => {
 
     const getLatestNews = async () => {
         try {
-            const response = await get5LatestNews(i18next.language, id);
+            const response = await get5LatestNews(i18next.language);
             console.log("latestNews:", response.data);
             setLatestNews(response.data);
         } catch (error) {
@@ -38,7 +38,7 @@ const NewsDetail = () => {
 
     const getTopViewCountNews = async () => {
         try {
-            const response = await getTop5ViewCount(i18next.language, id);
+            const response = await getTop5ViewCount(i18next.language);
             console.log("topViewCountNews:", response.data);
             setTopViewCountNews(response.data);
         } catch (error) {
@@ -84,10 +84,28 @@ const NewsDetail = () => {
                     <div className="New_Relative_tital">
                         <h2> Tin liên quan</h2>
                     </div>
-                    <div className="New_Relative_top5"></div>
+                    <div className="New_Relative_top5">
+                        {relativeCategoryNews.map((news) => (
+                            <div>
+                            <Link to={`news-detail/${news.id_new}`} key={news.id_new}>{news.title}</Link>
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
-                <div></div>
+
+                <div className="New_Latest">
+                    <div className="New_latest_stories">
+                        <h2> mới nhất</h2>
+                    </div>
+                    <div className="New_latest_stories_top5">
+                        {latestNews.map((news) => (
+                            <div>
+                                <Link to={`news-detail/${news.id_new}`} key={news.id_new}>{news.title}</Link>
+                            </div>
+                        ))}
+                    </div>
+                </div>
 
                 <div></div>
             </div>
