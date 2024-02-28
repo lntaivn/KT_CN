@@ -43,30 +43,11 @@ class NewsController extends Controller
         }
     }
 
-
-    public function getTop5RelativeCategoryNewsById($id): JsonResponse
-    {
-        $newsItems = News::where('id_new', $id)->get();
-
-        if ($newsItems->isEmpty()) {
-            return response()->json(['error' => 'News items not found'], 404);
-        }
-        $category = $newsItems->first()->category;
-
-        $relatedNews = News::where('category', $category)
-            ->where('id_new', '!=', $id)
-            ->orderBy('created_at', 'desc')
-            ->take(5)
-            ->get();
-
-        return response()->json($relatedNews);
-    }
-
     public function getNewByID($id)
     {
         try {
             $news = News::find($id);
-            if ($news->isEmpty()) {
+            if (!$news) {
                 return response()->json(['message' => 'ID không tồn tại.'], 404);
             }
             return response()->json($news, 200);
@@ -74,6 +55,7 @@ class NewsController extends Controller
             return response()->json(['message' => 'Đã xảy ra lỗi khi lấy dữ liệu tin tức.'], 500);
         }
     }
+
 
     public function create(Request $request)
     {
@@ -104,9 +86,10 @@ class NewsController extends Controller
     {
         $lang = $request->input('lang', 'vi');
 
-        $table = ($lang === 'en') ? NewEn::class : NewVi::class;
-
-        $news = $table::orderBy('created_at', 'desc')->take(5)->get();
+        $newsTable = ($lang === 'en') ? 'new_en' : 'new_vi';
+        $news = News::join($newsTable, 'news.id_' . $lang, '=', $newsTable . '.id_' . $lang)
+            ->select('new_' . $lang . '.title', 'news.id_new', 'news.thumbnail')
+            ->orderBy('view_count', 'desc')->take(5)->get();
 
         return response()->json($news, 200);
     }
@@ -115,12 +98,26 @@ class NewsController extends Controller
     {
         $lang = $request->input('lang', 'vi');
 
-        // $table = ($lang === 'en') ? NewEn::class : NewVi::class;
         $newsTable = ($lang === 'en') ? 'new_en' : 'new_vi';
-        // $news = $table::orderBy('view_count', 'desc')->take(5)->get();
         $news = News::join($newsTable, 'news.id_' . $lang, '=', $newsTable . '.id_' . $lang)
             ->select('new_' . $lang . '.title', 'news.id_new', 'news.view_count', 'news.thumbnail')
             ->orderBy('view_count', 'desc')->take(5)->get();
+
+        return response()->json($news, 200);
+    }
+
+    public function getTop5RelatedCategory(Request $request)
+    {
+        $lang = $request->input('lang', 'vi');
+        $id_news = $request->id_news;
+        $id_category = $request->id_category;
+        $newsTable = ($lang === 'en') ? 'new_en' : 'new_vi';
+        $news = News::join($newsTable, 'news.id_' . $lang, '=', $newsTable . '.id_' . $lang)
+            ->join('categories', 'news.id_category', '=', 'categories.id_category')
+            ->select('new_' . $lang . '.title', 'news.id_new', 'news.thumbnail', 'categories.name_' . $lang . ' as category')
+            ->where('news.id_category', '=', $id_category)
+            ->where('news.id_new', '!=', $id_news)
+            ->get();
 
         return response()->json($news, 200);
     }

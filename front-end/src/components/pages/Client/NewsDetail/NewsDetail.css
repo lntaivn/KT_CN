@@ -15,14 +15,16 @@ tr:nth-child(even) {
 }
 .newsDetail {
     width: 100%;
-    display: flex;align-items:flex-start;
+    display: flex;
+    align-items:flex-start;
     justify-content: center;
     text-align: justify;
     gap: 40px;
+    height: 1000px;
 }
 .newsDetail_left {
     width: 800px;
-    
+    background-color: blueviolet;
 }
 .newsDetail_left img {
     width: 100%;
