@@ -5,7 +5,6 @@ import { Collapse, Input, Upload, Select, Button, Image, message } from 'antd';
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import { GetAllCategories, SaveDataNewViEn } from "../../../../service/ApiService";
 import "./CreateNews.css"
-import AvatarUpload from '../AvatarUpload/AvatarUpload';
 
 
 const { Option } = Select;

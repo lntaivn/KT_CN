@@ -209,7 +209,6 @@ class NewsController extends Controller
                 $news->save();
             }
             DB::commit();
-
             return response()->json(['message' => 'Lưu thành công'], 201);
         } catch (\Exception $e) {
             DB::rollback();

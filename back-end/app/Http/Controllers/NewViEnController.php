@@ -78,5 +78,4 @@ class NewViEnController extends Controller
 
         return response()->json($news, 200);
     }
-
 }

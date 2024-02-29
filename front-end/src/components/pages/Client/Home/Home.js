@@ -1,26 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { Card, Pagination } from "antd";
 import { GetNewViEn } from "../../../../service/ApiService";
 import { useTranslation } from "react-i18next";
 
 import { Link } from "react-router-dom";
-import "./Home.css";
+import "./Home.css"
+
+import { Tooltip, Spinner, Image } from "@nextui-org/react";
+import { formatDateTime, formatTimeAgo } from "../../../../service/DateService";
 import i18next from "i18next";
-const { Meta } = Card;
+
 const Home = () => {
+
     const { t } = useTranslation();
 
     const [newsData, setNewsData] = useState([]); // State to store news data
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(2);
 
+    const [loading, setLoading] = useState(false);
+
     const getNews = async () => {
+        setLoading(true);
         try {
             const response = await GetNewViEn(i18next.language);
             console.log("News data:", response.data);
-            setNewsData(response.data); // Set dữ liệu tin tức vào state
+            setNewsData(response.data);
+            setLoading(false);
         } catch (error) {
             console.error("Error fetching news:", error);
+            setLoading(false);
         }
     };
 
@@ -41,31 +49,8 @@ const Home = () => {
     const indexOfFirstItem = indexOfLastItem - pageSize;
     const currentItems = newsData.slice(indexOfFirstItem, indexOfLastItem);
 
-    const cardList = currentItems.map((news) => (
-        <Link key={news.id} to={`/detailnew/${news.id}`}>
-            <Card
-                key={news.id}
-                hoverable
-                style={{
-                    width: 240,
-                    margin: "10px",
-                }}
-                // cover={
-                //     <img
-                //         alt="example"
-                //         src={news.image_url} // Assuming the API response includes image_url for each news item
-                //     />
-                // }
-            >
-                <p>ID: {news.id}</p>
-                <p>Title: {news.title}</p>
-                <p>Description: {news.content}</p>
-            </Card>
-        </Link>
-    ));
-
     return (
-        <div className="Home">
+        <div className="Home p-5">
             <div className="Home_link_ret">
                 <Link to="https://ret.tvu.edu.vn/">
                     <img
@@ -78,7 +63,7 @@ const Home = () => {
                 <div>
                     <h1>{t("about.text_about_1")}</h1>
                     <h3>{t("about.text_about_2")}</h3>
-                    <p>{t("about.text_about_summary")}</p>
+                    <p className="text-justify">{t("about.text_about_summary")}</p>
                     <Link to="/About">{t("about.Button")}</Link>
                 </div>
             </div>
@@ -89,53 +74,55 @@ const Home = () => {
                 <div className="Admissions_type">
                     <div>
                         <div className="Admissions_type_img">
-                            <img
-                                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                                alt="Admissions Image 1"
-                            />
+                            <img src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" alt="Admissions Image 1" />
                         </div>
-                        <p>{t("admissions.type1")}</p>
+                        <p>{t('admissions.type1')}</p>
                     </div>
                     <div>
-                        <Link
-                            className="Admissions_type_name"
-                            to="/path-of-your-page"
-                        >
-                            {t("admissions.type2")}
-                        </Link>
+                        <div className="Admissions_type_img">
+                            <img src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" alt="Admissions Image 2" />
+                        </div>
+                        <p>{t('admissions.type2')}</p>
                     </div>
                 </div>
             </div>
             <div>
                 <h1>{t("News.text_new_1")}</h1>
             </div>
-            <div class="News">
-                <div class="News_display_grid">
-                    {newsData.map((news) => (
-                        <Card
-                            key={news.id}
-                            hoverable
-                            style={{ width: 300 }}
-                            cover={
-                                <img
-                                    alt="example"
-                                    src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+
+            <div className="News w-full">
+                <div className="grid gap-2 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
+                    {newsData.length === 0 ? <Spinner size="md" /> :
+                        newsData.map(news => (
+                            <Link key={news.id_new} className="w-full flex flex-col gap-3 group/news p-4 hover:bg-gray-100 rounded" to={`/news-detail/${news.id_new}`}>
+                                {/* <div className="flex items-center justify-center overflow-hidden rounded">
+                                    <img src={news.thumbnail} className="w-full h-full aspect-[4/3] object-cover group-hover/news:scale-105 duration-300" alt="" />
+                                </div> */}
+                                <Image
+                                    loading="lazy"
+                                    src={news.thumbnail}
+                                    classNames={{
+                                        img: "aspect-[4/3] rounded w-full"
+                                    }}
+                                    radius="none"
                                 />
-                            }
-                        >
-                            <Meta title={news.title} />
-                            <div>{news.view_count}</div>
-                            <div>
-                                <Link to={`/news-detail/${news.id_new}`}>
-                                    {t("News.text_new_2")}
-                                </Link>
-                            </div>
-                        </Card>
-                    ))}
+                                <h2 className="font-medium text-justify">{news.title}</h2>
+                                <div className="flex items-center gap-5 text-gray-400">
+                                    <Tooltip content={formatDateTime(news.created_at, i18next.language)} radius="sm" color="primary" showArrow>
+                                        <p><i className="fa-regular fa-clock mr-2"></i>{formatTimeAgo(news.created_at, i18next.language)}</p>
+                                    </Tooltip>
+                                    <Tooltip content={i18next.language === "vi" ? "Lượt xem" : "View"} radius="sm" color="primary" showArrow>
+                                        <p><i className="fa-regular fa-eye mr-2"></i>{news.view_count}</p>
+                                    </Tooltip>
+                                </div>
+                            </Link>
+                        ))}
                 </div>
             </div>
 
-            <div></div>
+            <div>
+
+            </div>
             {/* {cardList}
             <Pagination
                 // showSizeChanger
