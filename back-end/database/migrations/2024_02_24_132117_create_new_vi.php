@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('new_vi', function (Blueprint $table) {
             $table->id('id_vi');
              $table->string('title');
-            $table->string('content')->nullable();
+            $table->text('content')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

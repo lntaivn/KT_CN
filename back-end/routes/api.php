@@ -31,19 +31,20 @@ Route::post('/login', [AuthController::class, 'login']);
 
 //New
 Route::get('/news', [NewsController::class, 'getAllNews']);
-Route::get('/news/{id_new}', [NewsController::class, 'getNewByID']);
+Route::get('/news/{id_new}', [NewsController::class, 'getNewByID']); 
 Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);
 Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByCategory']);
 Route::post('/news', [NewsController::class, 'create']);
 Route::get('/get5LatestNews', [NewsController::class, 'get5LatestNews']);
 Route::get('/getTop5ViewCount', [NewsController::class, 'getTop5ViewCount']);
-Route::get('/getTop5RelatedCategory', [NewsController::class, 'getTop5RelatedCategory']);
+Route::get('/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5RelatedCategory']);
 
 
 //News vi_en
 // Route::get('/new-vi-en', [NewViEnController::class, 'getAll']);
 Route::get('/new-vi-en/{id}', [NewViEnController::class, 'getDetailNews']);
 Route::get('/new-vi-en', [NewViEnController::class, 'getAllNewViEN']);
+Route::post('/new-vi-en', [NewsController::class, 'saveNews']);
 
 //News vi
 Route::post('/new-vi', [NewViController::class, 'create']);
@@ -66,3 +67,4 @@ Route::get('/users/{id_user}', [UserController::class, 'findByIdUser']);
 
 
 Route::post('/admin/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');
+Route::post('/admin/upload-image-', [ImageUploadController::class, 'upload1'])->name('upload.image');
