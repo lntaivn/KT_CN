@@ -25,7 +25,7 @@ function Client() {
                     <Routes>
                         <Route path="" element={<Home />} />
                         <Route path="/about" element={<About />} />
-                        {/* <Route path="/news-detail/:id" element={<NewsDetail/>} /> */}
+                        <Route path="/news-detail/:id" element={<NewsDetail/>} />
                 </Routes>
                 </div>
             </div>
