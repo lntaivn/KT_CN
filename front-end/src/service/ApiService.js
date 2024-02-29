@@ -61,12 +61,17 @@ const SaveDataNewViEn = (id_category, title_en, title_vi, content_en, content_vi
 const ListNews = () => {
     return axios.get(`http://127.0.0.1:8000/api/news`);
 };
+
+const GetNewCanUpdate = (id) => {
+    return axios.get(`http://127.0.0.1:8000/api/getNewViEnNewsById/${id}`);
+
+}
 export { 
         GetNewViEn, GetNewViEnById, 
         getTop5RelatedCategory, getTop5ViewCount, get5LatestNews,
         GetAllCategories,
         SaveDataNewViEn,
-        ListNews
+        ListNews,GetNewCanUpdate
     };
 
 
