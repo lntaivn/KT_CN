@@ -15,8 +15,6 @@ class News extends Model
         'id_en',
         'id_vi',
         'id_category',
-        'time_upload',
-        'time_update',
         'thumbnail',
         'view_count',
         'status'
