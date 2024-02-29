@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\NewViController;
 use App\Http\Controllers\NewEnController;
 use App\Http\Controllers\ImageUploadController;
+
 /*;
 use App
 |--------------------------------------------------------------------------
@@ -29,10 +30,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Auth
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/changePassword', [AuthController::class, 'changePassword']);
+Route::post('/register', [AuthController::class, 'register']);
 
 //New
 Route::get('/news', [NewsController::class, 'getAllNews']);
-Route::get('/news/{id_new}', [NewsController::class, 'getNewByID']); 
+Route::get('/news/{id_new}', [NewsController::class, 'getNewByID']);
 Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);
 Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByCategory']);
 Route::post('/news', [NewsController::class, 'create']);
