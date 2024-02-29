@@ -13,8 +13,22 @@ class NewsController extends Controller
 {
     public function getAllNews()
     {
-        $news = News::all();
-        return response()->json($news);
+        $news = News::join('new_en', 'news.id_en', '=', 'new_en.id_en')
+            ->join('new_vi', 'news.id_vi', '=', 'new_vi.id_vi')
+            ->join('categories', 'news.id_category', '=', 'categories.id_category')
+            ->select(
+                'news.id_new',
+                'new_vi.id_vi',
+                'new_en.id_en',
+                'new_en.title' . ' as title_en',
+                'new_vi.title' . ' as title_vi',
+                'news.id_category',
+                'news.thumbnail',
+                'news.status'
+            )
+            ->get();
+
+        return response()->json($news, 200);
     }
 
 
@@ -204,10 +218,10 @@ class NewsController extends Controller
             ->join('categories', 'news.id_category', '=', 'categories.id_category')
             ->select(
                 'news.id_new',
-                'new_en.title'.' as title_en',
-                'new_vi.title'. ' as title_vi',
-                'new_en.content'. ' as content_en',
-                'new_vi.content'. ' as content_vi',
+                'new_en.title' . ' as title_en',
+                'new_vi.title' . ' as title_vi',
+                'new_en.content' . ' as content_en',
+                'new_vi.content' . ' as content_vi',
                 'news.id_category',
                 'news.thumbnail',
                 'news.status'
@@ -217,5 +231,7 @@ class NewsController extends Controller
 
         return response()->json($news, 200);
     }
+
+
 
 }
