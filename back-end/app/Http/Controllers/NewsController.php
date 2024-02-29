@@ -186,7 +186,7 @@ class NewsController extends Controller
                 'view_count' => $validatedData['view_count'],
                 'status' => $validatedData['status']
             ]);
-           
+
 
 
             DB::commit();
@@ -196,6 +196,27 @@ class NewsController extends Controller
             DB::rollback();
             return response()->json(['message' => 'Lưu thất bại', $e], 500);
         }
+    }
+
+    public function getNewViEnNewsById($id_new)
+    {
+        $news = News::join('new_en', 'news.id_en', '=', 'new_en.id_en')
+            ->join('new_vi', 'news.id_vi', '=', 'new_vi.id_vi')
+            ->join('categories', 'news.id_category', '=', 'categories.id_category')
+            ->select(
+                'news.id_new',
+                'new_en.title'.' as title_en',
+                'new_vi.title'. ' as title_vi',
+                'new_en.content'. ' as content_en',
+                'new_vi.content'. ' as content_vi',
+                'news.id_category',
+                'news.thumbnail',
+                'news.status'
+            )
+            ->where('news.id_new', '=', $id_new)
+            ->get();
+
+        return response()->json($news, 200);
     }
 
 }
