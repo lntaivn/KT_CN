@@ -33,8 +33,8 @@ const HomeAdmin = () => {
                     <div key={news.id_new}>
                         <div>
                             <img src={news.thumbnail} alt="Thumbnail" />
-                            <p>{news.title_vi ? news.title_vi : news.title_en}</p>
-                            <Link to={`/update/news/${news.id_new}`}></Link>
+                         
+                            <Link to={`/admin/update/news/${news.id_new}`}>{news.title_vi ? news.title_vi : news.title_en}</Link>
                         </div>
                     </div>
                 ))}

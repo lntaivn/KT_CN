@@ -44,6 +44,7 @@ const GetAllCategories = () => {
 };
 
 const SaveDataNewViEn = (id_category, title_en, title_vi, content_en, content_vi, thumbnail) => {
+
     const data = { 
         id_user: 1,
         id_category: id_category,
@@ -51,7 +52,6 @@ const SaveDataNewViEn = (id_category, title_en, title_vi, content_en, content_vi
         title_vi: title_vi,
         content_en: content_en,
         content_vi: content_vi,
-        status: true,
         view_count: 1000,
         thumbnail: thumbnail
     };
@@ -64,14 +64,29 @@ const ListNews = () => {
 
 const GetNewCanUpdate = (id) => {
     return axios.get(`http://127.0.0.1:8000/api/new-vi-en/${id}`);
-
 }
+
+const PutNewsByID = (id, id_category, title_en, title_vi, content_en, content_vi, thumbnail) => {
+    const data = { 
+        id_user: 1,
+        id_category: id_category,
+        title_en: title_en,
+        title_vi: title_vi,
+        content_en: content_en,
+        content_vi: content_vi,
+        view_count: 1000,
+        thumbnail: thumbnail
+    };
+    console.log("data",data)
+    return axios.put(`http://127.0.0.1:8000/api/new-vi-en/${id}`, data);
+}
+
 export { 
         GetNewViEn, GetNewViEnById, 
         getTop5RelatedCategory, getTop5ViewCount, get5LatestNews,
         GetAllCategories,
         SaveDataNewViEn,
-        ListNews,GetNewCanUpdate
+        ListNews,GetNewCanUpdate,PutNewsByID
     };
 
 
