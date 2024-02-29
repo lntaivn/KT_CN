@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ImageUploadController;
-use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +20,3 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Auth
-// Route::post('/login', [AuthController::class, 'login']);
-
-
-//

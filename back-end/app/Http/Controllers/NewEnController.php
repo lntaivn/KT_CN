@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\NewEn;
-use App\Models\NewVi;
 
 class NewEnController extends Controller
 {

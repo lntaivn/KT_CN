@@ -66,5 +66,19 @@
         "text_about_body_3": "Led by nationally and globally recognized researchers, students have been engaging in research projects that address some of the most important challenges over the world today. Research areas include optimal using and management of energy, renewable energy, construction project management, automation applications in agriculture and aquaculture, automobile engineering, image processing and machine learning, natural language processing, network and information security. From 2012 to 2016, the school has published 40 journal papers (25 ISI and Scopus papers) and 15 conference papers. In addition, the school has also obtained numerous individual and collective honours and awards.",
         "text_about_body_4": "The Faculty of Engineering and Technology has outlined a strategy for developing its teaching staff, improving in accordance with the ISO 9001:2015 work process of the University. The Faculty also updates its training programs to meet practical needs, especially in the field of Cooperative Education (Co-op) following the Win-Win-Win model (Students - University - Enterprises), and aims towards training according to AUN and ABET standards. We continue to enhance the learning and research environment to conduct impactful and influential research, and strive to educate talented students in engineering and technology. Over the next 10 years, the Faculty of Engineering and Technology aims to be one of the leading faculties in technical professions nationwide, making it into the top 100 technical training faculties in Asia.",
         "Button": "View More"
+    },
+    "admissions": {
+        "title":"ADMISSIONS",
+        "type1":"Higher education",
+        "type2":"Under graduate"
+    },
+    "News": {
+        "text_new_1": "NEWS",
+        "text_new_2": "View More"
+    },
+    "NewsDetail": {
+        "related": "Related news",
+        "latest": "The latest stories",
+        "popular": "Most popular"
     }
 }

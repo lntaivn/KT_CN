@@ -1,30 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { Card, Pagination } from "antd";
-import { GetAllUser } from "../../../../service/ApiService";
-import { useTranslation } from 'react-i18next';
+import { GetNewViEn } from "../../../../service/ApiService";
+import { useTranslation } from "react-i18next";
 
 import { Link } from "react-router-dom";
-import "./Home.css"
-import About from "../About/About";
+import "./Home.css";
+import i18next from "i18next";
+const { Meta } = Card;
 const Home = () => {
     const { t } = useTranslation();
 
-    const [userData, setUserData] = useState([]);
+    const [newsData, setNewsData] = useState([]); // State to store news data
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(2);
 
-    const getUser = async () => {
+    const getNews = async () => {
         try {
-            const response = await GetAllUser();
-            console.log("Response data:", response.data);
-            setUserData(response.data);
+            const response = await GetNewViEn(i18next.language);
+            console.log("News data:", response.data);
+            setNewsData(response.data); // Set dữ liệu tin tức vào state
         } catch (error) {
-            console.error("Error fetching users:", error);
+            console.error("Error fetching news:", error);
         }
     };
+
     useEffect(() => {
-        getUser();
-    }, []);
+        getNews();
+    }, [i18next.language]);
 
     const onShowSizeChange = (current, size) => {
         setCurrentPage(1); // Reset về trang đầu tiên khi thay đổi kích thước trang
@@ -37,27 +39,27 @@ const Home = () => {
 
     const indexOfLastItem = currentPage * pageSize;
     const indexOfFirstItem = indexOfLastItem - pageSize;
-    const currentItems = userData.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = newsData.slice(indexOfFirstItem, indexOfLastItem);
 
-    const cardList = currentItems.map((user) => (
-        <Link key={user.id_user} to={`/detailnew/${user.id_user}`}>
+    const cardList = currentItems.map((news) => (
+        <Link key={news.id} to={`/detailnew/${news.id}`}>
             <Card
-                key={user.id_user}
+                key={news.id}
                 hoverable
                 style={{
                     width: 240,
                     margin: "10px",
                 }}
-                cover={
-                    <img
-                        alt="example"
-                        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                    />
-                }
+                // cover={
+                //     <img
+                //         alt="example"
+                //         src={news.image_url} // Assuming the API response includes image_url for each news item
+                //     />
+                // }
             >
-                <p>ID: {user.id_user}</p>
-                <p>Name: {user.name}</p>
-                <p>Email: {user.email}</p>
+                <p>ID: {news.id}</p>
+                <p>Title: {news.title}</p>
+                <p>Description: {news.content}</p>
             </Card>
         </Link>
     ));
@@ -72,31 +74,77 @@ const Home = () => {
                     />
                 </Link>
             </div>
-
-
-
             <div className="About_Khoa">
                 <div>
-                    <h1>
-                        {t('about.text_about_1')}
-
-                    </h1>
-                    <h3>{t('about.text_about_2')}</h3>
-                    <p>
-                        {t('about.text_about_summary')}
-                    </p>
-                    <Link to="/About">{t('about.Button')}</Link>
+                    <h1>{t("about.text_about_1")}</h1>
+                    <h3>{t("about.text_about_2")}</h3>
+                    <p>{t("about.text_about_summary")}</p>
+                    <Link to="/About">{t("about.Button")}</Link>
                 </div>
             </div>
-            {cardList}
+            <div className="Admissions">
+                <div>
+                    <h1>{t("admissions.title")}</h1>
+                </div>
+                <div className="Admissions_type">
+                    <div>
+                        <div className="Admissions_type_img">
+                            <img
+                                src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                                alt="Admissions Image 1"
+                            />
+                        </div>
+                        <p>{t("admissions.type1")}</p>
+                    </div>
+                    <div>
+                        <Link
+                            className="Admissions_type_name"
+                            to="/path-of-your-page"
+                        >
+                            {t("admissions.type2")}
+                        </Link>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h1>{t("News.text_new_1")}</h1>
+            </div>
+            <div class="News">
+                <div class="News_display_grid">
+                    {newsData.map((news) => (
+                        <Card
+                            key={news.id}
+                            hoverable
+                            style={{ width: 300 }}
+                            cover={
+                                <img
+                                    alt="example"
+                                    src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                                />
+                            }
+                        >
+                            <Meta title={news.title} />
+                            <div>{news.view_count}</div>
+                            <div>
+                                <Link to={`/news-detail/${news.id_new}`}>
+                                    {t("News.text_new_2")}
+                                </Link>
+                            </div>
+                        </Card>
+                    ))}
+                </div>
+            </div>
+
+            <div></div>
+            {/* {cardList}
             <Pagination
                 // showSizeChanger
                 onShowSizeChange={onShowSizeChange}
                 onChange={onPageChange}
                 defaultCurrent={1}
-                total={userData.length}
+                total={newsData.length}
                 pageSize={pageSize}
-            />
+            /> */}
         </div>
     );
 };

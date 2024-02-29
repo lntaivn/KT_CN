@@ -66,5 +66,19 @@
         "text_about_body_3": "Được dẫn dắt bởi các nhà nghiên cứu được công nhận trong nước và quốc tế, sinh viên được tham gia vào các dự án nghiên cứu để giải quyết những thách thức quan trọng nhất đối với thế giới ngày nay. Những lĩnh vực nghiên cứu ở Khoa bao gồm: Tối ưu hoá việc sử dụng và quản lý năng lượng, năng lượng tái tạo, quản lý dự án xây dựng, ứng dụng tự động hoá vào nông nghiệp và thuỷ sản, kỹ thuật ô-tô, xử lý ảnh và máy học, xử lý ngôn ngữ tự nhiên, bảo mật mạng và thông tin. Trong các lĩnh vực này, 40 bài báo (25 bài thuộc tạp chí trong danh mục ISI và SCOPUS) và 15 bài báo hội nghị trong và ngoài nước đã được xuất bản trong 5 năm qua. Ngoài ra, Khoa cũng đã đạt được nhiều giải thưởng của tập thể và cá nhân rất đáng trân trọng khác.",
         "text_about_body_4": "Khoa KT&CN đã vạch ra chiến lược phát triển đội ngũ giảng dạy, cải tiến theo quy trình làm việc ISO 9001:2015 của Trường. Khoa cũng cập nhật các chương trình đào tạo đáp ứng nhu cầu thực tiễn, đặc biệt là đào tạo HTDN (Co-op) theo mô hình Win – Win – Win (Sinh viên – Nhà trường – Doanh nghiệp) và định hướng tiến tới đào tạo theo chuẩn AUN, ABET. Chúng tôi tiếp tục cải thiện môi trường học tập và nghiên cứu để có thể tiến hành nghiên cứu có tầm ảnh hưởng và tác động cao, và cố gắng giáo dục nên các học sinh tài năng trong kỹ thuật và công nghệ. Phấn đấu trong 10 năm tới, Khoa KT&CN sẽ một trong những khoa đào tạo các ngành nghề kỹ thuật hàng đầu trong cả nước, lọt vào top 100 các khoa đào tạo kỹ thuật của Châu Á.",
         "Button": "Xem thêm"
+    },
+    "admissions": {
+        "title":"TUYỂN SINH",
+        "type1":"SAU ĐẠI HỌC",
+        "type2":"ĐẠI HỌC"
+    },
+    "News": {
+        "text_new_1": "TIN TỨC",
+        "text_new_2": "Xem thêm"
+    },
+    "NewsDetail": {
+        "related": "Tin liên quan",
+        "latest": "Tin mới nhất",
+        "popular": "Xem nhiều nhất"
     }
 }
