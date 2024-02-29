@@ -119,8 +119,8 @@ const Home = () => {
                             cover={
                                 <img
                                     alt="example"
-                                    src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                                />
+                                    src={news.thumbnail} 
+                                    />
                             }
                         >
                             <Meta title={news.title} />
