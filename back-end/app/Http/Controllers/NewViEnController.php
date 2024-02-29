@@ -24,6 +24,7 @@ class NewViEnController extends Controller
                 'news.view_count',
                 'new_' . $lang . '.title',
                 'news.updated_at',
+                'news.created_at',
                 'new_' . $lang . '.content',
                 'news.thumbnail',
                 'news.id_category',
@@ -51,7 +52,8 @@ class NewViEnController extends Controller
         return response()->json($news, 200);
     }
 
-    public function getAllNewViEN(Request $request)
+    public function 
+    getAllNewViEN(Request $request)
     {
         $lang = $request->input('lang', 'vi');
 
@@ -74,5 +76,4 @@ class NewViEnController extends Controller
 
         return response()->json($news, 200);
     }
-
 }

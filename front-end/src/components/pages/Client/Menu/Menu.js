@@ -36,7 +36,7 @@ function Menu() {
                     base: "px-3 pl-6 md:px-10 bg-[#e95a13]",
                     wrapper: "px-0",
                     content: "gap-0",
-                    item: "h-full items-center flex px-4 hover:bg-[white] hover:text-[#e95a13] duration-300",
+                    item: "h-full items-center flex hover:bg-[white] hover:text-[#e95a13] duration-300",
                     menuItem: "py-3 border-b-[1px] border-gray-300"
                 }}
                 height="50px"
@@ -61,12 +61,12 @@ function Menu() {
                         <img src={LogoSET} width={18} className='mr-5' />
                     </Link>
                     <NavbarItem>
-                        <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center'>
+                        <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center px-4'>
                             {t('menu.text_link_1')}
                         </Link>
                     </NavbarItem>
                     <NavbarItem>
-                        <div className='h-full relative group/prarent-link'>
+                        <div className='h-full relative group/prarent-link px-4'>
                             <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center '>
                                 {t('menu.text_link_2.title')}<i className="fa-solid fa-sort-down ml-3 -translate-y-1"></i>
                             </Link>
@@ -81,7 +81,7 @@ function Menu() {
                         </div>
                     </NavbarItem>
                     <NavbarItem>
-                        <div className='h-full relative group/prarent-link'>
+                        <div className='h-full relative group/prarent-link px-4'>
                             <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center '>
                                 {t('menu.text_link_3.title')}<i className="fa-solid fa-sort-down ml-3 -translate-y-1"></i>
                             </Link>
@@ -96,7 +96,7 @@ function Menu() {
                         </div>
                     </NavbarItem>
                     <NavbarItem>
-                        <div className='h-full relative group/prarent-link'>
+                        <div className='h-full relative group/prarent-link px-4'>
                             <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center '>
                                 {t('menu.text_link_4.title')}<i className="fa-solid fa-sort-down ml-3 -translate-y-1"></i>
                             </Link>
@@ -120,12 +120,12 @@ function Menu() {
                         </div>
                     </NavbarItem>
                     <NavbarItem>
-                        <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center'>
+                        <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center px-4'>
                             {t('menu.text_link_5')}
                         </Link>
                     </NavbarItem>
                     <NavbarItem>
-                        <div className='h-full relative group/prarent-link'>
+                        <div className='h-full relative group/prarent-link px-4'>
                             <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center '>
                                 {t('menu.text_link_6.title')}<i className="fa-solid fa-sort-down ml-3 -translate-y-1"></i>
                             </Link>
@@ -140,7 +140,7 @@ function Menu() {
                         </div>
                     </NavbarItem>
                     <NavbarItem>
-                        <div className='h-full relative group/prarent-link'>
+                        <div className='h-full relative group/prarent-link px-4'>
                             <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center '>
                                 {t('menu.text_link_7.title')}<i className="fa-solid fa-sort-down ml-3 -translate-y-1"></i>
                             </Link>
@@ -161,7 +161,7 @@ function Menu() {
                         </div>
                     </NavbarItem>
                     <NavbarItem>
-                        <div className='h-full relative group/prarent-link'>
+                        <div className='h-full relative group/prarent-link px-4'>
                             <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center '>
                                 {t('menu.text_link_8.title')}<i className="fa-solid fa-sort-down ml-3 -translate-y-1"></i>
                             </Link>
@@ -179,7 +179,7 @@ function Menu() {
                         </div>
                     </NavbarItem>
                     <NavbarItem>
-                        <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center'>
+                        <Link to="#" className='font-medium uppercase text-[13px] h-full flex items-center px-4'>
                             {t('menu.text_link_9')}
                         </Link>
                     </NavbarItem>
