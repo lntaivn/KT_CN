@@ -12,28 +12,21 @@ class News extends Model
 
     protected $fillable = [
         'id_user',
-        'id_en',
-        'id_vi',
         'id_category',
+        'title_en',
+        'title_vi',
+        'content_en',
+        'content_vi',
+        'status_vi',
+        'status_en',
         'thumbnail',
         'view_count',
-        'status'
     ];
 
     // Xác định mối quan hệ với các model khác
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');
-    }
-
-    public function englishNews()
-    {
-        return $this->belongsTo(NewEn::class, 'id_en');
-    }
-
-    public function vietnameseNews()
-    {
-        return $this->belongsTo(NewVi::class, 'id_vi');
     }
 
     public function category()

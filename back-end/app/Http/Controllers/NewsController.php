@@ -13,20 +13,19 @@ class NewsController extends Controller
 {
     public function getAllNews()
     {
-        $news = News::join('new_en', 'news.id_en', '=', 'new_en.id_en')
-            ->join('new_vi', 'news.id_vi', '=', 'new_vi.id_vi')
-            ->join('categories', 'news.id_category', '=', 'categories.id_category')
+        $news = News::join('categories', 'news.id_category', '=', 'categories.id_category')
             ->select(
                 'news.id_new',
-                'new_vi.id_vi',
-                'new_en.id_en',
-                'new_en.title' . ' as title_en',
-                'new_vi.title' . ' as title_vi',
-                'news.id_category',
+                'news.title_vi',
+                'news.title_en',
+                'news.view_count',
+                'news.updated_at',
+                'news.created_at',
                 'news.thumbnail',
-                'news.status'
-            )
-            ->get();
+                'news.id_category',
+                'news.status_vi',
+                'news.status_en'
+            )->get();
 
         return response()->json($news, 200);
     }
@@ -97,45 +96,76 @@ class NewsController extends Controller
         return response()->json($news, 201);
     }
 
-    public function get5LatestNews(Request $request)
+    public function get5LatestNews()
     {
-        $lang = $request->input('lang', 'vi');
+        $news = News::select(
+            'news.id_new',
+            'news.title_vi',
+            'news.title_en',
+            'news.view_count',
+            'news.updated_at',
+            'news.created_at',
+            'news.thumbnail',
+            'news.id_category',
+            'news.status_vi',
+            'news.status_en'
+        )->orderBy('created_at', 'desc')->take(5)->get();
 
-        $newsTable = ($lang === 'en') ? 'new_en' : 'new_vi';
-        $news = News::join($newsTable, 'news.id_' . $lang, '=', $newsTable . '.id_' . $lang)
-            ->select('new_' . $lang . '.title', 'news.id_new', 'news.thumbnail')
-            ->orderBy('view_count', 'desc')->take(5)->get();
+        if (!$news) {
+            return response()->json(['message' => 'Bài viết không tồn tại'], 404);
+        }
 
         return response()->json($news, 200);
     }
 
-    public function getTop5ViewCount(Request $request)
+    public function getTop5ViewCount()
     {
-        $lang = $request->input('lang', 'vi');
+        $news = News::select(
+            'news.id_new',
+            'news.title_vi',
+            'news.title_en',
+            'news.view_count',
+            'news.updated_at',
+            'news.created_at',
+            'news.thumbnail',
+            'news.id_category',
+            'news.status_vi',
+            'news.status_en'
+        )->orderBy('view_count', 'desc')->take(5)->get();
 
-        $newsTable = ($lang === 'en') ? 'new_en' : 'new_vi';
-        $news = News::join($newsTable, 'news.id_' . $lang, '=', $newsTable . '.id_' . $lang)
-            ->select('new_' . $lang . '.title', 'news.id_new', 'news.view_count', 'news.thumbnail')
-            ->orderBy('view_count', 'desc')->take(5)->get();
+        if (!$news) {
+            return response()->json(['message' => 'Bài viết không tồn tại'], 404);
+        }
 
         return response()->json($news, 200);
     }
 
-    public function getTop5RelatedCategory(Request $request, $id_new)
+    public function getTop5RelatedCategory($id_new)
     {
-        $lang = $request->input('lang', 'vi');
-        $newsTable = ($lang === 'en') ? 'new_en' : 'new_vi';
-        $news = News::join($newsTable, 'news.id_' . $lang, '=', $newsTable . '.id_' . $lang)
-            ->join('categories', 'news.id_category', '=', 'categories.id_category')
-            ->select('new_' . $lang . '.title', 'news.id_new', 'news.thumbnail', 'categories.name_' . $lang . ' as category')
+        $news = News::join('categories', 'categories.id_category', '=', 'news.id_category')
+            ->select(
+                'news.id_new',
+                'news.title_vi',
+                'news.title_en',
+                'news.view_count',
+                'news.updated_at',
+                'news.created_at',
+                'news.thumbnail',
+                'news.id_category',
+                'news.status_vi',
+                'news.status_en'
+            )
             ->where('news.id_category', '=', function ($query) use ($id_new) {
                 $query->select('id_category')
                     ->from('news')
                     ->where('id_new', '=', $id_new);
             })
             ->where('news.id_new', '!=', $id_new)
+            ->take(5)
             ->get();
-
+        if (!$news) {
+            return response()->json(['message' => 'Bài viết không tồn tại'], 404);
+        }
         return response()->json($news, 200);
     }
 
@@ -149,60 +179,35 @@ class NewsController extends Controller
             'title_vi' => 'nullable|string',
             'content_en' => 'nullable|string',
             'content_vi' => 'nullable|string',
-            'status' => 'boolean',
             'view_count' => 'nullable|integer',
             'thumbnail' => 'nullable|string'
         ]);
 
         try {
-            // Start a database transaction
             DB::beginTransaction();
-
-            $newEn = NewEn::create([
-                'title' => $validatedData['title_en'],
-                'content' => $validatedData['content_en'],
-                'status' => $validatedData['status']
-            ]);
-
-            $newVi = NewVi::create([
-                'title' => $validatedData['title_vi'],
-                'content' => $validatedData['content_vi'],
-                'status' => $validatedData['status']
-            ]);
-
-            if ($validatedData['content_en'] === null) {
-                $newEn->status = 0;
-                $newEn->save();
-            }
-
-            if ($validatedData['content_vi'] === null) {
-                $newVi->status = 0;
-                $newVi->save();
-            }
-            DB::commit();
-
-            DB::beginTransaction();
-
-
-            $maxIdEn = NewEn::max('id_en');
-
-            // Tìm id lớn nhất từ bảng new_vi
-            $maxIdVi = NewVi::max('id_vi');
 
             $news = News::create([
                 'id_user' => $request->input('id_user'),
-                // 'id_en' => $newEn->id,
-                // 'id_vi' => $newVi->id,
-                'id_en' => $maxIdEn,
-                'id_vi' => $maxIdVi,
                 'id_category' => $request->input('id_category'),
+                'content_vi' => $request->input('content_vi'),
+                'content_en' => $request->input('content_en'),
+                'title_vi' => $request->input('title_vi'),
+                'title_en' => $request->input('title_en'),
                 'thumbnail' => $request->input('thumbnail'),
                 'view_count' => $validatedData['view_count'],
-                'status' => $validatedData['status']
             ]);
 
 
 
+            if ($validatedData['content_en'] === null) {
+                $news->status_en = 0;
+                $news->save();
+            }
+
+            if ($validatedData['content_vi'] === null) {
+                $news->status_vi = 0;
+                $news->save();
+            }
             DB::commit();
 
             return response()->json(['message' => 'Lưu thành công'], 201);
