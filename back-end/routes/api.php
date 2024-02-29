@@ -49,6 +49,7 @@ Route::get('/getNewViEnNewsById/{id}', [NewsController::class, 'getNewViEnNewsBy
 Route::get('/new-vi-en/{id}', [NewViEnController::class, 'getDetailNews']);//ok
 Route::get('/new-vi-en', [NewViEnController::class, 'getAllNewViEN']);//ok
 Route::post('/new-vi-en', [NewsController::class, 'saveNews']);//ok
+Route::put('/new-vi-en/{id}', [NewsController::class, 'updateNews']);//ok
 
 //News vi
 Route::put('/new-vi/{id}/update-status', [NewViController::class, 'updateStatus']);

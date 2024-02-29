@@ -216,6 +216,60 @@ class NewsController extends Controller
         }
     }
 
+    public function updateNews(Request $request, $id)
+    {
+        // Validate incoming request data
+        $validatedData = $request->validate([
+            'id_user' => 'required|exists:users,id_user',
+            'id_category' => 'required|exists:categories,id_category',
+            'title_en' => 'nullable|string',
+            'title_vi' => 'nullable|string',
+            'content_en' => 'nullable|string',
+            'content_vi' => 'nullable|string',
+            'view_count' => 'nullable|integer',
+            'thumbnail' => 'nullable|string'
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            // Tìm bản ghi cần cập nhật
+            $news = News::findOrFail($id);
+
+            // Cập nhật thông tin của tin tức
+            $news->id_user = $request->input('id_user');
+            $news->id_category = $request->input('id_category');
+            $news->content_vi = $request->input('content_vi');
+            $news->content_en = $request->input('content_en');
+            $news->title_vi = $request->input('title_vi');
+            $news->title_en = $request->input('title_en');
+            $news->thumbnail = $request->input('thumbnail');
+            $news->view_count = $validatedData['view_count'];
+
+            // Xử lý trường hợp nếu nội dung tiếng Anh hoặc tiếng Việt bị rỗng
+            if ($validatedData['content_en'] === null) {
+                $news->status_en = 0;
+            } else {
+                $news->status_en = 1;
+            }
+
+            if ($validatedData['content_vi'] === null) {
+                $news->status_vi = 0;
+            } else {
+                $news->status_vi = 1;
+            }
+
+            $news->save();
+
+            DB::commit();
+            return response()->json(['message' => 'Cập nhật tin tức thành công'], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['message' => 'Cập nhật tin tức thất bại', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+
     public function getNewViEnNewsById($id_new)
     {
         $news = News::join('new_en', 'news.id_en', '=', 'new_en.id_en')
