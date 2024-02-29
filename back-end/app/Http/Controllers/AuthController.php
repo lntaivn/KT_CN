@@ -25,6 +25,7 @@ class AuthController extends Controller
         }
     }
 
+
     public function changePassword(Request $request)
     {
         // Validate incoming request data
@@ -33,15 +34,15 @@ class AuthController extends Controller
             'new_password' => 'required|string|min:6',
         ]);
 
-        // Get the authenticated user
+        // Lấy thông tin người dùng hiện tại
         $user = Auth::user();
 
-        // Verify the current password
+        // Xác minh mật khẩu hiện tại của người dùng
         if (!Hash::check($request->input('current_password'), $user->password)) {
             return response()->json(['message' => 'Mật khẩu hiện tại không chính xác'], 400);
         }
 
-        // Change the password
+        // Thay đổi mật khẩu mới cho người dùng
         $user->password = Hash::make($request->input('new_password'));
         $user->save();
 
