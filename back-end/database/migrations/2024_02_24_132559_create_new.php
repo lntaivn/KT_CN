@@ -19,8 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('id_en'); 
             $table->unsignedBigInteger('id_vi'); 
             $table->unsignedBigInteger('id_category'); 
-            $table->timestamp('time_upload')->useCurrent(); 
-            $table->timestamp('time_update')->useCurrent()->nullable();
             $table->integer('view_count')->nullable();
             $table->string('thumbnail')->nullable();
             $table->boolean('status')->default(true); 
