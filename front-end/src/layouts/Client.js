@@ -21,7 +21,7 @@ function Client() {
                     src="https://ktcn.tvu.edu.vn/ht96_image/bg.png"
                 />
                 <Menu />
-                <div className='max-w-[2000px]'>
+                <div className='max-w-[2000px] m-auto'>
                     <Routes>
                         <Route path="" element={<Home />} />
                         <Route path="/about" element={<About />} />

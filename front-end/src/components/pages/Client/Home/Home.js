@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import "./Home.css"
 
-import { Tooltip } from "@nextui-org/react";
-
+import { Tooltip, Spinner, Image } from "@nextui-org/react";
+import { formatDateTime, formatTimeAgo } from "../../../../service/DateService";
 import i18next from "i18next";
 
 const Home = () => {
@@ -17,84 +17,18 @@ const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(2);
 
-    const formatTimeAgo = (timestamp, language) => {
-        const now = new Date();
-        const pastTime = new Date(timestamp);
-        const elapsed = now - pastTime;
-
-        const seconds = Math.floor(elapsed / 1000);
-        const minutes = Math.floor(seconds / 60);
-        const hours = Math.floor(minutes / 60);
-        const days = Math.floor(hours / 24);
-        const weeks = Math.floor(days / 7);
-        const months = Math.floor(days / 30);
-        const years = Math.floor(days / 365);
-
-        if (language === 'vi') {
-            if (seconds < 60) {
-                return `${seconds} giây trước`;
-            } else if (minutes < 60) {
-                return `${minutes} phút trước`;
-            } else if (hours < 24) {
-                return `${hours} giờ trước`;
-            } else if (days < 7) {
-                return `${days} ngày trước`;
-            } else if (weeks < 4) {
-                return `${weeks} tuần trước`;
-            } else if (months < 12) {
-                return `${months} tháng trước`;
-            } else {
-                return `${years} năm trước`;
-            }
-        } else { // Default to English
-            if (seconds < 60) {
-                return `${seconds} seconds ago`;
-            } else if (minutes < 60) {
-                return `${minutes} minutes ago`;
-            } else if (hours < 24) {
-                return `${hours} hours ago`;
-            } else if (days < 7) {
-                return `${days} days ago`;
-            } else if (weeks < 4) {
-                return `${weeks} weeks ago`;
-            } else if (months < 12) {
-                return `${months} months ago`;
-            } else {
-                return `${years} years ago`;
-            }
-        }
-    };
-
-    const formatDateTime = (timestamp, language) => {
-        const date = new Date(timestamp);
-
-        const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: false,
-        };
-
-        let formattedDateTime = '';
-        if (language === 'vi') {
-            const vietnameseMonth = date.toLocaleDateString('vi', { month: 'long' });
-            formattedDateTime = `${date.getDate()} ${vietnameseMonth}, ${date.getFullYear()} vào lúc ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
-        } else {
-            formattedDateTime = date.toLocaleDateString('en-US', options);
-        }
-
-        return formattedDateTime;
-    };
+    const [loading, setLoading] = useState(false);
 
     const getNews = async () => {
+        setLoading(true);
         try {
             const response = await GetNewViEn(i18next.language);
             console.log("News data:", response.data);
             setNewsData(response.data);
+            setLoading(false);
         } catch (error) {
             console.error("Error fetching news:", error);
+            setLoading(false);
         }
     };
 
@@ -158,25 +92,34 @@ const Home = () => {
 
             <div className="News w-full">
                 <div className="grid gap-2 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
-                    {newsData.map(news => (
-                        <Link key={news.id_new} className="w-full flex flex-col gap-3 group/news p-4 hover:bg-gray-100 rounded" to={`/news-detail/${news.id_new}`}>
-                            <div className="flex items-center justify-center overflow-hidden rounded">
-                                <img src={news.thumbnail} className="w-full h-full aspect-[4/3] object-cover group-hover/news:scale-105 duration-300" alt="" />
-                            </div>
-                            <h2 className="font-medium text-justify">{news.title}</h2>
-                            <div className="flex items-center gap-5 text-gray-400">
-                                <Tooltip content={formatDateTime(news.created_at, i18next.language)} radius="sm" color="primary" showArrow>
-                                    <p><i className="fa-regular fa-clock mr-2"></i>{formatTimeAgo(news.created_at, i18next.language)}</p>
-                                </Tooltip>
-                                <Tooltip content={i18next.language === "vi" ? "Lượt xem" : "View"} radius="sm" color="primary" showArrow>
-                                    <p><i className="fa-regular fa-eye mr-2"></i>{news.view_count}</p>
-                                </Tooltip>
-                            </div>
-                        </Link>
-                    ))}
+                    {newsData.length === 0 ? <Spinner size="md" /> :
+                        newsData.map(news => (
+                            <Link key={news.id_new} className="w-full flex flex-col gap-3 group/news p-4 hover:bg-gray-100 rounded" to={`/news-detail/${news.id_new}`}>
+                                {/* <div className="flex items-center justify-center overflow-hidden rounded">
+                                    <img src={news.thumbnail} className="w-full h-full aspect-[4/3] object-cover group-hover/news:scale-105 duration-300" alt="" />
+                                </div> */}
+                                <Image
+                                    loading="lazy"
+                                    src={news.thumbnail}
+                                    classNames={{
+                                        img: "aspect-[4/3] rounded w-full"
+                                    }}
+                                    radius="none"
+                                />
+                                <h2 className="font-medium text-justify">{news.title}</h2>
+                                <div className="flex items-center gap-5 text-gray-400">
+                                    <Tooltip content={formatDateTime(news.created_at, i18next.language)} radius="sm" color="primary" showArrow>
+                                        <p><i className="fa-regular fa-clock mr-2"></i>{formatTimeAgo(news.created_at, i18next.language)}</p>
+                                    </Tooltip>
+                                    <Tooltip content={i18next.language === "vi" ? "Lượt xem" : "View"} radius="sm" color="primary" showArrow>
+                                        <p><i className="fa-regular fa-eye mr-2"></i>{news.view_count}</p>
+                                    </Tooltip>
+                                </div>
+                            </Link>
+                        ))}
                 </div>
             </div>
-            
+
             <div>
 
             </div>
