@@ -58,13 +58,15 @@ const SaveDataNewViEn = (id_category, title_en, title_vi, content_en, content_vi
     console.log(data);
     return axios.post(`http://127.0.0.1:8000/api/new-vi-en`, data);
 }
-
-
+const ListNews = () => {
+    return axios.get(`http://127.0.0.1:8000/api/news`);
+};
 export { 
         GetNewViEn, GetNewViEnById, 
         getTop5RelatedCategory, getTop5ViewCount, get5LatestNews,
         GetAllCategories,
-        SaveDataNewViEn
+        SaveDataNewViEn,
+        ListNews
     };
 
 
