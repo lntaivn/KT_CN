@@ -29,7 +29,7 @@ const NewsDetail = () => {
     const getRelativeCategoryNews = async () => {
         try {
             // note: data id_category
-                const response = await getTop5RelatedCategory(i18next.language, id, 1);
+                const response = await getTop5RelatedCategory(i18next.language, id);
                 console.log("relativeCategoryNews:", response.data);
                 setRelativeCategoryNews(response.data);
         } catch (error) {
@@ -90,7 +90,7 @@ const NewsDetail = () => {
                     </div>
                     <div className="New_Relative_top5">
                         {relativeCategoryNews.map((news) => (
-                            <Link to={`/news-detail/${news.id_new}`} key={news.id_new}>{news.title}</Link>
+                            <Link to={`../news-detail/${news.id_new}`} key={news.id_new}>{news.title}</Link>
                         ))}
                     </div>
                 </div>
@@ -103,7 +103,7 @@ const NewsDetail = () => {
                     <div className="New_latest_stories_top5">
                         {latestNews.map((news) => (
                             <div>
-                                <Link to={`news-detail/${news.id_new}`} key={news.id_new}>{news.title}</Link>
+                                <Link to={`../news-detail/${news.id_new}`} key={news.id_new}>{news.title}</Link>
                             </div>
                         ))}
                     </div>
@@ -116,7 +116,7 @@ const NewsDetail = () => {
                     <div className="New_latest_stories_top5">
                         {topViewCountNews.map((news) => (
                             <div>
-                                <Link to={`news-detail/${news.id_new}`} key={news.id_new}>{news.title}</Link>
+                                <Link to={`../news-detail/${news.id_new}`} key={news.id_new}>{news.title}</Link>
                             </div>
                         ))}
                     </div>

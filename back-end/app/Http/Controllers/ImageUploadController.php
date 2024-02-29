@@ -26,6 +26,23 @@ class ImageUploadController extends Controller
                     "url" => $path
                 ]);
     }
+    public function upload1(Request $request)
+    {
+        // Validate the uploaded file
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Save the uploaded file
+        $avatar = $request->file('avatar');
+        $imageName = time() . '.' . $avatar->getClientOriginalExtension();
+        $avatar->move(public_path('uploads/thumbnail/'), $imageName);
+
+        // Return the image URL
+        $imageUrl = url('uploads/thumbnail/' . $imageName);
+
+        return response()->json(['imageUrl' => $imageUrl], 200);
+    }
 }
 
 
