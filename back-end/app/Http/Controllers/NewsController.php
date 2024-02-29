@@ -187,10 +187,7 @@ class NewsController extends Controller
                 'status' => $validatedData['status']
             ]);
            
-
-
             DB::commit();
-
             return response()->json(['message' => 'Lưu thành công'], 201);
         } catch (\Exception $e) {
             DB::rollback();
