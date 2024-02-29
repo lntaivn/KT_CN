@@ -10,7 +10,8 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Model implements Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use HasApiTokens, Notifiable;
 
     /**
      * Get the name of the unique identifier for the user.
