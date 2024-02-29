@@ -68,15 +68,20 @@ const NewsDetail = () => {
     }, [id, i18next.language]);
 
     return (
-        <div className="newsDetail flex flex-col lg:flex-row px-[20px] py-[20px] gap-[30px] sm:p-[30px] xl:px-[70px] xl:gap-[50px]">
+        <div className="newsDetail flex flex-col lg:flex-row p-[20px] gap-[30px] sm:p-[30px] xl:px-[70px] xl:gap-[50px]">
             <div className="newsDetail_left flex-1">
                 <div>
-                    <Tooltip content={formatDateTime(newsDetailData?.created_at, i18next.language)} radius="sm" color="primary" showArrow placement="right">
-                        <p className="w-fit text-gray-500 mb-2"><i className="fa-regular fa-clock mr-2"></i>{formatTimeAgo(newsDetailData?.created_at, i18next.language)}</p>
-                    </Tooltip>
-                    <h2 className="newsDetail_left_title font-bold text-2xl mb-5">
+                    <h2 className="newsDetail_left_title font-bold text-2xl">
                         {newsDetailData?.title}
                     </h2>
+                    <div className="flex flex-col sm:flex-row items-start mt-2 mb-5 gap-1 sm:gap-5 text-[14px] opacity-50 font-medium">
+                        <p className="flex items-center w-fit gap-3">{formatDateTime(newsDetailData?.created_at, i18next.language)}
+                            <i class="fa-solid fa-circle text-[4px]"></i>
+                            {formatTimeAgo(newsDetailData?.created_at, i18next.language)}
+                        </p>
+                        <p><i class="fa-regular fa-eye mr-2"></i>{newsDetailData?.view_count} lượt xem</p>
+                    </div>
+                    {/* <hr className="mt-5 border-[1.5px] opacity-70" /> */}
                     <div
                         dangerouslySetInnerHTML={{
                             __html: newsDetailData?.content,
@@ -85,7 +90,7 @@ const NewsDetail = () => {
                 </div>
             </div>
 
-            <div className="newsDetail_right sticky top-[80px] w-[100%] min-w-[300px] lg:max-w-[400px] flex flex-col gap-10">
+            <div className="newsDetail_right sticky top-[80px] w-[100%] min-w-[300px] lg:max-w-[380px] flex flex-col gap-10">
                 <div className="New_Relative w-full">
                     <div className="New_Relative_tital">
                         <h2>{t('NewsDetail.related')}</h2>
@@ -97,7 +102,7 @@ const NewsDetail = () => {
                                 <Image
                                     src={news.thumbnail}
                                     classNames={{
-                                        img: "aspect-[4/3] w-[130px] rounded"
+                                        img: "aspect-[4/3] w-[120px] rounded"
                                     }}
                                     radius="none"
                                 />
@@ -118,7 +123,7 @@ const NewsDetail = () => {
                                 <Image
                                     src={news.thumbnail}
                                     classNames={{
-                                        img: "aspect-[4/3] w-[130px] rounded"
+                                        img: "aspect-[4/3] w-[120px] rounded"
                                     }}
                                     radius="none"
                                 />
@@ -139,7 +144,7 @@ const NewsDetail = () => {
                                 <Image
                                     src={news.thumbnail}
                                     classNames={{
-                                        img: "aspect-[4/3] w-[130px] rounded"
+                                        img: "aspect-[4/3] w-[120px] rounded"
                                     }}
                                     radius="none"
                                 />
