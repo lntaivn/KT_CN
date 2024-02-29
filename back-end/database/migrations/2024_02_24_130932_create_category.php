@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('categories', function (Blueprint $table) {
             $table->id('id_category'); // Tạo cột id_category là primary key
             $table->string('name_vi', 50);
-            $table->string('name_vi', 50);
+            $table->string('name_en', 50);
             $table->timestamps(); // Thêm cột created_at và updated_at
         });
     }
