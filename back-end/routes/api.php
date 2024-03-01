@@ -39,6 +39,7 @@ Route::get('/getTop5ViewCount', [NewsController::class, 'getTop5ViewCount']);//o
 Route::get('/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5RelatedCategory']);//ok
 Route::put('/news/update-status-vi/{id}', [NewsController::class, 'updateStatusVi']);//ok
 Route::put('/news/update-status-en/{id}', [NewsController::class, 'updateStatusEn']);//ok
+Route::put('/news/UpdateStatuses', [NewsController::class, 'UpdateStatuses']);
 Route::post('/news', [NewsController::class, 'saveNews']);//ok
 Route::put('/news/{id}', [NewsController::class, 'updateNews']);//ok
 
