@@ -326,9 +326,39 @@ class NewsController extends Controller
         }
     }
 
-    public function getDetailNews($id)
+    public function UpdateStatuses(Request $request)
     {
+        try {
+            $validatedData = $request->validate([
+                'id_new' => 'required|array',
+                'status' => 'required|boolean',
+                'lang' => 'required|string'
+            ]);
 
-        
+            $id_new_list = $validatedData['id_new'];
+            $status = $validatedData['status'];
+            $lang = $validatedData['lang'];
+
+            foreach ($id_new_list as $id_new) {
+                $news = News::find($id_new);
+
+                if ($news) {
+                    if ($lang == 'vi') {
+                        $news->status_vi = $status;
+                    } else {
+                        $news->status_en = $status;
+                    }
+                    $news->save();
+                }
+            }
+
+            return response()->json([
+                'message' => 'Cập nhật trạng thái thành công',
+                'id_new_list' => $id_new_list
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật trạng thái', 'error' => $e->getMessage()], 500);
+        }
     }
+
 }
