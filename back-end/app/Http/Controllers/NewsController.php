@@ -71,6 +71,7 @@ class NewsController extends Controller
                 'news.content_vi',
                 'news.view_count',
                 'news.updated_at',
+                'news.created_at',
                 'news.thumbnail',
                 'news.id_category',
                 'categories.name_en as category_name_en',
@@ -358,6 +359,26 @@ class NewsController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật trạng thái', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function updateViewCount($id)
+    {
+        try {
+            $news = News::find($id);
+
+            if ($news) {
+                $news->view_count = $news->view_count + 1;
+                $news->save();
+                return response()->json([
+                    'message' => 'Cập nhật view thành công ',
+                    'id_new' => $id
+                ], 200);
+            } else {
+                return response()->json(['message' => 'Id không chính xác'], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật trạng thái'], 500);
         }
     }
 
