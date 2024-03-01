@@ -13,7 +13,7 @@ function Admin() {
       <Navbar />
       <div className='Admin-Content flex-1 h-full overflow-auto'>
         <Routes>
-          <Route path="/list-news" element={<Post />} />
+          <Route path="/post" element={<Post />} />
           <Route path="/create-news-by-ckeditor5" element={<CreateNews />} />
           <Route path="/update/news/:id" element={<UpdateNews />} />
         </Routes>

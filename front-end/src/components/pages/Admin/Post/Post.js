@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "antd";
 
 import { Link } from "react-router-dom";
-import "./HomeAdmin.css";
+import "./Post.css";
 import i18next from "i18next";
 import { Switch } from "antd";
 
