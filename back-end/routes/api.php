@@ -1,14 +1,11 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\NewViEnController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\NewViController;
-use App\Http\Controllers\NewEnController;
 use App\Http\Controllers\ImageUploadController;
 
 /*;
@@ -40,7 +37,6 @@ Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByUser']);
 Route::get('/get5LatestNews', [NewsController::class, 'get5LatestNews']);//ok
 Route::get('/getTop5ViewCount', [NewsController::class, 'getTop5ViewCount']);//ok
 Route::get('/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5RelatedCategory']);//ok
-Route::get('/getNewViEnNewsById/{id}', [NewsController::class, 'getNewViEnNewsById']);//ok
 Route::put('/news/update-status-vi/{id}', [NewsController::class, 'updateStatusVi']);//ok
 Route::put('/news/update-status-en/{id}', [NewsController::class, 'updateStatusEn']);//ok
 Route::post('/news', [NewsController::class, 'saveNews']);//ok
