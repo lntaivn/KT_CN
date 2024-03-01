@@ -73,7 +73,7 @@ const PutNewsByID = (
         title_vi: title_vi,
         content_en: content_en,
         content_vi: content_vi,
-        view_count: 1000,
+        view_count: 0,
         thumbnail: thumbnail,
     };
     console.log("data", data);

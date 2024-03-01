@@ -92,12 +92,12 @@ const NewsDetail = () => {
                     <div className="flex flex-col sm:flex-row items-start mt-2 mb-5 gap-1 sm:gap-5 text-[14px] opacity-50 font-medium">
                         <p className="flex items-center w-fit gap-3">
                             {formatDateTime(
-                                newsDetailData?.updated_at,
+                                newsDetailData?.created_at,
                                 i18next.language
                             )}
                             <i class="fa-solid fa-circle text-[4px]"></i>
                             {formatTimeAgo(
-                                newsDetailData?.updated_at,
+                                newsDetailData?.created_at,
                                 i18next.language
                             )}
                         </p>

@@ -1,15 +1,51 @@
 import logo from "../../../../assets/KTCN-in.png"
 import { Link, useLocation } from 'react-router-dom';
+import { onAuthStateChanged } from "firebase/auth";
 
-import { User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, ScrollShadow } from "@nextui-org/react";
+import { auth, signInWithGoogle, signOut } from "../../../../service/firebase";
+
+import { User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, ScrollShadow, Button } from "@nextui-org/react";
+import { useEffect, useState } from "react";
 
 function Navbar() {
 
     const location = useLocation();
+
+    const [user, setUser] = useState(null);
+
     const setActive = (href) => {
         if (location.pathname === href) return "Admin_tab-active";
         // if (location.pathname.startsWith(href)) return "Admin_tab-active";
         return "";
+    }
+
+    useEffect(() => {
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                setUser(user);
+                console.log(user);
+            } else {
+                console.log("user is logged out");
+            }
+        });
+    }, []);
+
+    const handleLoginWithGoogle = async (onClose) => {
+        try {
+            await signInWithGoogle();
+            window.location.reload();
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            window.location.reload();
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     return (
@@ -41,38 +77,44 @@ function Navbar() {
                             <p><i className="fa-solid fa-clock-rotate-left mr-3 w-4"></i>Lịch sử thao tác</p>
                             <i className="fa-solid fa-chevron-right text-[11px] hidden group-hover/tab:block"></i>
                         </Link>
+
                     </div>
                 </ScrollShadow>
             </div>
             <div className="h-fit">
-                <Dropdown placement="bottom-start">
-                    <DropdownTrigger>
-                        <div className="flex items-center w-full justify-between hover:bg-slate-600 p-3 py-2 rounded-lg">
-                            <User
-                                name={<p className="font-semibold">Ka Ka</p>}
-                                description="kaka@gmail.com"
-                                avatarProps={{
-                                    src: "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/278457256_685484812649669_6665721277885149812_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeErj7-GVczdw0bkhnjtFWIccucMPNH0Tcxy5ww80fRNzDmHej1WXYKri3qgoqG1H42bqWfgyjFhRodp8VzoPeTN&_nc_ohc=5SCl_AsF4xkAX-5htQv&_nc_ht=scontent.fsgn2-11.fna&oh=00_AfBiQEtJ3a9ks5p-JthcVrhJtpDCePLhbS9_jK44n8hOTQ&oe=65E5A68D"
-                                }}
-                            />
-                            <i className="fa-solid fa-ellipsis-vertical"></i>
-                        </div>
-                    </DropdownTrigger>
-                    <DropdownMenu aria-label="User Actions">
-                        <DropdownItem key="profile" className="h-14 gap-2">
-                            <p className="font-bold">Đăng nhập với</p>
-                            <p className="font-bold">kaka@gmail.com</p>
-                        </DropdownItem>
-                        <DropdownSection showDivider>
-                            <DropdownItem key="settings">
-                                My Settings
-                            </DropdownItem>
-                        </DropdownSection>
-                        <DropdownItem key="logout" color="danger" startContent={<i className="fa-solid fa-right-from-bracket"></i>}>
-                            Đăng xuất
-                        </DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
+                {
+                    user ?
+
+                        <Dropdown placement="bottom-start">
+                            <DropdownTrigger>
+                                <div className="flex items-center w-full justify-between hover:bg-slate-600 p-3 py-2 rounded-lg">
+                                    <User
+                                        name={<p className="font-semibold">{user.displayName}</p>}
+                                        description={user.email}
+                                        avatarProps={{
+                                            src: user.photoURL
+                                        }}
+                                    />
+                                    <i className="fa-solid fa-ellipsis-vertical"></i>
+                                </div>
+                            </DropdownTrigger>
+                            <DropdownMenu aria-label="User Actions">
+                                <DropdownItem key="profile" className="h-14 gap-2">
+                                    <p className="font-bold">Đăng nhập với</p>
+                                    <p className="font-bold">{user.email}</p>
+                                </DropdownItem>
+                                <DropdownSection showDivider>
+                                    <DropdownItem key="settings">
+                                        My Settings
+                                    </DropdownItem>
+                                </DropdownSection>
+                                <DropdownItem key="logout" color="danger" startContent={<i className="fa-solid fa-right-from-bracket"></i>} onClick={() => { handleLogout() }}>
+                                    Đăng xuất
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                        : <Button color="primary" onClick={() => { handleLoginWithGoogle() }}>Đăng nhập</Button>
+                }
             </div>
         </div>
     )

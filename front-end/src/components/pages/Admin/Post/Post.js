@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { ListNews, UpdateStatusVi, UpdateStatusEn } from "../../../../service/ApiService";
+import "./Post.css";
+import { useEffect, useState } from "react";
+import { ListNews, UpdateStatusVi, UpdateStatusEn, GetAllCategories } from "../../../../service/ApiService";
 import { useTranslation } from "react-i18next";
-import { Button } from "antd";
 
 import { Link } from "react-router-dom";
-import "./Post.css";
 import i18next from "i18next";
-import { Divider, Radio, Table, Switch, Tooltip } from 'antd';
-import { Avatar, Image } from "@nextui-org/react";
+import moment from 'moment';
+import { Table, Switch, Tooltip } from 'antd';
+import { Avatar, BreadcrumbItem, Breadcrumbs, Button, Image } from "@nextui-org/react";
 
 const Post = () => {
+
     const [newsListData, setNewsListData] = useState([]);
+    const [categoryData, setCategoryData] = useState([]);
+    const [loading, setLoading] = useState(false);
+
     const { t } = useTranslation();
 
     const columns = [
@@ -29,12 +33,12 @@ const Post = () => {
                 />
         },
         {
-            title: 'Tiêu đề',
+            title: 'Tiêu đề bài viết',
             dataIndex: 'name_group',
             render: (record) =>
                 <div className="text-sm">
                     <p className="font-medium">{record.title_vi}</p>
-                    <p className="text-[12px] opacity-70">{record.title_en}</p>
+                    <p className="text-[12px] opacity-70 mt-1">{record.title_en}</p>
                 </div>
         },
         {
@@ -43,13 +47,26 @@ const Post = () => {
             render: (record) =>
                 <div className="text-sm">
                     <p className="font-medium">{record.vi}</p>
-                    <p className="text-[12px] opacity-70">{record.en}</p>
+                    <p className="text-[12px] opacity-70 mt-1">{record.en}</p>
+                </div>,
+            filters: categoryData,
+            onFilter: (value, record) => record.category.id === value,
+        },
+        {
+            title: 'Thời gian',
+            dataIndex: 'date',
+            width: "150px",
+            render: (record) =>
+                <div className="text-[12px]">
+                    <span className="opacity-70">Ngày tạo:</span>
+                    <p className="font-medium text-[13px] mb-2">{record.created_at}</p>
+                    <span className="opacity-70">Ngày cập nhật:</span>
+                    <p className="font-medium text-[13px]">{record.updated_at}</p>
                 </div>
         },
         {
             title: 'Lượt xem',
             dataIndex: 'view_count',
-            width: "120px"
         },
         {
             title:
@@ -90,7 +107,27 @@ const Post = () => {
         }),
     };
 
+    const getCategory = async () => {
+        try {
+            const response = await GetAllCategories();
+
+            const newsCategoryData = response.data.map((news) => {
+                return ({
+                    value: news.id_category,
+                    text: news.name_vi
+                })
+            })
+
+            console.log("Category data:", newsCategoryData);
+            setCategoryData(newsCategoryData);
+
+        } catch (error) {
+            console.error("Error fetching news:", error);
+        }
+    }
+
     const getNews = async () => {
+        setLoading(true);
         try {
             const response = await ListNews();
 
@@ -114,7 +151,12 @@ const Post = () => {
                     view_count: news.view_count,
                     category: {
                         en: news.category_name_en,
-                        vi: news.category_name_vi
+                        vi: news.category_name_vi,
+                        id: news.id_category
+                    },
+                    date: {
+                        created_at: moment(news.created_at).format('DD/MM/YYYY HH:mm'),
+                        updated_at: moment(news.updated_at).format('DD/MM/YYYY HH:mm')
                     }
                 })
             })
@@ -122,13 +164,18 @@ const Post = () => {
             console.log("News data:", response.data);
 
             setNewsListData(newsData);
+
+            setLoading(false);
+
         } catch (error) {
             console.error("Error fetching news:", error);
+            setLoading(false);
         }
     };
 
     useEffect(() => {
         getNews();
+        getCategory();
     }, []);
 
     const handleUpdateStatus_vi = async (id) => {
@@ -151,9 +198,15 @@ const Post = () => {
 
     return (
         <div className="HomeAdmin">
+            <Breadcrumbs underline="hover">
+                <BreadcrumbItem>Admin Dashboard</BreadcrumbItem>
+                <BreadcrumbItem>Quản lý bài viết</BreadcrumbItem>
+            </Breadcrumbs>
+            <Button color="primary" radius="sm" as={Link} to="/admin/post/create">Tạo bài viết</Button>
             <div className="ListNews">
                 <Table
                     bordered
+                    loading={loading}
                     rowSelection={{
                         type: "checkbox",
                         ...rowSelection,

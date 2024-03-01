@@ -6,6 +6,7 @@ import { Collapse, Input, Upload, Select, Button, Image, message } from 'antd';
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import { GetAllCategories, SaveDataNewViEn } from "../../../../service/ApiService";
 import "./CreateNews.css"
+import { Link } from 'react-router-dom';
 
 
 const { Option } = Select;
@@ -70,7 +71,7 @@ const CreateNews = () => {
   }, []);
 
 
-  
+
   const SaveData = () => {
     const title_viElement = document.getElementById('title_vi');
     const title_vi = title_viElement ? title_viElement.value : null;
@@ -127,11 +128,9 @@ const CreateNews = () => {
     <div>
       <div className='CreateNews'>
         <Breadcrumbs underline="hover">
-          <BreadcrumbItem>Home</BreadcrumbItem>
-          <BreadcrumbItem>Music</BreadcrumbItem>
-          <BreadcrumbItem>Artist</BreadcrumbItem>
-          <BreadcrumbItem>Album</BreadcrumbItem>
-          <BreadcrumbItem>Song</BreadcrumbItem>
+          <BreadcrumbItem>Admin Dashboard</BreadcrumbItem>
+          <BreadcrumbItem><Link to="/admin/post">Quản lý bài viết</Link></BreadcrumbItem>
+          <BreadcrumbItem>Thêm bài viết</BreadcrumbItem>
         </Breadcrumbs>
         <h1>Tạo bài viết mới</h1>
 
