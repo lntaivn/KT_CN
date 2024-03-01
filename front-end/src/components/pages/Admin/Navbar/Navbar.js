@@ -22,7 +22,7 @@ function Navbar() {
                 <ScrollShadow className="flex-1" hideScrollBar style={{ height: "calc(100vh - 150px)" }}>
                     <div className="flex flex-col gap-2 overflow-auto">
                         <Link to="/admin" className={`text-[14px] w-full hover:bg-slate-600 p-3 py-2 rounded-lg flex justify-between items-center group/tab ${setActive("/admin")}`}>
-                            <p><i class="fa-solid fa-bolt mr-3 w-4"></i>Tổng quan</p>
+                            <p><i className="fa-solid fa-bolt mr-3 w-4"></i>Tổng quan</p>
                             <i className="fa-solid fa-chevron-right text-[11px] hidden group-hover/tab:block"></i>
                         </Link>
                         <Link to="/admin/post" className={`text-[14px] w-full hover:bg-slate-600 p-3 py-2 rounded-lg flex justify-between items-center group/tab ${setActive("/admin/post")}`}>

@@ -74,9 +74,9 @@ const NewsDetail = () => {
                         {i18next.language === "vi" ? newsDetailData?.title_vi : newsDetailData?.title_en}
                     </h2>
                     <div className="flex flex-col sm:flex-row items-start mt-2 mb-5 gap-1 sm:gap-5 text-[14px] opacity-50 font-medium">
-                        <p className="flex items-center w-fit gap-3">{formatDateTime(newsDetailData?.updated_at, i18next.language)}
+                        <p className="flex items-center w-fit gap-3">{formatDateTime(newsDetailData?.created_at, i18next.language)}
                             <i class="fa-solid fa-circle text-[4px]"></i>
-                            {formatTimeAgo(newsDetailData?.updated_at, i18next.language)}
+                            {formatTimeAgo(newsDetailData?.created_at, i18next.language)}
                         </p>
                         <p><i class="fa-regular fa-eye mr-2"></i>{newsDetailData?.view_count} lượt xem</p>
                     </div>
