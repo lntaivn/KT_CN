@@ -76,6 +76,10 @@ const PutNewsByID = (
     return axios.put(`http://127.0.0.1:8000/api/news/${id}`, data);
 };
 
+const UpdateStatusVi = (id) => {
+    return axios.put(`http://127.0.0.1:8000/api/news/update-status-vi/${id}`);
+};
+
 export {
     GetNewViEn,
     GetNewViEnById,
@@ -87,6 +91,7 @@ export {
     ListNews,
     GetNewCanUpdate,
     PutNewsByID,
+    UpdateStatusVi,
 };
 
 // CreateUser, GetAllUser, GetUserById
