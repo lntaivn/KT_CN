@@ -22,6 +22,7 @@ class NewsController extends Controller
                 'news.content_vi',
                 'news.view_count',
                 'news.updated_at',
+                'news.created_at',
                 'news.thumbnail',
                 'news.id_category',
                 'categories.name_en as category_name_en',
@@ -369,6 +370,7 @@ class NewsController extends Controller
 
             if ($news) {
                 $news->view_count = $news->view_count + 1;
+                $news->timestamps = false;
                 $news->save();
                 return response()->json([
                     'message' => 'Cập nhật view thành công ',

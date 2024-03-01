@@ -99,12 +99,7 @@ const Post = () => {
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        },
-        getCheckboxProps: (record) => ({
-            disabled: record.name === 'Disabled User',
-            // Column configuration not to be checked
-            name: record.name,
-        }),
+        }
     };
 
     const getCategory = async () => {
@@ -133,7 +128,7 @@ const Post = () => {
 
             const newsData = response.data.map((news) => {
                 return ({
-                    id: news.id_new,
+                    key: news.id_new,
                     thumbnail: news.thumbnail,
                     name_group: {
                         thumbnail: news.thumbnail,
