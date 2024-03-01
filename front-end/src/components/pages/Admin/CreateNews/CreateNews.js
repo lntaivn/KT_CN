@@ -44,6 +44,16 @@ const CreateNews = () => {
   const handleCategoryChange = (value, option) => {
     setSelectedCategory(value);
   };
+
+
+
+
+
+
+
+
+
+
   const getCategorys = async () => {
     try {
       const response = await GetAllCategories();
@@ -58,6 +68,9 @@ const CreateNews = () => {
   useEffect(() => {
     getCategorys();
   }, []);
+
+
+  
   const SaveData = () => {
     const title_viElement = document.getElementById('title_vi');
     const title_vi = title_viElement ? title_viElement.value : null;
