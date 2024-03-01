@@ -18,3 +18,7 @@
     font-weight: 500;
     margin-bottom: 20px;
 }
+
+.News__Detail__Content img {
+    /* border-radius: 5px; */
+}

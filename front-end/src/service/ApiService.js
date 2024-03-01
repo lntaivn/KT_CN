@@ -1,42 +1,23 @@
 import axios from "axios";
 
-const GetNewViEn = (lang) => {
-    const data = { lang: lang };
-
-    return axios.get(`http://127.0.0.1:8000/api/new-vi-en`, { params: data });
+const GetNewViEn = () => {
+    return axios.get(`http://127.0.0.1:8000/api/new-vi-en`);
 };
 
-const GetNewViEnById = (lang, id) => {
-    const data = { lang: lang };
-
-    return axios.get(`http://127.0.0.1:8000/api/new-vi-en/${id}`, {
-        params: data,
-    });
+const GetNewViEnById = (id) => {
+    return axios.get(`http://127.0.0.1:8000/api/new-vi-en/${id}`);
 };
 
-const get5LatestNews = (lang) => {
-    const data = { lang: lang };
-
-    return axios.get(`http://127.0.0.1:8000/api/get5LatestNews`, {
-        params: data,
-    });
+const get5LatestNews = () => {
+    return axios.get(`http://127.0.0.1:8000/api/get5LatestNews`);
 };
 
-
-const getTop5ViewCount = (lang) => {
-    const data = { lang: lang };
-    return axios.get(`http://127.0.0.1:8000/api/getTop5ViewCount`, {
-        params: data,
-    });
+const getTop5ViewCount = () => {
+    return axios.get(`http://127.0.0.1:8000/api/getTop5ViewCount`);
 };
 
-const getTop5RelatedCategory = (lang, id) => {
-    const data = { 
-        lang: lang 
-    };
-    return axios.get(`http://127.0.0.1:8000/api/getTop5RelatedCategory/${id}`, {
-        params: data,
-    });
+const getTop5RelatedCategory = (id) => {
+    return axios.get(`http://127.0.0.1:8000/api/getTop5RelatedCategory/${id}`);
 };
 
 const GetAllCategories = () => {
