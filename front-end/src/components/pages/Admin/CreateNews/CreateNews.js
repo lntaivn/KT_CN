@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import { Collapse, Input, Upload, Select, Button, Image, message } from 'antd';
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import { GetAllCategories, SaveDataNewViEn } from "../../../../service/ApiService";
@@ -112,6 +113,13 @@ const CreateNews = () => {
   return (
     <div>
       <div className='CreateNews'>
+        <Breadcrumbs underline="hover">
+          <BreadcrumbItem>Home</BreadcrumbItem>
+          <BreadcrumbItem>Music</BreadcrumbItem>
+          <BreadcrumbItem>Artist</BreadcrumbItem>
+          <BreadcrumbItem>Album</BreadcrumbItem>
+          <BreadcrumbItem>Song</BreadcrumbItem>
+        </Breadcrumbs>
         <h1>Tạo bài viết mới</h1>
 
         <Input.TextArea id='title_vi' rows={2} placeholder="Nhập tiêu đề tiếng việt" />

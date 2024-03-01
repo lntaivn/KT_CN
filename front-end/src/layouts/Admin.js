@@ -11,7 +11,7 @@ function Admin() {
   return (
     <div className="Admin flex h-[100vh]">
       <Navbar />
-      <div className='Admin-Content flex-1 h-full overflow-auto'>
+      <div className='Admin-Content flex-1 h-full overflow-auto p-5 px-7'>
         <Routes>
           <Route path="/dashboard-admin" element={<HomeAdmin />} />
           <Route path="/create-news-by-ckeditor5" element={<CreateNews />} />

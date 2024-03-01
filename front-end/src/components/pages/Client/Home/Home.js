@@ -14,6 +14,7 @@ const Home = () => {
     const { t } = useTranslation();
 
     const [newsData, setNewsData] = useState([]); // State to store news data
+    const [newsDataFitlered, setNewsDataFiltered] = useState([]); // State to store news data
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(2);
 
@@ -23,7 +24,6 @@ const Home = () => {
         setLoading(true);
         try {
             const response = await GetNewViEn(i18next.language);
-            console.log("News data:", response.data);
             setNewsData(response.data);
             setLoading(false);
         } catch (error) {
@@ -31,6 +31,22 @@ const Home = () => {
             setLoading(false);
         }
     };
+
+    const changePostByLang = () => {
+        const filterNewsData = newsData.filter((news) => {
+            if(i18next.language === "vi" && news.status_vi === 1){
+                return news;
+            } else if (i18next.language === "en" && news.status_en === 1){
+                return news;
+            }
+        })
+
+        setNewsDataFiltered(filterNewsData);
+    }
+
+    useEffect(() => {
+        changePostByLang();
+    }, [newsData, i18next.language]);
 
     useEffect(() => {
         getNews();
@@ -92,12 +108,10 @@ const Home = () => {
 
             <div className="News w-full">
                 <div className="grid gap-2 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
-                    {newsData.length === 0 ? <Spinner size="md" /> :
-                        newsData.map(news => (
+                    {newsDataFitlered.length === 0 ? <Spinner size="md" /> :
+                        newsDataFitlered.map(news => (
+
                             <Link key={news.id_new} className="w-full flex flex-col gap-3 group/news p-4 hover:bg-gray-100 rounded" to={`/news-detail/${news.id_new}`}>
-                                {/* <div className="flex items-center justify-center overflow-hidden rounded">
-                                    <img src={news.thumbnail} className="w-full h-full aspect-[4/3] object-cover group-hover/news:scale-105 duration-300" alt="" />
-                                </div> */}
                                 <Image
                                     loading="lazy"
                                     src={news.thumbnail}
