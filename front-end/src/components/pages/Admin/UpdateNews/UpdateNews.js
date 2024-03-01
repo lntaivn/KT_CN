@@ -64,6 +64,7 @@ const UpdateNews = () => {
                 const categoryFromResponse = response.data[0].id_category;
                 const content_enFromResponse = response.data[0].content_en;
                 const content_viFromResponse = response.data[0].content_vi;
+                
                 getContent_en(content_enFromResponse)
                 getContent_vi(content_viFromResponse)
                 setSelectedCategory(categoryFromResponse)
