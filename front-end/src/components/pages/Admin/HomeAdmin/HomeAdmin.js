@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { ListNews } from "../../../../service/ApiService";
 import { useTranslation } from "react-i18next";
-import { Button } from 'antd';
+import { Button, Switch } from 'antd';
 
 import { Link } from "react-router-dom";
 import "./HomeAdmin.css";
@@ -20,6 +20,15 @@ const HomeAdmin = () => {
             console.error("Error fetching news:", error);
         }
     };
+    // Tạo một mảng state để lưu trạng thái của mỗi Switch
+    const [switchStates, setSwitchStates] = useState({});
+
+    // Hàm để xử lý sự kiện khi người dùng thay đổi trạng thái của Switch
+    const handleToggle = (checked, newsId) => {
+        // Cập nhật trạng thái của Switch tương ứng với newsId
+        setSwitchStates({ ...switchStates, [newsId]: checked });
+        console.log("Switch", switchStates);
+    };
 
     useEffect(() => {
         getNews();
@@ -35,6 +44,10 @@ const HomeAdmin = () => {
                             <img src={news.thumbnail} alt="Thumbnail" />
                          
                             <Link to={`/admin/update/news/${news.id_new}`}>{news.title_vi ? news.title_vi : news.title_en}</Link>
+                            <Switch 
+                                checked={switchStates[news.id_new]} 
+                                onChange={(checked) => handleToggle(checked, news.id_new)} 
+                            />
                         </div>
                     </div>
                 ))}
