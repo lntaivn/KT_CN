@@ -53,6 +53,10 @@ const GetNewCanUpdate = (id) => {
     return axios.get(`http://127.0.0.1:8000/api/news/${id}`);
 };
 
+const updateViewCount = (id) => {
+    return axios.put(`http://127.0.0.1:8000/api/news/updateViewCount/${id}`);
+};
+
 const PutNewsByID = (
     id,
     id_category,
@@ -94,7 +98,8 @@ export {
     GetNewCanUpdate,
     PutNewsByID,
     UpdateStatusVi,
-    UpdateStatusEn
+    UpdateStatusEn,
+    updateViewCount,
 };
 
 // CreateUser, GetAllUser, GetUserById
