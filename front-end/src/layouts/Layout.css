@@ -4,3 +4,7 @@
     justify-content: space-between;
     /* min-height: 2000px; */
 }
+
+.Admin_tab-active{
+    background-color: rgb(39 39 42);
+}
