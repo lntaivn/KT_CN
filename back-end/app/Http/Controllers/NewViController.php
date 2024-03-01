@@ -42,24 +42,5 @@ class NewViController extends Controller
         return response()->json($newVi, 200);
     }
 
-    public function updateStatus($id)
-    {
-        try {
-            $newVi = NewVi::find($id);
-
-            if ($newVi) {
-                $newVi->status = !$newVi->status;
-                $newVi->save();
-
-                return response()->json([
-                    'message' => 'Cập nhật trạng thái thành công new_vi ',
-                    'id_vi' => $id
-                ], 200);
-            } else {
-                return response()->json(['message' => 'Id không chính xác'], 404);
-            }
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật trạng thái'], 500);
-        }
-    }
+    
 }

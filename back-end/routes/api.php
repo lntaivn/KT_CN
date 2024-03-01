@@ -34,30 +34,17 @@ Route::post('/register', [AuthController::class, 'register']);
 
 //New
 Route::get('/news', [NewsController::class, 'getAllNews']);//ok
-Route::get('/news/{id_new}', [NewsController::class, 'getNewByID']);
-Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);
-Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByCategory']);
-Route::post('/news', [NewsController::class, 'create']);
+Route::get('/news/{id}', [NewsController::class, 'getNewByID']);//ok
+Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);//ok
+Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByUser']);
 Route::get('/get5LatestNews', [NewsController::class, 'get5LatestNews']);//ok
 Route::get('/getTop5ViewCount', [NewsController::class, 'getTop5ViewCount']);//ok
 Route::get('/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5RelatedCategory']);//ok
-Route::get('/getNewViEnNewsById/{id}', [NewsController::class, 'getNewViEnNewsById']);
-
-
-//News vi_en
-// Route::get('/new-vi-en', [NewViEnController::class, 'getAll']);
-Route::get('/new-vi-en/{id}', [NewViEnController::class, 'getDetailNews']);//ok
-Route::get('/new-vi-en', [NewViEnController::class, 'getAllNewViEN']);//ok
-Route::post('/new-vi-en', [NewsController::class, 'saveNews']);//ok
-Route::put('/new-vi-en/{id}', [NewsController::class, 'updateNews']);//ok
-
-//News vi
-Route::put('/new-vi/{id}/update-status', [NewViController::class, 'updateStatus']);
-Route::post('/new-vi', [NewViController::class, 'create']);
-
-//News en
-Route::put('/new-en/{id}/update-status', [NewEnController::class, 'updateStatus']);
-Route::post('/new-en', [NewEnController::class, 'create']);
+Route::get('/getNewViEnNewsById/{id}', [NewsController::class, 'getNewViEnNewsById']);//ok
+Route::put('/news/update-status-vi/{id}', [NewsController::class, 'updateStatusVi']);//ok
+Route::put('/news/update-status-en/{id}', [NewsController::class, 'updateStatusEn']);//ok
+Route::post('/news', [NewsController::class, 'saveNews']);//ok
+Route::put('/news/{id}', [NewsController::class, 'updateNews']);//ok
 
 
 //Category
