@@ -1,10 +1,8 @@
 import "./Post.css";
 import { useEffect, useState } from "react";
 import { ListNews, UpdateStatusVi, UpdateStatusEn, GetAllCategories } from "../../../../service/ApiService";
-import { useTranslation } from "react-i18next";
 
 import { Link } from "react-router-dom";
-import i18next from "i18next";
 import moment from 'moment';
 import { Table, Switch, Tooltip } from 'antd';
 import { Avatar, BreadcrumbItem, Breadcrumbs, Button, Image } from "@nextui-org/react";
@@ -15,7 +13,7 @@ const Post = () => {
     const [categoryData, setCategoryData] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const { t } = useTranslation();
+    const [selectedRow, setSelectedRow] = useState([]);
 
     const columns = [
         {
@@ -99,6 +97,7 @@ const Post = () => {
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            setSelectedRow(selectedRowKeys);
         }
     };
 
@@ -192,12 +191,19 @@ const Post = () => {
     };
 
     return (
-        <div className="HomeAdmin">
+        <div className="HomeAdmin flex flex-col gap-5 items-start">
             <Breadcrumbs underline="hover">
                 <BreadcrumbItem>Admin Dashboard</BreadcrumbItem>
                 <BreadcrumbItem>Quản lý bài viết</BreadcrumbItem>
             </Breadcrumbs>
             <Button color="primary" radius="sm" as={Link} to="/admin/post/create">Tạo bài viết</Button>
+            {
+                selectedRow.length !== 0 &&
+                <div className="sticky top-2 bg-[white] z-50 w-full p-4 py-3 shadow-lg rounded-md border-1 border-slate-300">
+                    <p className="text-sm">Đã chọn {selectedRow.length} bài viết</p>
+                    
+                </div>
+            }
             <div className="ListNews">
                 <Table
                     bordered

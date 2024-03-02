@@ -7,6 +7,7 @@ import { auth, signInWithGoogle, signOut } from "../../../../service/firebase";
 import { User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, ScrollShadow, Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Tooltip } from "antd";
+import { motion } from "framer-motion";
 
 function Navbar(props) {
 
@@ -20,6 +21,34 @@ function Navbar(props) {
         // if (location.pathname.startsWith(href)) return "Admin_tab-active";
         return "";
     }
+
+    const navTab = [
+        {
+            text: "Tổng quan",
+            link: "/admin",
+            icon: <i className={`fa-solid fa-bolt mr-${collapsedNav ? "0" : "3"} w-4`}></i>
+        },
+        {
+            text: "Quản lý bài viết",
+            link: "/admin/post",
+            icon: <i className={`fa-regular fa-images mr-${collapsedNav ? "0" : "3"} w-4`}></i>
+        },
+        {
+            text: "Quản lý thể loại",
+            link: "/admin/category",
+            icon: <i className={`fa-solid fa-icons mr-${collapsedNav ? "0" : "3"} w-4`}></i>
+        },
+        {
+            text: "Quản lý người dùng",
+            link: "/admin/user",
+            icon: <i className={`fa-regular fa-user mr-${collapsedNav ? "0" : "3"} w-4`}></i>
+        },
+        {
+            text: "Lịch sử thao tác",
+            link: "/admin/log",
+            icon: <i className={`fa-solid fa-clock-rotate-left mr-${collapsedNav ? "0" : "3"} w-4`}></i>
+        }
+    ]
 
     useEffect(() => {
         onAuthStateChanged(auth, async (user) => {
@@ -55,15 +84,28 @@ function Navbar(props) {
     }
 
     return (
-        <div className={`Admin-Navbar flex flex-col w-[${collapsedNav ? "80px" : "270px"}] h-[100vh] bg-slate-800 p-3 text-[white] justify-between`}>
-            <div className="grid grid-rows-[auto,auto] gap-2 h-[100vh] flex-1">
-                <div className={`flex w-full justify-${collapsedNav ? "center" : "between"} items-center p-${collapsedNav ? "2" : "4"}`}>
-                    {!collapsedNav &&
-                        <div className="flex gap-3 items-center h-fit">
-                            <img src={logo} width={20} />
-                            <span className="font-bold">SET</span>
-                        </div>
-                    }
+        <motion.div
+            className={`Admin-Navbar flex flex-col w-["270px"] ${collapsedNav ? "w-[87px]" : ""} h-[100vh] bg-slate-800 p-3 text-[white] justify-between`}
+            initial={{ width: "270px" }}
+            animate={{ width: collapsedNav ? "87px" : "270px" }}
+            transition={{ duration: 0.4 }}
+        >
+            <div className="grid grid-rows-[auto,auto] h-[100vh] flex-1">
+                <div className={`flex w-full h-[50px] justify-${collapsedNav ? "center" : "between"} items-center p-${collapsedNav ? "2" : "3"}`}>
+                    <motion.div
+                        className="flex gap-3 items-center h-fit"
+                        initial={{ opacity: 1 }}
+                        animate={{ opacity: collapsedNav ? 0 : 1 }}
+                        transition={{ duration: collapsedNav ? 0 : 0.4, delay: collapsedNav ? 0 : 0.4 }}
+                    >
+                        {
+                            !collapsedNav ?
+                                <>
+                                    <img src={logo} width={20} />
+                                    <span className="font-bold mt-[1px]">SET</span>
+                                </> : ""
+                        }
+                    </motion.div>
                     <Tooltip title={collapsedNav ? "Mở rộng" : "Thu gọn"} placement="right">
                         <Button isIconOnly variant="light" radius="full" onClick={() => { handleToggleNav() }}>
                             {collapsedNav ? <i className="fa-solid fa-chevron-right text-[white]"></i>
@@ -71,45 +113,37 @@ function Navbar(props) {
                         </Button>
                     </Tooltip>
                 </div>
-                <ScrollShadow className="flex-1" hideScrollBar style={{ height: "calc(100vh - 160px)" }}>
-                    <div className="flex flex-col gap-2 overflow-auto">
-                        <Tooltip title={collapsedNav ? "Tổng quan" : ""} placement="right">
-                            <Link to="/admin" className={`text-[14px] w-full hover:bg-slate-600 p-3 py-2 rounded-lg flex justify-${collapsedNav ? "center" : "between"} items-center group/tab ${setActive("/admin")}`}>
-                                <p><i className={`fa-solid fa-bolt mr-${collapsedNav ? "0" : "3"} w-4`}></i>{!collapsedNav && "Tổng quan"}</p>
-                                {!collapsedNav && <i className="fa-solid fa-chevron-right text-[11px] hidden group-hover/tab:block"></i>}
-                            </Link>
-                        </Tooltip>
-                        <Tooltip title={collapsedNav ? "Quản lý bài viết" : ""} placement="right">
-                            <Link to="/admin/post" className={`text-[14px] w-full hover:bg-slate-600 p-3 py-2 rounded-lg flex justify-${collapsedNav ? "center" : "between"} items-center group/tab ${setActive("/admin/post")}`}>
-                                <p><i className={`fa-regular fa-images mr-${collapsedNav ? "0" : "3"} w-4`}></i>{!collapsedNav && "Quản lý bài viết"}</p>
-                                {!collapsedNav && <i className="fa-solid fa-chevron-right text-[11px] hidden group-hover/tab:block"></i>}
-                            </Link>
-                        </Tooltip>
-                        <Tooltip title={collapsedNav ? "Quản lý thể loại" : ""} placement="right">
-                            <Link to="/admin/category" className={`text-[14px] w-full hover:bg-slate-600 p-3 py-2 rounded-lg flex justify-${collapsedNav ? "center" : "between"} items-center group/tab ${setActive("/admin/category")}`}>
-                                <p><i className={`fa-solid fa-icons mr-${collapsedNav ? "0" : "3"} w-4`}></i>{!collapsedNav && "Quản lý thể loại"}</p>
-                                {!collapsedNav && <i className="fa-solid fa-chevron-right text-[11px] hidden group-hover/tab:block"></i>}
-                            </Link>
-                        </Tooltip>
-                        <Tooltip title={collapsedNav ? "Quản lý người dùng" : ""} placement="right">
-                            <Link to="/admin/user" className={`text-[14px] w-full hover:bg-slate-600 p-3 py-2 rounded-lg flex justify-${collapsedNav ? "center" : "between"} items-center group/tab ${setActive("/admin/user")}`}>
-                                <p><i className={`fa-regular fa-user mr-${collapsedNav ? "0" : "3"} w-4`}></i>{!collapsedNav && "Quản lý người dùng"}</p>
-                                {!collapsedNav && <i className="fa-solid fa-chevron-right text-[11px] hidden group-hover/tab:block"></i>}
-                            </Link>
-                        </Tooltip>
-                        <Tooltip title={collapsedNav ? "Lịch sử thao tác" : ""} placement="right">
-                            <Link to="/admin/log" className={`text-[14px] w-full hover:bg-slate-600 p-3 py-2 rounded-lg flex justify-${collapsedNav ? "center" : "between"} items-center group/tab ${setActive("/admin/log")}`}>
-                                <p><i className={`fa-solid fa-clock-rotate-left mr-${collapsedNav ? "0" : "3"} w-4`}></i>{!collapsedNav && "Lịch sử thao tác"}</p>
-                                {!collapsedNav && <i className="fa-solid fa-chevron-right text-[11px] hidden group-hover/tab:block"></i>}
-                            </Link>
-                        </Tooltip>
+                <ScrollShadow className="flex-1" hideScrollBar style={{ height: "calc(100vh - 130px)" }}>
+                    <div className="flex flex-col gap-2 overflow-auto overflow-x-hidden">
+                        <hr className="opacity-10 m-auto w-[30px] px-2 mb-2 border-[1.5px]" />
+                        {
+                            navTab.map((tab) => {
+                                return (
+                                    <Tooltip Tooltip title={collapsedNav ? tab.text : ""} placement="right" key={tab.link}>
+                                        <Link to={tab.link} className={`text-[14px] w-full h-[37px] hover:bg-slate-600 p-3 py-2 rounded-lg flex justify-${collapsedNav ? "center" : "between"} items-center group/tab ${setActive(tab.link)}`}>
+                                            <p className="flex items-center">
+                                                {tab.icon}
+                                                <motion.span
+                                                    initial={{ opacity: 1 }}
+                                                    animate={{ opacity: collapsedNav ? 0 : 1 }}
+                                                    transition={{ duration: collapsedNav ? 0 : 0.4, delay: collapsedNav ? 0 : 0.4 }}
+                                                    style={{ whiteSpace: "nowrap" }}
+                                                >
+                                                    {!collapsedNav && tab.text}
+                                                </motion.span>
+                                            </p>
+                                            {!collapsedNav && <i className="fa-solid fa-chevron-right text-[11px] hidden group-hover/tab:block"></i>}
+                                        </Link>
+                                    </Tooltip>
+                                )
+                            })
+                        }
                     </div>
                 </ScrollShadow>
-            </div>
+            </div >
             <div className="h-fit">
                 {
                     user ?
-
                         <Dropdown placement="bottom-start">
                             <DropdownTrigger>
                                 <div className="flex items-center w-full justify-between hover:bg-slate-600 p-3 py-2 rounded-lg">
@@ -148,7 +182,7 @@ function Navbar(props) {
                         </Button>
                 }
             </div>
-        </div>
+        </motion.div >
     )
 }
 

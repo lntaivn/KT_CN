@@ -18,7 +18,7 @@ function Admin() {
       <div className='Admin-Content flex-1 h-full overflow-auto p-5 px-7'>
         <Routes>
           <Route path="/post" element={<Post />} />
-          <Route path="/post/create" element={<CreateNews />} />
+          <Route path="/post/create" element={<CreateNews collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav}/>} />
           <Route path="/update/news/:id" element={<UpdateNews />} />
         </Routes>
       </div>
