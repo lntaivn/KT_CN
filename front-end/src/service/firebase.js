@@ -31,12 +31,12 @@ const signInWithGoogle = async () => {
 const postToken = (email, stoken) => {
     const data = {
         email: email,
-        stoken: stoken
+        stoken: stoken,
     };
 
     const config = {
         headers: {
-            'Authorization': `Bearer ${stoken}` // Thay YOUR_TOKEN bằng token bạn muốn truyền
+            'Authorization': `Bearer ${stoken}`,// Thay YOUR_TOKEN bằng token bạn muốn truyền
         }
     };
 

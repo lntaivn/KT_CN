@@ -6,6 +6,7 @@ import { auth, signInWithGoogle, signOut, postToken} from "../../../../service/f
 
 import { User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, ScrollShadow, Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
+import { use } from "i18next";
 
 function Navbar() {
 
@@ -24,7 +25,7 @@ function Navbar() {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setUser(user);
-                const response = await postToken(user?.reloadUserInfo.email , user?.accessToken );
+                const response = await postToken(user?.reloadUserInfo.email , user?.accessToken);
                 setAuth(response.data)
                 console.log(user);
                 
