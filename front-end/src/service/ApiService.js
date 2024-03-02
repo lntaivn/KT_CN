@@ -1,7 +1,9 @@
 import axios from "axios";
+import axiosInstance from './AxiosInstance'; // Đường dẫn tới tệp axiosInstance bạn đã tạo
 
 const GetNewViEn = () => {
-    return axios.get(`http://127.0.0.1:8000/api/news`);
+  
+    return axiosInstance.get(`http://127.0.0.1:8000/api/news`);
 };
 
 const GetNewViEnById = (id) => {
@@ -46,7 +48,14 @@ const SaveDataNewViEn = (
     return axios.post(`http://127.0.0.1:8000/api/news`, data);
 };
 const ListNews = () => {
-    return axios.get(`http://127.0.0.1:8000/api/news`);
+    const token = sessionStorage.getItem("token");
+    console.log("tran thia hung",token);
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${token}` 
+        }
+    };
+    return axios.get(`http://127.0.0.1:8000/api/news`,config);
 };
 
 const GetNewCanUpdate = (id) => {

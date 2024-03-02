@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ImageUploadController;
+use App\Http\Middleware\VerifyGoogleTokenMiddleware;
 
 /*;
 use App
@@ -30,7 +31,7 @@ Route::post('/changePassword', [AuthController::class, 'changePassword']);
 Route::post('/register', [AuthController::class, 'register']);
 
 //New
-Route::get('/news', [NewsController::class, 'getAllNews']);//ok
+Route::get('/news', [NewsController::class, 'getAllNews'])->middleware(VerifyGoogleTokenMiddleware::class);
 Route::get('/news/{id}', [NewsController::class, 'getNewByID']);//ok
 Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);//ok
 Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByUser']);
@@ -62,3 +63,7 @@ Route::get('/users/{id_user}', [UserController::class, 'findByIdUser']);
 Route::post('/admin/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');
 Route::post('/admin/upload-image-', [ImageUploadController::class, 'upload1'])->name('upload.image');
 
+
+
+
+Route::post('/admin/authentication', [AuthController::class, 'UserAuthentication']);

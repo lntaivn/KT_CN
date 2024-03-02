@@ -2,7 +2,7 @@ import logo from "../../../../assets/KTCN-in.png"
 import { Link, useLocation } from 'react-router-dom';
 import { onAuthStateChanged } from "firebase/auth";
 
-import { auth, signInWithGoogle, signOut } from "../../../../service/firebase";
+import { auth, signInWithGoogle, signOut, postToken} from "../../../../service/firebase";
 
 import { User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, ScrollShadow, Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ function Navbar() {
     const location = useLocation();
 
     const [user, setUser] = useState(null);
+    const [Authdata, setAuth] = useState(null);
 
     const setActive = (href) => {
         if (location.pathname === href) return "Admin_tab-active";
@@ -23,9 +24,20 @@ function Navbar() {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setUser(user);
-                console.log(user);
+                const response = await postToken(user?.reloadUserInfo.email , user?.accessToken );
+                setAuth(response.data)
+                console.log(response.data);
+                
+                if(response.data === 0){ 
+                    alert("Login failed");
+                    await signOut(auth); 
+                    setUser(null);
+                } else {
+                    sessionStorage.setItem("token", response.data);
+                }
             } else {
                 console.log("user is logged out");
+                setUser(null);
             }
         });
     }, []);
@@ -33,7 +45,8 @@ function Navbar() {
     const handleLoginWithGoogle = async (onClose) => {
         try {
             await signInWithGoogle();
-            window.location.reload();
+        
+          //  window.location.reload();
         } catch (err) {
             console.error(err);
         }

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -65,5 +67,19 @@ class AuthController extends Controller
         ]);
 
         return response()->json(['message' => 'Đăng ký người dùng thành công'], 201);
+    }
+    public function UserAuthentication(Request $request){
+
+        $email = $request->input('email');
+        $user = User::where('email', $email)->first();
+
+        if ($user) {
+            $token = $request->input('stoken');
+            
+            return response()->json($token);
+        } else {
+
+            return response()->json(0);
+        }
     }
 }
