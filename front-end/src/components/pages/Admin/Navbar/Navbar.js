@@ -26,7 +26,7 @@ function Navbar() {
                 setUser(user);
                 const response = await postToken(user?.reloadUserInfo.email , user?.accessToken );
                 setAuth(response.data)
-                console.log(response.data);
+                console.log(user);
                 
                 if(response.data === 0){ 
                     alert("Login failed");
