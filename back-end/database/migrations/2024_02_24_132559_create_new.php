@@ -15,21 +15,23 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id('id_new'); 
-            $table->unsignedBigInteger('id_user'); 
-            $table->unsignedBigInteger('id_en'); 
-            $table->unsignedBigInteger('id_vi'); 
+            $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_category'); 
+            $table->string('title_vi');
+            $table->string('title_en');
+            $table->text('content_vi')->nullable();
+            $table->text('content_en')->nullable();
             $table->integer('view_count')->nullable();
             $table->string('thumbnail')->nullable();
-            $table->boolean('status')->default(true); 
+            $table->boolean('status_vi')->default(true);
+            $table->boolean('status_en')->default(true);
+            // $table->boolean('status')->default(true); 
             $table->timestamps();
         });
 
 
         Schema::table('news', function (Blueprint $table) {
             $table->foreign('id_user')->references('id_user')->on('users');
-            $table->foreign('id_en')->references('id_en')->on('new_en');
-            $table->foreign('id_vi')->references('id_vi')->on('new_vi');
             $table->foreign('id_category')->references('id_category')->on('categories');
         });
     }

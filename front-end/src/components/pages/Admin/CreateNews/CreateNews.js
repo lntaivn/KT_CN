@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import { Collapse, Input, Upload, Select, Button, Image, message } from 'antd';
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import { GetAllCategories, SaveDataNewViEn } from "../../../../service/ApiService";
 import "./CreateNews.css"
-import AvatarUpload from '../AvatarUpload/AvatarUpload';
+import { Link } from 'react-router-dom';
 
 
 const { Option } = Select;
@@ -44,6 +45,16 @@ const CreateNews = () => {
   const handleCategoryChange = (value, option) => {
     setSelectedCategory(value);
   };
+
+
+
+
+
+
+
+
+
+
   const getCategorys = async () => {
     try {
       const response = await GetAllCategories();
@@ -58,6 +69,9 @@ const CreateNews = () => {
   useEffect(() => {
     getCategorys();
   }, []);
+
+
+
   const SaveData = () => {
     const title_viElement = document.getElementById('title_vi');
     const title_vi = title_viElement ? title_viElement.value : null;
@@ -113,6 +127,11 @@ const CreateNews = () => {
   return (
     <div>
       <div className='CreateNews'>
+        <Breadcrumbs underline="hover">
+          <BreadcrumbItem>Admin Dashboard</BreadcrumbItem>
+          <BreadcrumbItem><Link to="/admin/post">Quản lý bài viết</Link></BreadcrumbItem>
+          <BreadcrumbItem>Thêm bài viết</BreadcrumbItem>
+        </Breadcrumbs>
         <h1>Tạo bài viết mới</h1>
 
         <Input.TextArea id='title_vi' rows={2} placeholder="Nhập tiêu đề tiếng việt" />

@@ -32,3 +32,12 @@ html {
 ::-webkit-scrollbar-track {
   background-color: transparent;
 }
+
+/* CKeditor */
+figcaption {
+  text-align: center;
+  font-size: 13px;
+  background-color: rgb(237, 237, 237);
+  padding: 5px 0;
+  font-style: italic;
+}

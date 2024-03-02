@@ -17,9 +17,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            $token = $user->createToken('AuthToken')->accessToken;
+            // $token = $user->createToken('AuthToken')->accessToken;
 
-            return response()->json(['token' => $token], 200);
+            // return response()->json(['token' => $token], 200);
         } else {
             return response()->json(['message' => 'Email hoặc mật khẩu không chính xác'], 401);
         }
@@ -44,7 +44,7 @@ class AuthController extends Controller
 
         // Thay đổi mật khẩu mới cho người dùng
         $user->password = Hash::make($request->input('new_password'));
-        $user->save();
+        // $user->save();
 
         return response()->json(['message' => 'Mật khẩu đã được thay đổi thành công'], 200);
     }

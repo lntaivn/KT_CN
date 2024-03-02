@@ -21,11 +21,13 @@ function Client() {
                     src="https://ktcn.tvu.edu.vn/ht96_image/bg.png"
                 />
                 <Menu />
-                <Routes>
-                    <Route path="" element={<Home />} />
-                    <Route path="/about" element={<About/>} />
-                    <Route path="/news-detail/:id" element={<NewsDetail/>} />
+                <div className='max-w-[2000px] m-auto'>
+                    <Routes>
+                        <Route path="" element={<Home />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/news-detail/:id" element={<NewsDetail/>} />
                 </Routes>
+                </div>
             </div>
             <Footer />
         </div>
