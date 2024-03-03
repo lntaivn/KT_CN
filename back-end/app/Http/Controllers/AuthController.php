@@ -9,22 +9,27 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // 
-
-    public function login(Request $request)
+    public function __construct()
     {
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            // $token = $user->createToken('AuthToken')->accessToken;
-
-            // return response()->json(['token' => $token], 200);
-        } else {
-            return response()->json(['message' => 'Email hoặc mật khẩu không chính xác'], 401);
-        }
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
+    public function login()
+    {
+        $credentials = request(['email', 'password']);
+
+        if (!$token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $this->respondWithToken($token);
+    }
+
+    public function profile()
+    {
+        $user = auth()->user();
+        return response()->json($user);
+    }
 
     public function changePassword(Request $request)
     {
@@ -66,5 +71,14 @@ class AuthController extends Controller
         ]);
 
         return response()->json(['message' => 'Đăng ký người dùng thành công'], 201);
+    }
+
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth('api')->factory()->getTTL() * 60
+        ]);
     }
 }

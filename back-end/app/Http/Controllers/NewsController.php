@@ -8,31 +8,57 @@ use Illuminate\Http\JsonResponse;
 use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class NewsController extends Controller
 {
-    public function getAllNews()
+    public function getAllNews(Request $request)
     {
-        $news = News::join('categories', 'news.id_category', '=', 'categories.id_category')
-            ->select(
-                'news.id_new',
-                'news.title_vi',
-                'news.title_en',
-                'news.content_en',
-                'news.content_vi',
-                'news.view_count',
-                'news.updated_at',
-                'news.created_at',
-                'news.thumbnail',
-                'news.id_category',
-                'categories.name_en as category_name_en',
-                'categories.name_vi as category_name_vi',
-                'news.status_vi',
-                'news.status_en'
-            )->get();
+        try {
+            // Ghi log  
+            // dd($request->header('Authorization'));
+            // Xác thực Access Token và lấy thông tin user
+            $user = auth()->user();
 
-        return response()->json($news, 200);
+
+            if ($user) {
+                // Nếu user tồn tại, tiếp tục lấy thông tin bài viết
+                $news = News::join('categories', 'news.id_category', '=', 'categories.id_category')
+                    ->select(
+                        'news.id_new',
+                        'news.title_vi',
+                        'news.title_en',
+                        'news.content_en',
+                        'news.content_vi',
+                        'news.view_count',
+                        'news.updated_at',
+                        'news.created_at',
+                        'news.thumbnail',
+                        'news.id_category',
+                        'categories.name_en as category_name_en',
+                        'categories.name_vi as category_name_vi',
+                        'news.status_vi',
+                        'news.status_en'
+                    )->get();
+
+                return response()->json($news, 200);
+            } else {
+                // Nếu không xác thực được user, trả về lỗi
+                return response()->json(['message' => 'Không xác thực được user', $user], 401);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi khi lấy thông tin bài viết', 'error' => $e->getMessage()], 500);
+        }
     }
+
+    public function getEmailFromToken(Request $request)
+    {
+        $email = $request->email;
+
+        return response()->json(['email' => $email], 200);
+    }
+
 
 
     public function getAllByCategory($category_id)

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Middleware\ExtractEmailFromJWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -20,17 +21,24 @@ use App
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'auth'
+
+], function ($router) {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/profile', [AuthController::class, 'profile']);
+    Route::post('/changePassword', [AuthController::class, 'changePassword']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::get('/news', [NewsController::class, 'getAllNews']);
+
 });
 
-//Auth
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/changePassword', [AuthController::class, 'changePassword']);
-Route::post('/register', [AuthController::class, 'register']);
 
 //New
-Route::get('/news', [NewsController::class, 'getAllNews']);//ok
+// Route::get('/news', [NewsController::class, 'getAllNews']);//ok
+Route::get('/news', [NewsController::class, 'getAllNews']);
 Route::get('/news/{id}', [NewsController::class, 'getNewByID']);//ok
 Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);//ok
 Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByUser']);
@@ -43,6 +51,10 @@ Route::put('/news/UpdateStatuses', [NewsController::class, 'UpdateStatuses']);//
 Route::post('/news', [NewsController::class, 'saveNews']);//ok
 Route::put('/news/{id}', [NewsController::class, 'updateNews']);//ok
 Route::put('/news/updateViewCount/{id}', [NewsController::class, 'updateViewCount']);//ok
+
+//test
+Route::middleware('extract.email')->get('/email-from-token', [NewsController::class, 'getEmailFromToken']);
+
 
 
 //Category
