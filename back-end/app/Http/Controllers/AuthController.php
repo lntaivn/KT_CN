@@ -73,6 +73,11 @@ class AuthController extends Controller
         return response()->json(['message' => 'Đăng ký người dùng thành công'], 201);
     }
 
+    public function refresh()
+    {
+        return $this->respondWithToken(auth()->refresh());
+    }
+
     protected function respondWithToken($token)
     {
         return response()->json([

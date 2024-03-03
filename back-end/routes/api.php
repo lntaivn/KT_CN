@@ -29,8 +29,7 @@ Route::group([
 ], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
     Route::get('/profile', [AuthController::class, 'profile']);
-    Route::post('/changePassword', [AuthController::class, 'changePassword']);
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/refreshToken', [AuthController::class, 'refresh']);
     Route::get('/news', [NewsController::class, 'getAllNews']);
 
 });
