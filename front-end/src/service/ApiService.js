@@ -3,7 +3,7 @@ import axiosInstance from './AxiosInstance'; // Đường dẫn tới tệp axio
 
 const GetNewViEn = () => {
   
-    return axiosInstance.get(`http://127.0.0.1:8000/api/news`);
+    return axios.get(`http://127.0.0.1:8000/api/news`);
 };
 
 const GetNewViEnById = (id) => {
@@ -48,14 +48,10 @@ const SaveDataNewViEn = (
     return axios.post(`http://127.0.0.1:8000/api/news`, data);
 };
 const ListNews = () => {
-    const token = sessionStorage.getItem("token");
-    console.log("tran thia hung",token);
-    const config = {
-        headers: {
-            'Authorization': `Bearer ${token}` 
-        }
-    };
-    return axios.get(`http://127.0.0.1:8000/api/news`,config);
+    return axios.get(`http://127.0.0.1:8000/api/admin/news`,
+    {
+        withCredentials: true
+    });
 };
 
 const GetNewCanUpdate = (id) => {

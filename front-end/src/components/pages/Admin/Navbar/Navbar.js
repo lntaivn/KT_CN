@@ -55,16 +55,16 @@ function Navbar(props) {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setUser(user);
-                const response = await postToken(user?.reloadUserInfo.email , user?.accessToken);
-                setAuth(response.data)
-                console.log(user);
+                const response = await postToken(user?.reloadUserInfo.email);
                 
+                setAuth(response.data)
+                console.log(response.data)
                 if(response.data === 0){ 
                     alert("Login failed");
                     await signOut(auth); 
                     setUser(null);
                 } else {
-                    sessionStorage.setItem("token", response.data);
+                    //sessionStorage.setItem('token', JSON.stringify(response.data));
                 }
             } else {
                 console.log("user is logged out");

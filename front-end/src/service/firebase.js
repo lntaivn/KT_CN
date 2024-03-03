@@ -28,19 +28,11 @@ const signInWithGoogle = async () => {
     }
 };
 
-const postToken = (email, stoken) => {
+const postToken = (email) => {
     const data = {
         email: email,
-        stoken: stoken,
     };
-
-    const config = {
-        headers: {
-            'Authorization': `Bearer ${stoken}`,// Thay YOUR_TOKEN bằng token bạn muốn truyền
-        }
-    };
-
-    return axios.post(`http://127.0.0.1:8000/api/admin/authentication`, data, config);
+    return axios.post(`http://127.0.0.1:8000/api/login`, data,{ withCredentials: true });
 };
 
 
