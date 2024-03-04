@@ -41,6 +41,7 @@ Route::middleware('check.jwt')->group(function () {
 });
 
 //Auth
+Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
