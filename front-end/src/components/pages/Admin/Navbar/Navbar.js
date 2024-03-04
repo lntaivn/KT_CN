@@ -2,19 +2,20 @@ import logo from "../../../../assets/KTCN-in.png"
 import { Link, useLocation } from 'react-router-dom';
 import { onAuthStateChanged } from "firebase/auth";
 
-import { auth, signInWithGoogle, signOut, postToken} from "../../../../service/firebase";
+import { auth, signInWithGoogle, signOut, postToken, logoutToken } from "../../../../service/firebase";
 
 import { User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, ScrollShadow, Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Tooltip } from "antd";
 import { motion } from "framer-motion";
+import Cookies from 'js-cookie';
 
 function Navbar(props) {
 
     const location = useLocation();
     const { collapsedNav, setCollapsedNav } = props;
 
-    const [user, setUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState(null);
     const [Authdata, setAuth] = useState(null);
 
     const setActive = (href) => {
@@ -54,35 +55,21 @@ function Navbar(props) {
     useEffect(() => {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                setUser(user);
-
-                console.log("My info", user);
-
-                const response = await postToken(user.email);
-                
-                setAuth(response.data)
-                console.log(response.data);
-                
-                if(response.data === 0){ 
-                    alert("Login failed");
-                    await signOut(auth); 
-                    setUser(null);
-                } else {
-                    //sessionStorage.setItem('token', JSON.stringify(response.data));
-                }
-                
+                setCurrentUser(user);
             } else {
                 console.log("user is logged out");
-                setUser(null);
+                setCurrentUser(null);
             }
         });
     }, []);
 
     const handleLoginWithGoogle = async (onClose) => {
         try {
-            await signInWithGoogle();
-        
-          //  window.location.reload();
+            const user = await signInWithGoogle();
+
+            await postToken(user.email);
+
+            window.location.reload();
         } catch (err) {
             console.error(err);
         }
@@ -91,6 +78,8 @@ function Navbar(props) {
     const handleLogout = async () => {
         try {
             await signOut(auth);
+            await logoutToken();
+
             window.location.reload();
         } catch (err) {
             console.error(err);
@@ -119,7 +108,7 @@ function Navbar(props) {
                         {
                             !collapsedNav ?
                                 <>
-                                    <img src={logo} width={20} alt=""/>
+                                    <img src={logo} width={20} alt="" />
                                     <span className="font-bold mt-[1px]">SET</span>
                                 </> : ""
                         }
@@ -161,15 +150,15 @@ function Navbar(props) {
             </div >
             <div className="h-fit">
                 {
-                    user ?
+                    currentUser ?
                         <Dropdown placement="bottom-start">
                             <DropdownTrigger>
                                 <div className="flex items-center w-full justify-between hover:bg-slate-600 p-3 py-2 rounded-lg">
                                     <User
-                                        name={!collapsedNav ? <p className="font-semibold">{user.displayName}</p> : ""}
-                                        description={!collapsedNav ? user.email : ""}
+                                        name={!collapsedNav ? <p className="font-semibold">{currentUser.displayName}</p> : ""}
+                                        description={!collapsedNav ? currentUser.email : ""}
                                         avatarProps={{
-                                            src: user.photoURL
+                                            src: currentUser.photoURL
                                         }}
                                         classNames={{
                                             base: `${collapsedNav ? "gap-0" : "gap-2"}`
@@ -183,10 +172,10 @@ function Navbar(props) {
                             }}>
                                 <DropdownItem key="profile" className="h-14 gap-2" isReadOnly>
                                     <p className="font-semibold opacity-50">Admin</p>
-                                    <p className="font-bold">{user.email}</p>
+                                    <p className="font-bold">{currentUser.email}</p>
                                 </DropdownItem>
                                 <DropdownSection showDivider>
-                                    <DropdownItem key="settings" startContent={<i class="fa-solid fa-gear"></i>}>
+                                    <DropdownItem key="settings" startContent={<i className="fa-solid fa-gear"></i>}>
                                         Cài đặt
                                     </DropdownItem>
                                 </DropdownSection>
@@ -196,7 +185,7 @@ function Navbar(props) {
                             </DropdownMenu>
                         </Dropdown> :
                         <Button color="primary" className="w-full" onClick={() => { handleLoginWithGoogle() }} isIconOnly={collapsedNav}>
-                            {collapsedNav ? <i class="fa-solid fa-right-to-bracket"></i> : "Đăng nhập"}
+                            {collapsedNav ? <i className="fa-solid fa-right-to-bracket"></i> : "Đăng nhập"}
                         </Button>
                 }
             </div>

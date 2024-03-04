@@ -40,6 +40,7 @@ Route::middleware('check.jwt')->group(function () {
 });
 
 //Auth
+Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/changePassword', [AuthController::class, 'changePassword']);
 Route::post('/register', [AuthController::class, 'register']);
