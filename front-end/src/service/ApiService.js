@@ -1,6 +1,8 @@
 import axios from "axios";
+import axiosInstance from './AxiosInstance'; // Đường dẫn tới tệp axiosInstance bạn đã tạo
 
 const GetNewViEn = () => {
+  
     return axios.get(`http://127.0.0.1:8000/api/news`);
 };
 
@@ -46,7 +48,10 @@ const SaveDataNewViEn = (
     return axios.post(`http://127.0.0.1:8000/api/news`, data);
 };
 const ListNews = () => {
-    return axios.get(`http://127.0.0.1:8000/api/news`);
+    return axios.get(`http://127.0.0.1:8000/api/admin/news`,
+    {
+        withCredentials: true
+    });
 };
 
 const GetNewCanUpdate = (id) => {

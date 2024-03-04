@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import axios from "axios";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_APIKEY,
@@ -27,4 +28,12 @@ const signInWithGoogle = async () => {
     }
 };
 
-export { auth, signInWithGoogle, signOut }
+const postToken = (email) => {
+    const data = {
+        email: email,
+    };
+    return axios.post(`http://127.0.0.1:8000/api/login`, data,{ withCredentials: true });
+};
+
+
+export { auth, signInWithGoogle, signOut, postToken }
