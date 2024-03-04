@@ -23,7 +23,6 @@ const Home = () => {
     const getNews = async () => {
         setLoading(true);
         try {
-            ListNews();
             const response = await GetNewViEn(i18next.language);
             setNewsData(response.data);
             setLoading(false);

@@ -1,4 +1,4 @@
-import logo from "../../../../assets/KTCN-in.png"
+import logo from "../../../../assets/KTCN.png"
 import { Link, useLocation } from 'react-router-dom';
 import { onAuthStateChanged } from "firebase/auth";
 

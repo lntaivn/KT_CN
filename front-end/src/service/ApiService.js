@@ -2,7 +2,7 @@ import axios from "axios";
 import axiosInstance from './AxiosInstance'; // Đường dẫn tới tệp axiosInstance bạn đã tạo
 
 const GetNewViEn = () => {
-  
+
     return axios.get(`http://127.0.0.1:8000/api/news`);
 };
 
@@ -50,9 +50,9 @@ const SaveDataNewViEn = (
 
 const ListNews = () => {
     return axios.get(`http://127.0.0.1:8000/api/admin/news`,
-    {
-        withCredentials: true
-    });
+        {
+            withCredentials: true
+        });
 };
 
 const GetNewCanUpdate = (id) => {
@@ -94,7 +94,9 @@ const UpdateStatusEn = (id) => {
 };
 
 const UpdateStatuses = (data) => {
-    return axios.put(`http://127.0.0.1:8000/api/news/UpdateStatuses`, {data});
+    return axios.put(`http://127.0.0.1:8000/api/news/UpdateStatuses`, data, {
+        withCredentials: true
+    });
 }
 
 export {
