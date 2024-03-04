@@ -3,18 +3,7 @@ import axiosInstance from './AxiosInstance'; // Đường dẫn tới tệp axio
 
 const GetNewViEn = () => {
   
-    const storedToken = sessionStorage.getItem('token');
-    const token = storedToken ? JSON.parse(storedToken) : null;
-    const axiosInstance = axios.create({
-        baseURL: 'http://127.0.0.1:8000/api/',
-        withCredentials: true,
-        headers: {
-            'Authorization': token ? `Bearer ${token}` : '' // Set Authorization header only if token is available
-        }
-    });
-
-    // Make the API call using the Axios instance
-    return axiosInstance.get('news');
+    return axios.get(`http://127.0.0.1:8000/api/news`);
 };
 
 const GetNewViEnById = (id) => {
@@ -52,27 +41,20 @@ const SaveDataNewViEn = (
         title_vi: title_vi,
         content_en: content_en,
         content_vi: content_vi,
-        view_count: 0,
+        view_count: 1000,
         thumbnail: thumbnail,
     };
     console.log(data);
     return axios.post(`http://127.0.0.1:8000/api/news`, data);
 };
-
 const ListNews = () => {
     
-    const storedToken = sessionStorage.getItem('token');
-    const token = storedToken ? JSON.parse(storedToken) : null;
-    const axiosInstance = axios.create({
-        baseURL: 'http://127.0.0.1:8000/api/',
-        withCredentials: true,
-        headers: {
-            'Authorization': token ? `Bearer ${token}` : '' // Set Authorization header only if token is available
-        }
+    // const storedToken = sessionStorage.getItem('token');
+    // const token = storedToken ? JSON.parse(storedToken) : null;
+    return axios.get(`http://127.0.0.1:8000/api/admin/news`,
+    {
+        withCredentials: true
     });
-
-    // Make the API call using the Axios instance
-    return axiosInstance.get('admin/news');
 };
 
 const GetNewCanUpdate = (id) => {
@@ -112,11 +94,6 @@ const UpdateStatusVi = (id) => {
 const UpdateStatusEn = (id) => {
     return axios.put(`http://127.0.0.1:8000/api/news/update-status-en/${id}`);
 };
-
-const UpdateStatuses = (data) => {
-    return axios.put(`http://127.0.0.1:8000/api/news/UpdateStatuses`, {data});
-}
-
 export {
     GetNewViEn,
     GetNewViEnById,
@@ -131,7 +108,6 @@ export {
     UpdateStatusVi,
     UpdateStatusEn,
     updateViewCount,
-    UpdateStatuses
 };
 
 // CreateUser, GetAllUser, GetUserById

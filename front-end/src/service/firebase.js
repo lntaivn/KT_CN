@@ -36,5 +36,10 @@ const postToken = (email) => {
     return axios.post(`http://127.0.0.1:8000/api/login`, data,{ withCredentials: true });
 };
 
+const logout = () => {
+    return axios.get(`http://127.0.0.1:8000/api/logout`, { withCredentials: true });
 
-export { auth, signInWithGoogle, signOut, postToken }
+}
+
+
+export { auth, signInWithGoogle, signOut, postToken,logout}

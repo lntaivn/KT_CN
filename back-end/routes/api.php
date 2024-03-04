@@ -37,16 +37,18 @@ Route::group([
 
 Route::middleware('check.jwt')->group(function () {
     Route::get('/admin/news', [NewsController::class, 'getAllNews']);
-    Route::get('/news', [NewsController::class, 'getAllNews']);
 
 });
 
 //Auth
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout']);
+
 Route::post('/changePassword', [AuthController::class, 'changePassword']);
 Route::post('/register', [AuthController::class, 'register']);
 
 //New JwtMiddleware
+Route::get('/news', [NewsController::class, 'getAllNews']);
 
 Route::get('/news/{id}', [NewsController::class, 'getNewByID'])->middleware('verify.jwt.user_id');//ok
 Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);//ok

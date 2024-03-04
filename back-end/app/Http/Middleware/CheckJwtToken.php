@@ -23,8 +23,6 @@ class CheckJwtToken
             if (!$token) {
                 throw new Exception('Token not found in header.');
             }
-            $token = explode(" ", $token)[1];
-
             $payload = JWTAuth::setToken($token)->authenticate();
 
             $email = str_replace('\\', '', $payload['email']);

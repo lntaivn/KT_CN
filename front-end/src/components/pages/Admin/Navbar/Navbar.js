@@ -1,8 +1,9 @@
 import logo from "../../../../assets/KTCN-in.png"
-import { Link, useLocation } from 'react-router-dom';
+import { Await, Link, useLocation} from 'react-router-dom';
 import { onAuthStateChanged } from "firebase/auth";
+import Cookies from 'js-cookie';
 
-import { auth, signInWithGoogle, signOut, postToken} from "../../../../service/firebase";
+import { auth, signInWithGoogle, signOut, postToken,logout} from "../../../../service/firebase";
 
 import { User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, ScrollShadow, Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
@@ -15,7 +16,6 @@ function Navbar(props) {
     const { collapsedNav, setCollapsedNav } = props;
 
     const [user, setUser] = useState(null);
-    const [Authdata, setAuth] = useState(null);
 
     const setActive = (href) => {
         if (location.pathname === href) return "Admin_tab-active";
@@ -60,7 +60,6 @@ function Navbar(props) {
 
                 const response = await postToken(user.email);
                 
-                setAuth(response.data)
                 console.log(response.data);
                 
                 if(response.data === 0){ 
@@ -73,7 +72,10 @@ function Navbar(props) {
                 
             } else {
                 console.log("user is logged out");
-                setUser(null);
+                await setUser(null);
+                await Cookies.remove('jwt_token');
+              
+
             }
         });
     }, []);
@@ -82,7 +84,7 @@ function Navbar(props) {
         try {
             await signInWithGoogle();
         
-          //  window.location.reload();
+           window.location.reload();
         } catch (err) {
             console.error(err);
         }
@@ -90,8 +92,11 @@ function Navbar(props) {
 
     const handleLogout = async () => {
         try {
+            await setUser(null);
             await signOut(auth);
-            //window.location.reload();
+            
+       
+           window.location.reload();
         } catch (err) {
             console.error(err);
         }
