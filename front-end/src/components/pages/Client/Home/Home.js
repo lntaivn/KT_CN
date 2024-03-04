@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GetNewViEn } from "../../../../service/ApiService";
+import { GetNewViEn, ListNews } from "../../../../service/ApiService";
 import { useTranslation } from "react-i18next";
 
 import { Link } from "react-router-dom";
@@ -23,6 +23,7 @@ const Home = () => {
     const getNews = async () => {
         setLoading(true);
         try {
+            ListNews();
             const response = await GetNewViEn(i18next.language);
             setNewsData(response.data);
             setLoading(false);

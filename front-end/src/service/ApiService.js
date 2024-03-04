@@ -47,6 +47,7 @@ const SaveDataNewViEn = (
     console.log(data);
     return axios.post(`http://127.0.0.1:8000/api/news`, data);
 };
+
 const ListNews = () => {
     return axios.get(`http://127.0.0.1:8000/api/admin/news`,
     {

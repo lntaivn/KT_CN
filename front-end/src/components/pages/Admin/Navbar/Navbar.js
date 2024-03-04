@@ -55,10 +55,14 @@ function Navbar(props) {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setUser(user);
-                const response = await postToken(user?.reloadUserInfo.email);
+
+                console.log("My info", user);
+
+                const response = await postToken(user.email);
                 
                 setAuth(response.data)
-                console.log(response.data)
+                console.log(response.data);
+                
                 if(response.data === 0){ 
                     alert("Login failed");
                     await signOut(auth); 
@@ -66,6 +70,7 @@ function Navbar(props) {
                 } else {
                     //sessionStorage.setItem('token', JSON.stringify(response.data));
                 }
+                
             } else {
                 console.log("user is logged out");
                 setUser(null);

@@ -8,18 +8,23 @@ use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\User;
 use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\Log; 
+
 class CheckJwtToken
 {
     public function handle($request, Closure $next)
     {
         try {
             $token = $request->cookie('jwt_token');
+
+            Log::info('JWT Token: ' . $token);
+            error_log('JWT Token: ' . $token);
+
             if (!$token) {
                 throw new Exception('Token not found in cookie.');
             }
 
             $payload = JWTAuth::setToken($token)->authenticate();
-           
 
             $email = str_replace('\\', '', $payload['email']);
             $id_user = str_replace('\\', '', $payload['id_user']);
