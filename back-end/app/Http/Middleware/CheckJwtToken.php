@@ -13,10 +13,11 @@ class CheckJwtToken
     public function handle($request, Closure $next)
     {
         try {
-            $token = $request->cookie('jwt_token');
+            $token = $request->header('Authorization');
             if (!$token) {
-                throw new Exception('Token not found in cookie.');
+                throw new Exception('Token not found in header.');
             }
+            $token = explode(" ", $token)[1];
 
             $payload = JWTAuth::setToken($token)->authenticate();
            

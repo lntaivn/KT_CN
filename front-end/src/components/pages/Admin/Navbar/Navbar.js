@@ -64,7 +64,7 @@ function Navbar(props) {
                     await signOut(auth); 
                     setUser(null);
                 } else {
-                    //sessionStorage.setItem('token', JSON.stringify(response.data));
+                    sessionStorage.setItem('token', JSON.stringify(response.data));
                 }
             } else {
                 console.log("user is logged out");
@@ -86,7 +86,7 @@ function Navbar(props) {
     const handleLogout = async () => {
         try {
             await signOut(auth);
-            window.location.reload();
+            //window.location.reload();
         } catch (err) {
             console.error(err);
         }

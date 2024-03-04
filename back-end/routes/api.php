@@ -37,6 +37,8 @@ Route::group([
 
 Route::middleware('check.jwt')->group(function () {
     Route::get('/admin/news', [NewsController::class, 'getAllNews']);
+    Route::get('/news', [NewsController::class, 'getAllNews']);
+
 });
 
 //Auth

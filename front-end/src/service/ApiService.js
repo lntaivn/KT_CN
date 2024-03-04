@@ -3,7 +3,18 @@ import axiosInstance from './AxiosInstance'; // Đường dẫn tới tệp axio
 
 const GetNewViEn = () => {
   
-    return axios.get(`http://127.0.0.1:8000/api/news`);
+    const storedToken = sessionStorage.getItem('token');
+    const token = storedToken ? JSON.parse(storedToken) : null;
+    const axiosInstance = axios.create({
+        baseURL: 'http://127.0.0.1:8000/api/',
+        withCredentials: true,
+        headers: {
+            'Authorization': token ? `Bearer ${token}` : '' // Set Authorization header only if token is available
+        }
+    });
+
+    // Make the API call using the Axios instance
+    return axiosInstance.get('news');
 };
 
 const GetNewViEnById = (id) => {
@@ -48,10 +59,19 @@ const SaveDataNewViEn = (
     return axios.post(`http://127.0.0.1:8000/api/news`, data);
 };
 const ListNews = () => {
-    return axios.get(`http://127.0.0.1:8000/api/admin/news`,
-    {
-        withCredentials: true
+    
+    const storedToken = sessionStorage.getItem('token');
+    const token = storedToken ? JSON.parse(storedToken) : null;
+    const axiosInstance = axios.create({
+        baseURL: 'http://127.0.0.1:8000/api/',
+        withCredentials: true,
+        headers: {
+            'Authorization': token ? `Bearer ${token}` : '' // Set Authorization header only if token is available
+        }
     });
+
+    // Make the API call using the Axios instance
+    return axiosInstance.get('admin/news');
 };
 
 const GetNewCanUpdate = (id) => {
