@@ -122,8 +122,8 @@ const Home = () => {
                                 />
                                 <h2 className="font-medium text-justify">{i18next.language === "vi" ? news.title_vi : news.title_en}</h2>
                                 <div className="flex items-center gap-5 text-gray-400">
-                                    <Tooltip content={formatDateTime(news.updated_at, i18next.language)} radius="sm" color="primary" showArrow>
-                                        <p><i className="fa-regular fa-clock mr-2"></i>{formatTimeAgo(news.updated_at, i18next.language)}</p>
+                                    <Tooltip content={formatDateTime(news.created_at, i18next.language)} radius="sm" color="primary" showArrow>
+                                        <p><i className="fa-regular fa-clock mr-2"></i>{formatTimeAgo(news.created_at, i18next.language)}</p>
                                     </Tooltip>
                                     <Tooltip content={i18next.language === "vi" ? "Lượt xem" : "View"} radius="sm" color="primary" showArrow>
                                         <p><i className="fa-regular fa-eye mr-2"></i>{news.view_count}</p>

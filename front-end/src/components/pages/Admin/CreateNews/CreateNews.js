@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Breadcrumbs, BreadcrumbItem, Button, Avatar, Input } from "@nextui-org/react";
-import { Collapse, Upload, Select, Image, message, Tooltip } from 'antd';
+import { Upload, Select, message, Tooltip } from 'antd';
+import ImgCrop from 'antd-img-crop';
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import { GetAllCategories, SaveDataNewViEn } from "../../../../service/ApiService";
 import "./CreateNews.css"
@@ -10,7 +11,6 @@ import { Link } from 'react-router-dom';
 
 
 const { Option } = Select;
-const { Panel } = Collapse;
 
 const items = [
     {
@@ -27,7 +27,7 @@ const items = [
 
 const CreateNews = (props) => {
 
-    const { collapsedNav, setCollapsedNav } = props;
+    const { setCollapsedNav } = props;
 
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
@@ -184,21 +184,23 @@ const CreateNews = (props) => {
                 <div className='flex w-full gap-8'>
                     <div className='flex flex-1 flex-col gap-2 w-full'>
                         <p className='text-sm'>Ảnh bìa bài viết <span className='text-red-500 font-bold'>*</span></p>
-                        <Upload
-                            name="avatar"
-                            listType="picture-card"
-                            className="avatar-uploader"
-                            showUploadList={false}
-                            action="http://127.0.0.1:8000/api/admin/upload-image-"
-                            beforeUpload={beforeUpload}
-                            onChange={handleChange}
-                        >
-                            {imageUrl ? (
-                                <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
-                            ) : (
-                                uploadButton
-                            )}
-                        </Upload>
+                        <ImgCrop aspect={4/3} modalTitle="Cắt hình ảnh" rotationSlider showReset>
+                            <Upload
+                                name="avatar"
+                                listType="picture-card"
+                                className="avatar-uploader"
+                                showUploadList={false}
+                                action="http://127.0.0.1:8000/api/admin/upload-image-"
+                                beforeUpload={beforeUpload}
+                                onChange={handleChange}
+                            >
+                                {imageUrl ? (
+                                    <img src={imageUrl} alt="avatar"/>
+                                ) : (
+                                    uploadButton
+                                )}
+                            </Upload>
+                        </ImgCrop>
                     </div>
 
                     <div className='flex flex-1 flex-col gap-2 w-full'>

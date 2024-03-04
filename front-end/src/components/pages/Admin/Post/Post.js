@@ -1,11 +1,11 @@
 import "./Post.css";
 import { useEffect, useState } from "react";
-import { ListNews, UpdateStatusVi, UpdateStatusEn, GetAllCategories } from "../../../../service/ApiService";
+import { ListNews, UpdateStatusVi, UpdateStatusEn, GetAllCategories, UpdateStatuses } from "../../../../service/ApiService";
 
 import { Link } from "react-router-dom";
 import moment from 'moment';
-import { Table, Switch, Tooltip } from 'antd';
-import { Avatar, BreadcrumbItem, Breadcrumbs, Button, Image } from "@nextui-org/react";
+import { Table, Tooltip, Image } from 'antd';
+import { Avatar, BreadcrumbItem, Breadcrumbs, Button, Switch } from "@nextui-org/react";
 
 const Post = () => {
 
@@ -14,6 +14,7 @@ const Post = () => {
     const [loading, setLoading] = useState(false);
 
     const [selectedRow, setSelectedRow] = useState([]);
+    const [selectedRowKey, setSelectedRowKey] = useState([]);
 
     const columns = [
         {
@@ -21,13 +22,9 @@ const Post = () => {
             dataIndex: 'thumbnail',
             render: (text) =>
                 <Image
-                    loading="lazy"
                     width={100}
                     src={text}
-                    classNames={{
-                        img: "rounded",
-                    }}
-                    radius="none"
+                    className="rounded"
                 />
         },
         {
@@ -74,9 +71,10 @@ const Post = () => {
             dataIndex: 'status_vi',
             render: (record) =>
                 <Switch
-                    size="small"
-                    defaultChecked={record.value}
+                    size="sm"
+                    defaultSelected={record.value}
                     onClick={() => handleUpdateStatus_vi(record.id)}
+                    className="scale-80"
                 ></Switch>,
         },
         {
@@ -87,19 +85,38 @@ const Post = () => {
             dataIndex: 'status_en',
             render: (record) =>
                 <Switch
-                    size="small"
-                    defaultChecked={record.value}
+                    size="sm"
+                    defaultSelected={record.value}
                     onClick={() => handleUpdateStatus_en(record.id)}
+                    className="scale-80"
                 ></Switch>,
         },
     ];
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            setSelectedRow(selectedRowKeys);
+            // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            setSelectedRow(selectedRows);
+            setSelectedRowKey(selectedRowKeys);
         }
     };
+
+    const handleUpdateStatuses = (lang) => {
+
+        const countVITrue = selectedRow.filter(row => row.status_vi.value).length;
+        const countENTrue = selectedRow.filter(row => row.status_en.value).length;
+
+        const checkValueVI = countVITrue === selectedRowKey.length ? true : false;
+        const checkValueEN = countENTrue === selectedRowKey.length ? true : false;
+
+        const putData = {
+            id_new: selectedRowKey,
+            lang: lang,
+            status: lang === "vi" ? checkValueVI : checkValueEN
+        }
+
+        console.log(putData);
+    }
 
     const getCategory = async () => {
         try {
@@ -112,7 +129,7 @@ const Post = () => {
                 })
             })
 
-            console.log("Category data:", newsCategoryData);
+            // console.log("Category data:", newsCategoryData);
             setCategoryData(newsCategoryData);
 
         } catch (error) {
@@ -155,7 +172,7 @@ const Post = () => {
                 })
             })
 
-            console.log("News data:", response.data);
+            // console.log("News data:", response.data);
 
             setNewsListData(newsData);
 
@@ -175,7 +192,7 @@ const Post = () => {
     const handleUpdateStatus_vi = async (id) => {
         try {
             const response = await UpdateStatusVi(id);
-            console.log(response.data);
+            getNews();
         } catch (error) {
             console.error("error update: ", error);
         }
@@ -184,7 +201,7 @@ const Post = () => {
     const handleUpdateStatus_en = async (id) => {
         try {
             const response = await UpdateStatusEn(id);
-            console.log(response.data);
+            getNews();
         } catch (error) {
             console.error("error update: ", error);
         }
@@ -199,9 +216,35 @@ const Post = () => {
             <Button color="primary" radius="sm" as={Link} to="/admin/post/create">Tạo bài viết</Button>
             {
                 selectedRow.length !== 0 &&
-                <div className="sticky top-2 bg-[white] z-50 w-full p-4 py-3 shadow-lg rounded-md border-1 border-slate-300">
+                <div className="flex justify-between items-center sticky top-2 bg-[white] z-50 w-full p-4 py-3 shadow-lg rounded-md border-1 border-slate-300">
                     <p className="text-sm">Đã chọn {selectedRow.length} bài viết</p>
-                    
+                    <div className="flex items-center gap-2">
+                        <Button isIconOnly variant="light" radius="full">
+                            <i className="fa-solid fa-trash-can"></i>
+                        </Button>
+                        <Switch
+                            size="sm"
+                            className="scale-80"
+                            classNames={{
+                                base: "flex-row-reverse gap-2",
+                                wrapper: "mr-0"
+                            }}
+                            onClick={() => { handleUpdateStatuses("vi") }}
+                        >
+                            <Avatar alt="Việt Nam" className="w-6 h-6" src="https://flagcdn.com/vn.svg" />
+                        </Switch>
+                        <Switch
+                            size="sm"
+                            className="scale-80"
+                            classNames={{
+                                base: "flex-row-reverse gap-2",
+                                wrapper: "mr-0"
+                            }}
+                            onClick={() => { handleUpdateStatuses("en") }}
+                        >
+                            <Avatar alt="English" className="w-6 h-6" src="https://flagcdn.com/gb.svg" />
+                        </Switch>
+                    </div>
                 </div>
             }
             <div className="ListNews">

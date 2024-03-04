@@ -101,7 +101,7 @@ function Navbar(props) {
                         {
                             !collapsedNav ?
                                 <>
-                                    <img src={logo} width={20} />
+                                    <img src={logo} width={20} alt=""/>
                                     <span className="font-bold mt-[1px]">SET</span>
                                 </> : ""
                         }
@@ -161,15 +161,15 @@ function Navbar(props) {
                                 </div>
                             </DropdownTrigger>
                             <DropdownMenu aria-label="User Actions" classNames={{
-                                base: "w-[230px]"
+                                base: "min-w-[230px]"
                             }}>
-                                <DropdownItem key="profile" className="h-14 gap-2">
-                                    <p className="font-bold">Đăng nhập với</p>
+                                <DropdownItem key="profile" className="h-14 gap-2" isReadOnly>
+                                    <p className="font-semibold opacity-50">Admin</p>
                                     <p className="font-bold">{user.email}</p>
                                 </DropdownItem>
                                 <DropdownSection showDivider>
-                                    <DropdownItem key="settings">
-                                        My Settings
+                                    <DropdownItem key="settings" startContent={<i class="fa-solid fa-gear"></i>}>
+                                        Cài đặt
                                     </DropdownItem>
                                 </DropdownSection>
                                 <DropdownItem key="logout" color="danger" startContent={<i className="fa-solid fa-right-from-bracket"></i>} onClick={() => { handleLogout() }}>
