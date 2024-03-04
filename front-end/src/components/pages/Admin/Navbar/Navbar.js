@@ -9,7 +9,6 @@ import { User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSe
 import { useEffect, useState } from "react";
 import { Tooltip } from "antd";
 import { motion } from "framer-motion";
-import Cookies from 'js-cookie';
 
 function Navbar(props) {
 
@@ -78,7 +77,6 @@ function Navbar(props) {
 
     const handleLogout = async () => {
         try {
-            await setUser(null);
             await signOut(auth);
             await logoutToken();
 

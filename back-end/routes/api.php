@@ -21,27 +21,32 @@ use App
 |
 */
 
-Route::group([
+// Route::group([
 
-    'middleware' => 'api',
-    'prefix' => 'auth'
+//     'middleware' => 'api',
+//     'prefix' => 'auth'
 
-], function ($router) {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/test', [AuthController::class, 'getUser']);
-    Route::post('/changePassword', [AuthController::class, 'changePassword']);
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::get('/news', [NewsController::class, 'getAllNews']);
+// ], function ($router) {
+//     // Route::post('/login', [AuthController::class, 'login']);
+//     // Route::get('/test', [AuthController::class, 'getUser']);
+//     // Route::post('/changePassword', [AuthController::class, 'changePassword']);
+//     // Route::post('/register', [AuthController::class, 'register']);
+//     // Route::get('/news', [NewsController::class, 'getAllNews']);
 
-});
-
+// });
+//Admin
 Route::middleware('check.jwt')->group(function () {
     Route::get('/admin/news', [NewsController::class, 'getAllNews']);
 
 });
+Route::middleware(['check.jwt', 'check.role'])->group(function () {
+    Route::get('/admin/news/test', [NewsController::class, 'getAllNews']);
+
+});
+//Admin: role 1 
+
 
 //Auth
-Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 

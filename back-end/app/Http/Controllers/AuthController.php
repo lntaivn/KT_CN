@@ -36,6 +36,7 @@ class AuthController extends Controller
         return response()->json(compact('user'))->withCookie($cookie);
     }
 
+    
     public function logout(Request $request)
     {
         try {
