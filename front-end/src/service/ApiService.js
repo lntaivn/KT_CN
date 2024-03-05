@@ -10,9 +10,11 @@ const GetNewViEnById = (id) => {
 
 const get5LatestNews = () => {
     return axios.get(`${process.env.REACT_APP_API_DOMAIN}/get5LatestNews`);
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/get5LatestNews`);
 };
 
 const getTop5ViewCount = () => {
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/getTop5ViewCount`);
     return axios.get(`${process.env.REACT_APP_API_DOMAIN}/getTop5ViewCount`);
 };
 
@@ -23,6 +25,7 @@ const getTop5RelatedCategory = (id) => {
 };
 
 const GetAllCategories = () => {
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/categories`);
     return axios.get(`${process.env.REACT_APP_API_DOMAIN}/categories`);
 };
 
@@ -138,13 +141,13 @@ export {
 //     data.append("name", name);
 //     data.append("email", email);
 
-//     return axios.post("http://127.0.0.1:8000/api/users", data);
+//     return axios.post("${process.env.REACT_APP_API_DOMAIN}/users", data);
 // };
 
 // const GetAllUser = () => {
-//     return axios.get("http://127.0.0.1:8000/api/users");
+//     return axios.get("${process.env.REACT_APP_API_DOMAIN}/users");
 // };
 
 // const GetUserById = (id) => {
-//     return axios.get(`http://127.0.0.1:8000/api/users/${id}`);
+//     return axios.get(`${process.env.REACT_APP_API_DOMAIN}/users/${id}`);
 // };

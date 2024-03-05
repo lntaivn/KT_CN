@@ -35,20 +35,26 @@ use App
 
 // });
 //Admin
+Route::put('/news/UpdateStatuses', [NewsController::class, 'UpdateStatuses']);//ok 
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('check.jwt')->group(function () {
+
+    
     Route::get('/admin/news', [NewsController::class, 'getAllNews']);
     Route::put('/news/{id}', [NewsController::class, 'updateNews']);//ok
     Route::put('/new/UpdateStatuses', [NewsController::class, 'UpdateStatuses']);//ok 
     Route::post('/news', [NewsController::class, 'saveNews']);//ok
     Route::get('/getCurrentUser', [AuthController::class, 'getCurrentUser']);
+    Route::get('/getdata', [NewsController::class, 'getdata']);
+    
+    Route::put('/news/update-status-vi/{id}', [NewsController::class, 'updateStatusVi']);//ok
+    Route::put('/news/update-status-en/{id}', [NewsController::class, 'updateStatusEn']);//ok
 });
 
 
 //Admin: role 1 
 Route::middleware(['check.jwt', 'check.role'])->group(function () {
     Route::get('/admin/news/test', [NewsController::class, 'getAllNews']);
-
 });
 
 

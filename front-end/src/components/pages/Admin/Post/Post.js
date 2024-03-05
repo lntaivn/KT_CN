@@ -298,10 +298,10 @@ const Post = (props) => {
         const putData = {
             id_new: selectedRowKeys,
             lang: lang,
-            status: lang === "vi" ? !checkValueVI : !checkValueEN,
-        };
-        console.log("check: ", putData);
-        // const response = await UpdateStatuses(putData);
+            status: lang === "vi" ? !checkValueVI : !checkValueEN
+        }
+        console.log(putData);
+        const response = await UpdateStatuses(putData);
 
         // await getNews();
 
