@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const GetNewViEn = () => {
-
     return axios.get(`http://127.0.0.1:8000/api/news`);
 };
 
@@ -44,20 +43,20 @@ const SaveDataNewViEn = (
         thumbnail: thumbnail,
     };
     console.log(data);
-    return axios.post(`http://127.0.0.1:8000/api/news`, data,{ withCredentials: true });
+    return axios.post(`http://127.0.0.1:8000/api/news`, data, {
+        withCredentials: true,
+    });
 };
 const ListNews = () => {
-    
     // const storedToken = sessionStorage.getItem('token');
     // const token = storedToken ? JSON.parse(storedToken) : null;
-    return axios.get(`http://127.0.0.1:8000/api/admin/news`,
-        {
-            withCredentials: true
-        });
+    return axios.get(`http://127.0.0.1:8000/api/admin/news`, {
+        withCredentials: true,
+    });
 };
 
 const GetNewCanUpdate = (id) => {
-    return axios.get(`http://127.0.0.1:8000/api/news/${id}`);
+    return axios.get(`http://127.0.0.1:8000/api/admin/news/${id}`);
 };
 
 const updateViewCount = (id) => {
@@ -85,7 +84,9 @@ const PutNewsByID = (
         thumbnail: thumbnail,
     };
     console.log("data", data);
-    return axios.put(`http://127.0.0.1:8000/api/news/${id}`, data,{ withCredentials: true });
+    return axios.put(`http://127.0.0.1:8000/api/news/${id}`, data, {
+        withCredentials: true,
+    });
 };
 
 const UpdateStatusVi = (id) => {
@@ -97,9 +98,9 @@ const UpdateStatusEn = (id) => {
 
 const UpdateStatuses = (data) => {
     return axios.put(`http://127.0.0.1:8000/api/news/UpdateStatuses`, data, {
-        withCredentials: true
+        withCredentials: true,
     });
-}
+};
 
 export {
     GetNewViEn,
@@ -115,6 +116,7 @@ export {
     UpdateStatusVi,
     UpdateStatusEn,
     updateViewCount,
+    UpdateStatuses,
 };
 
 // CreateUser, GetAllUser, GetUserById

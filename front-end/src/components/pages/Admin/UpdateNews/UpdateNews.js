@@ -68,7 +68,7 @@ const UpdateNews = () => {
                 setImageUrl(imageUrlFromResponse);
                 setContentEN(content_enFromResponse);
                 setContentVI(content_viFromResponse);
-                setviewcount(viewCount)
+                setviewcount(viewCount);
             } else {
                 console.error("No data found in the response");
             }
@@ -77,6 +77,7 @@ const UpdateNews = () => {
         }
     };
     useEffect(() => {
+        console.log("id bài viết", id);
         getDetailNews();
         getCategories();
     }, []);

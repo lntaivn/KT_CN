@@ -170,10 +170,11 @@ class NewsController extends Controller
     }
 
     public function saveNews(Request $request)
-    { if (!$request->has('hungtran')) {
-        // Nếu không, sử dụng id_user từ middleware
-        $hungtran = $request->hungtran;
-    }
+    {
+        if (!$request->has('hungtran')) {
+            // Nếu không, sử dụng id_user từ middleware
+            $hungtran = $request->hungtran;
+        }
         // Validate incoming request data
         $validatedData = $request->validate([
             'id_user' => 'required|exists:users,id_user',
@@ -358,6 +359,7 @@ class NewsController extends Controller
                     } else {
                         $news->status_en = $status;
                     }
+                    $news->timestamps = false;
                     $news->save();
                 }
             }

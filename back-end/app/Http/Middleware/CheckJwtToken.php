@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Middleware;
+
 use Exception;
 use Closure;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\User;
-use Illuminate\Support\Facades\DB; 
-use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CheckJwtToken
 {
@@ -32,8 +33,8 @@ class CheckJwtToken
             if (!$user) {
                 throw new Exception('User not authenticated.');
             }
-        
-            return $next($id_user);
+
+            return $next($request);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
