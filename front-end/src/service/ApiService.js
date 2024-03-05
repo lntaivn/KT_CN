@@ -1,6 +1,8 @@
 import axios from "axios";
+import axiosInstance from './AxiosInstance'; // Đường dẫn tới tệp axiosInstance bạn đã tạo
 
 const GetNewViEn = () => {
+
     return axios.get(`http://127.0.0.1:8000/api/news`);
 };
 
@@ -39,14 +41,18 @@ const SaveDataNewViEn = (
         title_vi: title_vi,
         content_en: content_en,
         content_vi: content_vi,
-        view_count: 1000,
+        view_count: 0,
         thumbnail: thumbnail,
     };
     console.log(data);
     return axios.post(`http://127.0.0.1:8000/api/news`, data);
 };
+
 const ListNews = () => {
-    return axios.get(`http://127.0.0.1:8000/api/news`);
+    return axios.get(`http://127.0.0.1:8000/api/admin/news`,
+        {
+            withCredentials: true
+        });
 };
 
 const GetNewCanUpdate = (id) => {
@@ -73,7 +79,7 @@ const PutNewsByID = (
         title_vi: title_vi,
         content_en: content_en,
         content_vi: content_vi,
-        view_count: 1000,
+        view_count: 0,
         thumbnail: thumbnail,
     };
     console.log("data", data);
@@ -86,6 +92,13 @@ const UpdateStatusVi = (id) => {
 const UpdateStatusEn = (id) => {
     return axios.put(`http://127.0.0.1:8000/api/news/update-status-en/${id}`);
 };
+
+const UpdateStatuses = (data) => {
+    return axios.put(`http://127.0.0.1:8000/api/news/UpdateStatuses`, data, {
+        withCredentials: true
+    });
+}
+
 export {
     GetNewViEn,
     GetNewViEnById,
@@ -100,6 +113,7 @@ export {
     UpdateStatusVi,
     UpdateStatusEn,
     updateViewCount,
+    UpdateStatuses
 };
 
 // CreateUser, GetAllUser, GetUserById

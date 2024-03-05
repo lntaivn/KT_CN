@@ -1,80 +1,195 @@
-import logo from "../../../../assets/KTCN-in.png"
+import logo from "../../../../assets/KTCN.png"
 import { Link, useLocation } from 'react-router-dom';
+import { onAuthStateChanged } from "firebase/auth";
 
-import { User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, ScrollShadow } from "@nextui-org/react";
+import { auth, signInWithGoogle, signOut, postToken, logoutToken } from "../../../../service/firebase";
 
-function Navbar() {
+import { User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, ScrollShadow, Button } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import { Tooltip } from "antd";
+import { motion } from "framer-motion";
+import Cookies from 'js-cookie';
+
+function Navbar(props) {
 
     const location = useLocation();
+    const { collapsedNav, setCollapsedNav } = props;
+
+    const [currentUser, setCurrentUser] = useState(null);
+    const [Authdata, setAuth] = useState(null);
+
     const setActive = (href) => {
         if (location.pathname === href) return "Admin_tab-active";
         // if (location.pathname.startsWith(href)) return "Admin_tab-active";
         return "";
     }
 
+    const navTab = [
+        {
+            text: "Tổng quan",
+            link: "/admin",
+            icon: <i className={`fa-solid fa-bolt mr-${collapsedNav ? "0" : "3"} w-4`}></i>
+        },
+        {
+            text: "Quản lý bài viết",
+            link: "/admin/post",
+            icon: <i className={`fa-regular fa-images mr-${collapsedNav ? "0" : "3"} w-4`}></i>
+        },
+        {
+            text: "Quản lý thể loại",
+            link: "/admin/category",
+            icon: <i className={`fa-solid fa-icons mr-${collapsedNav ? "0" : "3"} w-4`}></i>
+        },
+        {
+            text: "Quản lý người dùng",
+            link: "/admin/user",
+            icon: <i className={`fa-regular fa-user mr-${collapsedNav ? "0" : "3"} w-4`}></i>
+        },
+        {
+            text: "Lịch sử thao tác",
+            link: "/admin/log",
+            icon: <i className={`fa-solid fa-clock-rotate-left mr-${collapsedNav ? "0" : "3"} w-4`}></i>
+        }
+    ]
+
+    useEffect(() => {
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                setCurrentUser(user);
+            } else {
+                console.log("user is logged out");
+                setCurrentUser(null);
+            }
+        });
+    }, []);
+
+    const handleLoginWithGoogle = async (onClose) => {
+        try {
+            const user = await signInWithGoogle();
+
+            await postToken(user.email);
+
+            window.location.reload();
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            await logoutToken();
+
+            window.location.reload();
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    const handleToggleNav = () => {
+        setCollapsedNav(!collapsedNav);
+    }
+
     return (
-        <div className='Admin-Navbar flex flex-col w-[280px] h-[100vh] bg-gray-950 p-3 text-[white] justify-between'>
-            <div className="grid grid-rows-[auto,auto] gap-2 h-[100vh] flex-1">
-                <div className="flex gap-3 p-4 items-center h-fit">
-                    <img src={logo} width={20} />
-                    <span className="font-bold">SET</span>
+        <motion.div
+            className={`Admin-Navbar flex flex-col w-["270px"] ${collapsedNav ? "w-[87px]" : ""} h-[100vh] bg-slate-800 p-3 text-[white] justify-between`}
+            initial={{ width: "270px" }}
+            animate={{ width: collapsedNav ? "87px" : "270px" }}
+            transition={{ duration: 0.4 }}
+        >
+            <div className="grid grid-rows-[auto,auto] h-[100vh] flex-1">
+                <div className={`flex w-full h-[50px] justify-${collapsedNav ? "center" : "between"} items-center p-${collapsedNav ? "2" : "3"}`}>
+                    <motion.div
+                        className="flex gap-3 items-center h-fit"
+                        initial={{ opacity: 1 }}
+                        animate={{ opacity: collapsedNav ? 0 : 1 }}
+                        transition={{ duration: collapsedNav ? 0 : 0.4, delay: collapsedNav ? 0 : 0.4 }}
+                    >
+                        {
+                            !collapsedNav ?
+                                <>
+                                    <img src={logo} width={20} alt="" />
+                                    <span className="font-bold mt-[1px]">SET</span>
+                                </> : ""
+                        }
+                    </motion.div>
+                    <Tooltip title={collapsedNav ? "Mở rộng" : "Thu gọn"} placement="right">
+                        <Button isIconOnly variant="light" radius="full" onClick={() => { handleToggleNav() }}>
+                            {collapsedNav ? <i className="fa-solid fa-chevron-right text-[white]"></i>
+                                : <i className="fa-solid fa-chevron-left text-[white]"></i>}
+                        </Button>
+                    </Tooltip>
                 </div>
-                <ScrollShadow className="flex-1" hideScrollBar style={{ height: "calc(100vh - 150px)" }}>
-                    <div className="flex flex-col gap-2 overflow-auto">
-                        <Link to="/admin" className={`text-[14px] w-full hover:bg-zinc-800 p-3 py-2 rounded-lg flex justify-between items-center group/tab ${setActive("/admin")}`}>
-                            <p><i class="fa-solid fa-bolt mr-3 w-4"></i>Tổng quan</p>
-                            <i className="fa-solid fa-chevron-right text-[11px] hidden group-hover/tab:block"></i>
-                        </Link>
-                        <Link to="/admin/post" className={`text-[14px] w-full hover:bg-zinc-800 p-3 py-2 rounded-lg flex justify-between items-center group/tab ${setActive("/admin/post")}`}>
-                            <p><i className="fa-regular fa-images mr-3 w-4"></i>Quản lý bài viết</p>
-                            <i className="fa-solid fa-chevron-right text-[11px] hidden group-hover/tab:block"></i>
-                        </Link>
-                        <Link to="/admin/category" className={`text-[14px] w-full hover:bg-zinc-800 p-3 py-2 rounded-lg flex justify-between items-center group/tab ${setActive("/admin/category")}`}>
-                            <p><i className="fa-solid fa-icons mr-3 w-4"></i>Quản lý thể loại</p>
-                            <i className="fa-solid fa-chevron-right text-[11px] hidden group-hover/tab:block"></i>
-                        </Link>
-                        <Link to="/admin/user" className={`text-[14px] w-full hover:bg-zinc-800 p-3 py-2 rounded-lg flex justify-between items-center group/tab ${setActive("/admin/user")}`}>
-                            <p><i className="fa-regular fa-user mr-3 w-4"></i>Quản lý người dùng</p>
-                            <i className="fa-solid fa-chevron-right text-[11px] hidden group-hover/tab:block"></i>
-                        </Link>
-                        <Link to="/admin/log" className={`text-[14px] w-full hover:bg-zinc-800 p-3 py-2 rounded-lg flex justify-between items-center group/tab ${setActive("/admin/log")}`}>
-                            <p><i className="fa-solid fa-clock-rotate-left mr-3 w-4"></i>Lịch sử thao tác</p>
-                            <i className="fa-solid fa-chevron-right text-[11px] hidden group-hover/tab:block"></i>
-                        </Link>
+                <ScrollShadow className="flex-1" hideScrollBar style={{ height: "calc(100vh - 130px)" }}>
+                    <div className="flex flex-col gap-2 overflow-auto overflow-x-hidden">
+                        <hr className="opacity-10 m-auto w-[30px] px-2 mb-2 border-[1.5px]" />
+                        {
+                            navTab.map((tab) => {
+                                return (
+                                    <Tooltip Tooltip title={collapsedNav ? tab.text : ""} placement="right" key={tab.link}>
+                                        <Link to={tab.link} className={`text-[14px] w-full h-[37px] hover:bg-slate-600 p-3 py-2 rounded-lg flex justify-${collapsedNav ? "center" : "between"} items-center group/tab ${setActive(tab.link)}`}>
+                                            <p className="flex items-center">
+                                                {tab.icon}
+                                                <motion.span
+                                                    initial={{ opacity: 1 }}
+                                                    animate={{ opacity: collapsedNav ? 0 : 1 }}
+                                                    transition={{ duration: collapsedNav ? 0 : 0.4, delay: collapsedNav ? 0 : 0.4 }}
+                                                    style={{ whiteSpace: "nowrap" }}
+                                                >
+                                                    {!collapsedNav && tab.text}
+                                                </motion.span>
+                                            </p>
+                                            {!collapsedNav && <i className="fa-solid fa-chevron-right text-[11px] hidden group-hover/tab:block"></i>}
+                                        </Link>
+                                    </Tooltip>
+                                )
+                            })
+                        }
                     </div>
                 </ScrollShadow>
-            </div>
+            </div >
             <div className="h-fit">
-                <Dropdown placement="bottom-start">
-                    <DropdownTrigger>
-                        <div className="flex items-center w-full justify-between hover:bg-zinc-800 p-3 py-2 rounded-lg">
-                            <User
-                                name={<p className="font-semibold">Ka Ka</p>}
-                                description="kaka@gmail.com"
-                                avatarProps={{
-                                    src: "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/278457256_685484812649669_6665721277885149812_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeErj7-GVczdw0bkhnjtFWIccucMPNH0Tcxy5ww80fRNzDmHej1WXYKri3qgoqG1H42bqWfgyjFhRodp8VzoPeTN&_nc_ohc=5SCl_AsF4xkAX-5htQv&_nc_ht=scontent.fsgn2-11.fna&oh=00_AfBiQEtJ3a9ks5p-JthcVrhJtpDCePLhbS9_jK44n8hOTQ&oe=65E5A68D"
-                                }}
-                            />
-                            <i className="fa-solid fa-ellipsis-vertical"></i>
-                        </div>
-                    </DropdownTrigger>
-                    <DropdownMenu aria-label="User Actions">
-                        <DropdownItem key="profile" className="h-14 gap-2">
-                            <p className="font-bold">Đăng nhập với</p>
-                            <p className="font-bold">kaka@gmail.com</p>
-                        </DropdownItem>
-                        <DropdownSection showDivider>
-                            <DropdownItem key="settings">
-                                My Settings
-                            </DropdownItem>
-                        </DropdownSection>
-                        <DropdownItem key="logout" color="danger" startContent={<i className="fa-solid fa-right-from-bracket"></i>}>
-                            Đăng xuất
-                        </DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
+                {
+                    currentUser ?
+                        <Dropdown placement="bottom-start">
+                            <DropdownTrigger>
+                                <div className="flex items-center w-full justify-between hover:bg-slate-600 p-3 py-2 rounded-lg">
+                                    <User
+                                        name={!collapsedNav ? <p className="font-semibold">{currentUser.displayName}</p> : ""}
+                                        description={!collapsedNav ? currentUser.email : ""}
+                                        avatarProps={{
+                                            src: currentUser.photoURL
+                                        }}
+                                        classNames={{
+                                            base: `${collapsedNav ? "gap-0" : "gap-2"}`
+                                        }}
+                                    />
+                                    {!collapsedNav ? <i className="fa-solid fa-ellipsis-vertical"></i> : null}
+                                </div>
+                            </DropdownTrigger>
+                            <DropdownMenu aria-label="User Actions" classNames={{
+                                base: "min-w-[230px]"
+                            }}>
+                                <DropdownItem key="profile" className="h-14 gap-2" isReadOnly>
+                                    <p className="font-semibold opacity-50">Admin</p>
+                                    <p className="font-bold">{currentUser.email}</p>
+                                </DropdownItem>
+                                <DropdownSection showDivider>
+                                    <DropdownItem key="settings" startContent={<i className="fa-solid fa-gear"></i>}>
+                                        Cài đặt
+                                    </DropdownItem>
+                                </DropdownSection>
+                                <DropdownItem key="logout" color="danger" startContent={<i className="fa-solid fa-right-from-bracket"></i>} onClick={() => { handleLogout() }}>
+                                    Đăng xuất
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown> :
+                        <Button color="primary" className="w-full" onClick={() => { handleLoginWithGoogle() }} isIconOnly={collapsedNav}>
+                            {collapsedNav ? <i className="fa-solid fa-right-to-bracket"></i> : "Đăng nhập"}
+                        </Button>
+                }
             </div>
-        </div>
+        </motion.div >
     )
 }
 

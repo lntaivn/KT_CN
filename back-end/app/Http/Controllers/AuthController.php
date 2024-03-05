@@ -2,68 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Cookie;
+
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+
 
 class AuthController extends Controller
 {
-    // 
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'logout']]);
+    }
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $email = $request->input('email');
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            // $token = $user->createToken('AuthToken')->accessToken;
-
-            // return response()->json(['token' => $token], 200);
-        } else {
-            return response()->json(['message' => 'Email hoặc mật khẩu không chính xác'], 401);
-        }
-    }
-
-    public function changePassword(Request $request)
-    {
-        // Validate incoming request data
-        $request->validate([
-            'current_password' => 'required',
-            'new_password' => 'required|string|min:6',
-        ]);
-
-        // Get the authenticated user
-        $user = Auth::user();
-
-        // Verify the current password
-        if (!Hash::check($request->input('current_password'), $user->password)) {
-            return response()->json(['message' => 'Mật khẩu hiện tại không chính xác'], 400);
+        $user = User::where('email', $email)->first();
+        if (!$user) {
+            return response()->json(0);
         }
 
-        // Change the password
-        $user->password = Hash::make($request->input('new_password'));
-        // $user->save();
+        $token = JWTAuth::fromUser($user, ['ttl' => 3600]);
+        $cookie = Cookie::make('jwt_token', $token, 60); // Cookie expires in 60 minutes
 
-        return response()->json(['message' => 'Mật khẩu đã được thay đổi thành công'], 200);
+        return response()->json(compact('user'))->withCookie($cookie);
     }
 
-    public function register(Request $request)
+    public function logout(Request $request)
     {
-        // Validate incoming request data
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
-        ]);
+        try {
+            // Xóa cookie 'jwt_token'
+            $cookie = Cookie::forget('jwt_token');
 
-        // Create a new user
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-        ]);
-
-        return response()->json(['message' => 'Đăng ký người dùng thành công'], 201);
+            // Trả về phản hồi thành công
+            return response()->json(['message' => 'Đăng xuất thành công'])->withCookie($cookie);
+        } catch (\Exception $e) {
+            // Xử lý nếu có lỗi xảy ra
+            return response()->json(['error' => 'Đã có lỗi xảy ra khi đăng xuất'], 500);
+        }
     }
 }

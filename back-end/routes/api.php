@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Middleware\ExtractEmailFromJWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -20,18 +21,33 @@ use App
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'auth'
+
+], function ($router) {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/test', [AuthController::class, 'getUser']);
+    Route::post('/changePassword', [AuthController::class, 'changePassword']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::get('/news', [NewsController::class, 'getAllNews']);
+
+});
+
+Route::middleware('check.jwt')->group(function () {
+    Route::get('/admin/news', [NewsController::class, 'getAllNews']);
 });
 
 //Auth
+Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/changePassword', [AuthController::class, 'changePassword']);
 Route::post('/register', [AuthController::class, 'register']);
 
-//New
-Route::get('/news', [NewsController::class, 'getAllNews']);//ok
-Route::get('/news/{id}', [NewsController::class, 'getNewByID']);//ok
+//New JwtMiddleware
+
+Route::get('/news/{id}', [NewsController::class, 'getNewByID'])->middleware('verify.jwt.user_id');//ok
 Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);//ok
 Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByUser']);
 Route::get('/get5LatestNews', [NewsController::class, 'get5LatestNews']);//ok
@@ -62,3 +78,4 @@ Route::get('/users/{id_user}', [UserController::class, 'findByIdUser']);
 Route::post('/admin/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');
 Route::post('/admin/upload-image-', [ImageUploadController::class, 'upload1'])->name('upload.image');
 
+Route::post('/admin/authentication', [AuthController::class, 'UserAuthentication']);
