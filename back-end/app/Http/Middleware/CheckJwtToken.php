@@ -16,6 +16,7 @@ class CheckJwtToken
     public function handle($request, Closure $next)
     {
         try {
+            
             $token = $request->cookie('jwt_token');
 
             Log::info('JWT Token: ' . $token);
@@ -30,8 +31,11 @@ class CheckJwtToken
             $id_user = str_replace('\\', '', $payload['id_user']);
 
             $user = DB::table('users')->where('id_user', $id_user)->where('email', $email)->first();
+
             if (!$user) {
                 throw new Exception('User not authenticated.');
+            } else {
+                $request->user_info = $user;
             }
 
             return $next($request);

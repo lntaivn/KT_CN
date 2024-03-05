@@ -36,7 +36,7 @@ function Navbar(props) {
             icon: <i className={`fa-regular fa-images mr-${collapsedNav ? "0" : "3"} w-4`}></i>
         },
         {
-            text: "Quản lý thể loại",
+            text: "Quản lý danh mục",
             link: "/admin/category",
             icon: <i className={`fa-solid fa-icons mr-${collapsedNav ? "0" : "3"} w-4`}></i>
         },

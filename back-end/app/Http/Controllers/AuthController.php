@@ -18,7 +18,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'logout']]);
+        $this->middleware('auth:api', ['except' => ['login', 'logout', 'getCurrentUser']]);
     }
 
     public function login(Request $request)
@@ -49,5 +49,10 @@ class AuthController extends Controller
             // Xử lý nếu có lỗi xảy ra
             return response()->json(['error' => 'Đã có lỗi xảy ra khi đăng xuất'], 500);
         }
+    }
+
+    public function getCurrentUser(Request $request)
+    {
+        return response()->json($request->user_info);
     }
 }

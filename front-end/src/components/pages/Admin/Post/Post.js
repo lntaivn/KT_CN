@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import moment from 'moment';
 import { Table, Tooltip, Image, Spin } from 'antd';
 import { Avatar, BreadcrumbItem, Breadcrumbs, Button, Switch, User } from "@nextui-org/react";
+import { getCurrentUser } from "../../../../service/LoginService";
 
 const Post = (props) => {
 
@@ -91,7 +92,7 @@ const Post = (props) => {
         },
         {
             title:
-                <Tooltip title="Loại bài viết">
+                <Tooltip title="Danh mục">
                     <i className="fa-solid fa-icons text-[16px]"></i>
                 </Tooltip>,
             dataIndex: 'category',
@@ -302,7 +303,13 @@ const Post = (props) => {
     useEffect(() => {
         getNews();
         getCategory();
+        handleGetCurrentUser();
     }, []);
+    
+    const handleGetCurrentUser = async () => {
+        const user_info = await getCurrentUser();
+        console.log(user_info);
+    }
 
     const handleUpdateStatus_vi = async (id) => {
         setSpinning(true);

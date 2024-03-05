@@ -134,11 +134,6 @@ class NewsController extends Controller
 
         return response()->json($news, 200);
     }
-    public function getdata($id_user)
-    {
-        return response()->json(['id_user' => $id_user]);
-    }
-
 
     public function getTop5RelatedCategory($id_new)
     {
@@ -170,14 +165,12 @@ class NewsController extends Controller
     }
 
     public function saveNews(Request $request)
-    {
-        if (!$request->has('hungtran')) {
-            // Nếu không, sử dụng id_user từ middleware
-            $hungtran = $request->hungtran;
-        }
+    { if (!$request->has('user_info')) {
+        // Nếu không, sử dụng id_user từ middleware
+        $user_info = $request->user_info;
+    }
         // Validate incoming request data
         $validatedData = $request->validate([
-            'id_user' => 'required|exists:users,id_user',
             'id_category' => 'required|exists:categories,id_category',
             'title_en' => 'nullable|string',
             'title_vi' => 'nullable|string',
@@ -191,7 +184,7 @@ class NewsController extends Controller
             DB::beginTransaction();
 
             $news = News::create([
-                'id_user' => $request->input('id_user'),
+                'id_user' => $user_info->id_user,
                 'id_category' => $request->input('id_category'),
                 'content_vi' => $request->input('content_vi'),
                 'content_en' => $request->input('content_en'),
@@ -200,8 +193,6 @@ class NewsController extends Controller
                 'thumbnail' => $request->input('thumbnail'),
                 'view_count' => $validatedData['view_count'],
             ]);
-
-
 
             if ($validatedData['content_en'] === null) {
                 $news->status_en = 0;
@@ -213,7 +204,7 @@ class NewsController extends Controller
                 $news->save();
             }
             DB::commit();
-            return response()->json(['message' => $hungtran], 201);
+            return response()->json(['message' => $user_info], 201);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['message' => 'Lưu thất bại', $e], 500);

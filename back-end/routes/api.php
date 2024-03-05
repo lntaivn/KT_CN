@@ -40,8 +40,7 @@ Route::middleware('check.jwt')->group(function () {
     Route::get('/admin/news', [NewsController::class, 'getAllNews']);
     Route::put('/news/{id}', [NewsController::class, 'updateNews']);//ok
     Route::post('/news', [NewsController::class, 'saveNews']);//ok
-    Route::get('/getdata', [NewsController::class, 'getdata']);
-
+    Route::get('/getCurrentUser', [AuthController::class, 'getCurrentUser']);
 });
 
 
