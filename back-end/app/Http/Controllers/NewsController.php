@@ -165,10 +165,11 @@ class NewsController extends Controller
     }
 
     public function saveNews(Request $request)
-    { if (!$request->has('user_info')) {
-        // Nếu không, sử dụng id_user từ middleware
-        $user_info = $request->user_info;
-    }
+    {
+        if (!$request->has('user_info')) {
+            // Nếu không, sử dụng id_user từ middleware
+            $user_info = $request->user_info;
+        }
         // Validate incoming request data
         $validatedData = $request->validate([
             'id_category' => 'required|exists:categories,id_category',
@@ -293,6 +294,7 @@ class NewsController extends Controller
 
             if ($news) {
                 $news->status_vi = !$news->status_vi;
+                $news->timestamps = false;
                 $news->save();
 
                 return response()->json([
@@ -314,6 +316,7 @@ class NewsController extends Controller
 
             if ($news) {
                 $news->status_en = !$news->status_en;
+                $news->timestamps = false;
                 $news->save();
 
                 return response()->json([
