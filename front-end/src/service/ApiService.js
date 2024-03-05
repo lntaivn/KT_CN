@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const GetNewViEn = () => {
-  
+
     return axios.get(`http://127.0.0.1:8000/api/news`);
 };
 
@@ -51,9 +51,9 @@ const ListNews = () => {
     // const storedToken = sessionStorage.getItem('token');
     // const token = storedToken ? JSON.parse(storedToken) : null;
     return axios.get(`http://127.0.0.1:8000/api/admin/news`,
-    {
-        withCredentials: true
-    });
+        {
+            withCredentials: true
+        });
 };
 
 const GetNewCanUpdate = (id) => {
@@ -94,6 +94,13 @@ const UpdateStatusVi = (id) => {
 const UpdateStatusEn = (id) => {
     return axios.put(`http://127.0.0.1:8000/api/news/update-status-en/${id}`);
 };
+
+const UpdateStatuses = (data) => {
+    return axios.put(`http://127.0.0.1:8000/api/news/UpdateStatuses`, data, {
+        withCredentials: true
+    });
+}
+
 export {
     GetNewViEn,
     GetNewViEnById,
