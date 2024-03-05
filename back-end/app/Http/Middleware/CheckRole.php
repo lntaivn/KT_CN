@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Middleware;
 use Exception;
 use Closure;
@@ -10,16 +9,19 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB; 
 use Illuminate\Support\Facades\Log; 
 
-class CheckJwtToken
+class CheckRole
 {
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     */
     public function handle($request, Closure $next)
     {
         try {
             $token = $request->cookie('jwt_token');
-
-            Log::info('JWT Token: ' . $token);
-            error_log('JWT Token: ' . $token);
-
             if (!$token) {
                 throw new Exception('Token not found in header.');
             }
@@ -28,12 +30,12 @@ class CheckJwtToken
             $email = str_replace('\\', '', $payload['email']);
             $id_user = str_replace('\\', '', $payload['id_user']);
 
-            $user = DB::table('users')->where('id_user', $id_user)->where('email', $email)->first();
-            if (!$user) {
-                throw new Exception('User not authenticated.');
+            $user = DB::table('users')->where('role', $id_user)->where('email', $email)->first();
+            if ($user->role === 1) {
+                return $next($request);
+            } else {
+                return response()->json(['message' => 'You are not authorized to access this resource.'], 403);
             }
-        
-            return $next($id_user);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }

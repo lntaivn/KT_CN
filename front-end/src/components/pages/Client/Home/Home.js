@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GetNewViEn, ListNews } from "../../../../service/ApiService";
+import { GetNewViEn} from "../../../../service/ApiService";
 import { useTranslation } from "react-i18next";
 
 import { Link } from "react-router-dom";

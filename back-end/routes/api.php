@@ -21,34 +21,50 @@ use App
 |
 */
 
-Route::group([
+// Route::group([
 
-    'middleware' => 'api',
-    'prefix' => 'auth'
+//     'middleware' => 'api',
+//     'prefix' => 'auth'
 
-], function ($router) {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/test', [AuthController::class, 'getUser']);
-    Route::post('/changePassword', [AuthController::class, 'changePassword']);
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::get('/news', [NewsController::class, 'getAllNews']);
+// ], function ($router) {
+//     // Route::post('/login', [AuthController::class, 'login']);
+//     // Route::get('/test', [AuthController::class, 'getUser']);
+//     // Route::post('/changePassword', [AuthController::class, 'changePassword']);
+//     // Route::post('/register', [AuthController::class, 'register']);
+//     // Route::get('/news', [NewsController::class, 'getAllNews']);
 
-});
-
+// });
+//Admin
+Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('check.jwt')->group(function () {
     Route::get('/admin/news', [NewsController::class, 'getAllNews']);
+    Route::put('/news/{id}', [NewsController::class, 'updateNews']);//ok
+    Route::post('/news', [NewsController::class, 'saveNews']);//ok
+    Route::get('/getdata', [NewsController::class, 'getdata']);
+
 });
 
+
+Route::middleware(['check.jwt', 'check.role'])->group(function () {
+    Route::get('/admin/news/test', [NewsController::class, 'getAllNews']);
+
+});
+//Admin: role 1 
+
+
 //Auth
+
 Route::get('/logout', [AuthController::class, 'logout']);
-Route::post('/login', [AuthController::class, 'login']);
+
 Route::post('/changePassword', [AuthController::class, 'changePassword']);
 Route::post('/register', [AuthController::class, 'register']);
 
 //New JwtMiddleware
+Route::get('/news', [NewsController::class, 'getAllNews']);
 
 Route::get('/news/{id}', [NewsController::class, 'getNewByID'])->middleware('verify.jwt.user_id');//ok
 Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);//ok
+
 Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByUser']);
 Route::get('/get5LatestNews', [NewsController::class, 'get5LatestNews']);//ok
 Route::get('/getTop5ViewCount', [NewsController::class, 'getTop5ViewCount']);//ok
@@ -56,8 +72,8 @@ Route::get('/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5Relat
 Route::put('/news/update-status-vi/{id}', [NewsController::class, 'updateStatusVi']);//ok
 Route::put('/news/update-status-en/{id}', [NewsController::class, 'updateStatusEn']);//ok
 Route::put('/news/UpdateStatuses', [NewsController::class, 'UpdateStatuses']);//ok 
-Route::post('/news', [NewsController::class, 'saveNews']);//ok
-Route::put('/news/{id}', [NewsController::class, 'updateNews']);//ok
+
+
 Route::put('/news/updateViewCount/{id}', [NewsController::class, 'updateViewCount']);//ok
 
 
