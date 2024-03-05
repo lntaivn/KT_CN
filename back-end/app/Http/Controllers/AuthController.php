@@ -12,6 +12,8 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 class AuthController extends Controller
@@ -50,4 +52,5 @@ class AuthController extends Controller
             return response()->json(['error' => 'Đã có lỗi xảy ra khi đăng xuất'], 500);
         }
     }
+
 }

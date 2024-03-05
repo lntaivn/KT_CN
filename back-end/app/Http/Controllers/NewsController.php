@@ -200,8 +200,6 @@ class NewsController extends Controller
                 'view_count' => $validatedData['view_count'],
             ]);
 
-
-
             if ($validatedData['content_en'] === null) {
                 $news->status_en = 0;
                 $news->save();

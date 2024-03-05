@@ -41,13 +41,10 @@ Route::middleware('check.jwt')->group(function () {
     Route::put('/news/{id}', [NewsController::class, 'updateNews']);//ok
     Route::post('/news', [NewsController::class, 'saveNews']);//ok
     Route::get('/getdata', [NewsController::class, 'getdata']);
-
 });
-
 
 Route::middleware(['check.jwt', 'check.role'])->group(function () {
     Route::get('/admin/news/test', [NewsController::class, 'getAllNews']);
-
 });
 //Admin: role 1 
 

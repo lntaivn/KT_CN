@@ -12,6 +12,9 @@ const logoutToken = () => {
     return axios.get(`http://127.0.0.1:8000/api/logout`, { withCredentials: true });
 };
 
+const GetUserByToken = () => {
+    return axios.get(`http://127.0.0.1:8000/api/GetUserByToken`, { withCredentials: true });
+};
 
 
-export {postToken, logoutToken }
+export {postToken, logoutToken, GetUserByToken}
