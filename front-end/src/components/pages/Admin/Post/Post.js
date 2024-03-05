@@ -91,7 +91,7 @@ const Post = (props) => {
         },
         {
             title:
-                <Tooltip title="Loại bài viết">
+                <Tooltip title="Danh mục">
                     <i className="fa-solid fa-icons text-[16px]"></i>
                 </Tooltip>,
             dataIndex: 'category',
