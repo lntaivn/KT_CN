@@ -45,16 +45,19 @@ Route::middleware('check.jwt')->group(function () {
     Route::post('/admin/category', [CategoryController::class, 'create']);
 });
 
-//user
+//upload img
 Route::middleware('check.jwt')->group(function () {
+    Route::post('/admin/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');
+    Route::post('/admin/upload-image-', [ImageUploadController::class, 'upload1'])->name('upload.image');
 });
 
+//users
 Route::middleware(['check.jwt', 'check.role'])->group(function () {
-    Route::get('/users', [UserController::class, 'index']);
-    Route::get('/users/{id_user}', [UserController::class, 'findByIdUser']);
-    Route::post('/users', [UserController::class, 'store']);
-    Route::delete('/users/{id_user}', [UserController::class, 'destroy']);
-    Route::put('/users/{id_user}', [UserController::class, 'update']);
+    Route::get('admin/users', [UserController::class, 'index']);
+    Route::get('admin/users/{id_user}', [UserController::class, 'findByIdUser']);
+    Route::post('admin/users', [UserController::class, 'store']);
+    Route::delete('admin/users/{id_user}', [UserController::class, 'destroy']);
+    Route::put('admin/users/{id_user}', [UserController::class, 'update']);
 
 });
 
@@ -82,8 +85,5 @@ Route::put('/news/update/viewCount/{id}', [NewsController::class, 'updateViewCou
 Route::get('/categories', [CategoryController::class, 'getAll']);
 Route::get('/category/{id_category}', [CategoryController::class, 'get']);
 
-//upload img
-Route::post('/admin/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');
-Route::post('/admin/upload-image-', [ImageUploadController::class, 'upload1'])->name('upload.image');
 
 // Route::post('/admin/authentication', [AuthController::class, 'UserAuthentication']);
