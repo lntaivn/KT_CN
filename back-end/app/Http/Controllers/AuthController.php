@@ -40,6 +40,7 @@ class AuthController extends Controller
                 }
             } else {
                 $user->UID = $UID;
+                $user->photoURL = $photoURL;
                 $user->save();
             }
     
