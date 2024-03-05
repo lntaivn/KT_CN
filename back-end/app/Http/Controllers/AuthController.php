@@ -32,7 +32,7 @@ class AuthController extends Controller
         if ($user) {
             if ($user->UID) {
                 if ($user->UID !== $UID) {
-                    return response()->json(0);
+                    return response()->json("UId fail", 404);
                 }
                 if ($user->photoURL !== $photoURL) {
                     $user->photoURL = $photoURL;
@@ -41,11 +41,15 @@ class AuthController extends Controller
             } else {
                 $user->UID = $UID;
                 $user->save();
+                if ($user->photoURL !== $photoURL) {
+                    $user->photoURL = $photoURL;
+                    $user->save();
+                }
             }
-    
+
             $token = JWTAuth::fromUser($user);
             if ($token) {
-                $cookie = Cookie::make('jwt_token', $token, 3600); 
+                $cookie = Cookie::make('jwt_token', $token, 3600);
                 return response()->json(compact('user'))->withCookie($cookie);
             } else {
                 return response()->json(0);
@@ -54,9 +58,9 @@ class AuthController extends Controller
             return response()->json(0);
         }
     }
-    
 
-    
+
+
     public function logout(Request $request)
     {
         try {

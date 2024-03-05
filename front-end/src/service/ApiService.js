@@ -9,23 +9,22 @@ const GetNewViEnById = (id) => {
 };
 
 const get5LatestNews = () => {
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/get5LatestNews`);
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/get5LatestNews`);
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/news/get5LatestNews`);
 };
 
 const getTop5ViewCount = () => {
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/getTop5ViewCount`);
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/getTop5ViewCount`);
+    return axios.get(
+        `${process.env.REACT_APP_API_DOMAIN}/news/getTop5ViewCount`
+    );
 };
 
 const getTop5RelatedCategory = (id) => {
     return axios.get(
-        `${process.env.REACT_APP_API_DOMAIN}/getTop5RelatedCategory/${id}`
+        `${process.env.REACT_APP_API_DOMAIN}/news/getTop5RelatedCategory/${id}`
     );
 };
 
 const GetAllCategories = () => {
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/categories`);
     return axios.get(`${process.env.REACT_APP_API_DOMAIN}/categories`);
 };
 
