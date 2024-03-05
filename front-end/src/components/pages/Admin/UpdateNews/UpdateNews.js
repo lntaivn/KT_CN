@@ -76,6 +76,7 @@ const UpdateNews = () => {
             console.error("Error fetching newsDetailData:", error);
         }
     };
+
     useEffect(() => {
         console.log("id bài viết", id);
         getDetailNews();
@@ -185,7 +186,7 @@ const UpdateNews = () => {
                     listType="picture-card"
                     className="avatar-uploader"
                     showUploadList={false}
-                    action="http://127.0.0.1:8000/api/admin/upload-image-" // Thay đổi URL tại đây
+                    action="api/admin/upload-image-" // Thay đổi URL tại đây
                     beforeUpload={beforeUpload}
                     onChange={handleChange}
                 >
@@ -237,8 +238,7 @@ const UpdateNews = () => {
                                 }}
                                 config={{
                                     ckfinder: {
-                                        uploadUrl:
-                                            "http://127.0.0.1:8000/api/admin/upload-image",
+                                        uploadUrl: "api/admin/upload-image",
                                     },
                                 }}
                             />

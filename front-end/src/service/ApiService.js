@@ -56,7 +56,9 @@ const ListNews = () => {
 };
 
 const GetNewCanUpdate = (id) => {
-    return axios.get(`http://127.0.0.1:8000/api/admin/news/${id}`);
+    return axios.get(`http://127.0.0.1:8000/api/news/${id}`, {
+        withCredentials: true,
+    });
 };
 
 const updateViewCount = (id) => {
