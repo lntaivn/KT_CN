@@ -2,27 +2,27 @@ import axios from "axios";
 
 const GetNewViEn = () => {
 
-    return axios.get(`http://127.0.0.1:8000/api/news`);
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/news`);
 };
 
 const GetNewViEnById = (id) => {
-    return axios.get(`http://127.0.0.1:8000/api/news/${id}`);
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/news/${id}`);
 };
 
 const get5LatestNews = () => {
-    return axios.get(`http://127.0.0.1:8000/api/get5LatestNews`);
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/get5LatestNews`);
 };
 
 const getTop5ViewCount = () => {
-    return axios.get(`http://127.0.0.1:8000/api/getTop5ViewCount`);
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/getTop5ViewCount`);
 };
 
 const getTop5RelatedCategory = (id) => {
-    return axios.get(`http://127.0.0.1:8000/api/getTop5RelatedCategory/${id}`);
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/getTop5RelatedCategory/${id}`);
 };
 
 const GetAllCategories = () => {
-    return axios.get(`http://127.0.0.1:8000/api/categories`);
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/categories`);
 };
 
 const SaveDataNewViEn = (
@@ -34,7 +34,6 @@ const SaveDataNewViEn = (
     thumbnail
 ) => {
     const data = {
-        id_user: 1,
         id_category: id_category,
         title_en: title_en,
         title_vi: title_vi,
@@ -44,24 +43,22 @@ const SaveDataNewViEn = (
         thumbnail: thumbnail,
     };
     console.log(data);
-    return axios.post(`http://127.0.0.1:8000/api/news`, data,{ withCredentials: true });
+    return axios.post(`${process.env.REACT_APP_API_DOMAIN}/news`, data,{ withCredentials: true });
 };
+
 const ListNews = () => {
-    
-    // const storedToken = sessionStorage.getItem('token');
-    // const token = storedToken ? JSON.parse(storedToken) : null;
-    return axios.get(`http://127.0.0.1:8000/api/admin/news`,
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/admin/news`,
         {
             withCredentials: true
         });
 };
 
 const GetNewCanUpdate = (id) => {
-    return axios.get(`http://127.0.0.1:8000/api/news/${id}`);
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/news/${id}`);
 };
 
 const updateViewCount = (id) => {
-    return axios.put(`http://127.0.0.1:8000/api/news/updateViewCount/${id}`);
+    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/news/updateViewCount/${id}`);
 };
 
 const PutNewsByID = (
@@ -75,7 +72,6 @@ const PutNewsByID = (
     thumbnail
 ) => {
     const data = {
-        id_user: 1,
         id_category: id_category,
         title_en: title_en,
         title_vi: title_vi,
@@ -85,18 +81,19 @@ const PutNewsByID = (
         thumbnail: thumbnail,
     };
     console.log("data", data);
-    return axios.put(`http://127.0.0.1:8000/api/news/${id}`, data,{ withCredentials: true });
+    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/news/${id}`, data,{ withCredentials: true });
 };
 
 const UpdateStatusVi = (id) => {
-    return axios.put(`http://127.0.0.1:8000/api/news/update-status-vi/${id}`);
+    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/news/update-status-vi/${id}`);
 };
+
 const UpdateStatusEn = (id) => {
-    return axios.put(`http://127.0.0.1:8000/api/news/update-status-en/${id}`);
+    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/news/update-status-en/${id}`);
 };
 
 const UpdateStatuses = (data) => {
-    return axios.put(`http://127.0.0.1:8000/api/news/UpdateStatuses`, data, {
+    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/news/UpdateStatuses`, data, {
         withCredentials: true
     });
 }
@@ -115,6 +112,7 @@ export {
     UpdateStatusVi,
     UpdateStatusEn,
     updateViewCount,
+    UpdateStatuses
 };
 
 // CreateUser, GetAllUser, GetUserById

@@ -5,13 +5,15 @@ const postToken = (email) => {
         email: email,
     };
 
-    return axios.post(`http://127.0.0.1:8000/api/login`, data, { withCredentials: true });
+    return axios.post(`${process.env.REACT_APP_API_DOMAIN}/login`, data, { withCredentials: true });
 };
 
 const logoutToken = () => {
-    return axios.get(`http://127.0.0.1:8000/api/logout`, { withCredentials: true });
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/logout`, { withCredentials: true });
 };
 
+const getCurrentUser = () => {
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/getCurrentUser`, { withCredentials: true });
+};
 
-
-export {postToken, logoutToken }
+export {postToken, logoutToken, getCurrentUser }
