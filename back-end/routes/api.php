@@ -38,15 +38,14 @@ use App
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('check.jwt')->group(function () {
     Route::get('/admin/news', [NewsController::class, 'getAllNews']);
-    Route::put('/news/{id}', [NewsController::class, 'updateNews']);//ok
-    Route::post('/news', [NewsController::class, 'saveNews']);//ok
+    Route::put('/news/UpdateStatuses', [NewsController::class, 'UpdateStatuses']); //ok 
+    Route::put('/news/{id}', [NewsController::class, 'updateNews']); //ok
+    Route::post('/news', [NewsController::class, 'saveNews']); //ok
     Route::get('/getCurrentUser', [AuthController::class, 'getCurrentUser']);
 });
 
-
 Route::middleware(['check.jwt', 'check.role'])->group(function () {
     Route::get('/admin/news/test', [NewsController::class, 'getAllNews']);
-
 });
 //Admin: role 1 
 
@@ -61,19 +60,18 @@ Route::post('/register', [AuthController::class, 'register']);
 //New JwtMiddleware
 Route::get('/news', [NewsController::class, 'getAllNews']);
 
-Route::get('/news/{id}', [NewsController::class, 'getNewByID'])->middleware('verify.jwt.user_id');//ok
-Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);//ok
+Route::get('/news/{id}', [NewsController::class, 'getNewByID'])->middleware('verify.jwt.user_id'); //ok
+Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']); //ok
 
 Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByUser']);
-Route::get('/get5LatestNews', [NewsController::class, 'get5LatestNews']);//ok
-Route::get('/getTop5ViewCount', [NewsController::class, 'getTop5ViewCount']);//ok
-Route::get('/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5RelatedCategory']);//ok
-Route::put('/news/update-status-vi/{id}', [NewsController::class, 'updateStatusVi']);//ok
-Route::put('/news/update-status-en/{id}', [NewsController::class, 'updateStatusEn']);//ok
-Route::put('/news/UpdateStatuses', [NewsController::class, 'UpdateStatuses']);//ok 
+Route::get('/get5LatestNews', [NewsController::class, 'get5LatestNews']); //ok
+Route::get('/getTop5ViewCount', [NewsController::class, 'getTop5ViewCount']); //ok
+Route::get('/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5RelatedCategory']); //ok
+Route::put('/news/update-status-vi/{id}', [NewsController::class, 'updateStatusVi']); //ok
+Route::put('/news/update-status-en/{id}', [NewsController::class, 'updateStatusEn']); //ok
 
 
-Route::put('/news/updateViewCount/{id}', [NewsController::class, 'updateViewCount']);//ok
+Route::put('/news/updateViewCount/{id}', [NewsController::class, 'updateViewCount']); //ok
 
 
 //Category

@@ -18,7 +18,6 @@ class CheckJwtToken
             
             $token = $request->cookie('jwt_token');
 
-            Log::info('JWT Token: ' . $token);
             error_log('JWT Token: ' . $token);
 
             if (!$token) {

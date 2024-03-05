@@ -16,4 +16,4 @@ const getCurrentUser = () => {
     return axios.get(`${process.env.REACT_APP_API_DOMAIN}/getCurrentUser`, { withCredentials: true });
 };
 
-export {postToken, logoutToken, getCurrentUser }
+export { postToken, logoutToken, getCurrentUser }

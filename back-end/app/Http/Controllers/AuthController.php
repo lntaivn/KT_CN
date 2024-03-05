@@ -30,8 +30,8 @@ class AuthController extends Controller
             return response()->json(0);
         }
 
-        $token = JWTAuth::fromUser($user, ['ttl' => 3600]);
-        $cookie = Cookie::make('jwt_token', $token, 3600); // Cookie expires in 60 minutes
+        $token = JWTAuth::fromUser($user, ['ttl' => 2592000]); // 30 day
+        $cookie = Cookie::make('jwt_token', $token, 2592000); 
 
         return response()->json(compact('user'))->withCookie($cookie);
     }

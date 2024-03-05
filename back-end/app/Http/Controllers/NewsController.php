@@ -358,6 +358,7 @@ class NewsController extends Controller
                 'message' => 'Cập nhật trạng thái thành công',
                 'id_new_list' => $id_new_list
             ], 200);
+
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật trạng thái', 'error' => $e->getMessage()], 500);
         }
