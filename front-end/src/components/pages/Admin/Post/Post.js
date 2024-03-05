@@ -226,7 +226,7 @@ const Post = (props) => {
             lang: lang,
             status: lang === "vi" ? !checkValueVI : !checkValueEN
         }
-
+        console.log(putData);
         const response = await UpdateStatuses(putData);
 
         await getNews();
