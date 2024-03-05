@@ -18,7 +18,7 @@ class CheckRole
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, ...$role)
     {
         try {
             $token = $request->cookie('jwt_token');
@@ -30,8 +30,8 @@ class CheckRole
             $email = str_replace('\\', '', $payload['email']);
             $id_user = str_replace('\\', '', $payload['id_user']);
 
-            $user = DB::table('users')->where('role', $id_user)->where('email', $email)->first();
-            if ($user->role === 1) {
+            $user = DB::table('users')->where('id_user', $id_user)->where('email', $email)->first();
+            if ($user->role === $role) {
                 return $next($request);
             } else {
                 return response()->json(['message' => 'You are not authorized to access this resource.'], 403);

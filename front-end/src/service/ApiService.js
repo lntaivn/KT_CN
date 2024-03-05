@@ -1,24 +1,27 @@
 import axios from "axios";
 
 const GetNewViEn = () => {
-
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}`);
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/news`);
 };
 
 const GetNewViEnById = (id) => {
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/${id}`);
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/news/${id}`);
 };
 
 const get5LatestNews = () => {
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/get5LatestNews`);
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/news/get5LatestNews`);
 };
 
 const getTop5ViewCount = () => {
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/getTop5ViewCount`);
+    return axios.get(
+        `${process.env.REACT_APP_API_DOMAIN}/news/getTop5ViewCount`
+    );
 };
 
 const getTop5RelatedCategory = (id) => {
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/getTop5RelatedCategory/${id}`);
+    return axios.get(
+        `${process.env.REACT_APP_API_DOMAIN}/news/getTop5RelatedCategory/${id}`
+    );
 };
 
 const GetAllCategories = () => {
@@ -43,24 +46,27 @@ const SaveDataNewViEn = (
         thumbnail: thumbnail,
     };
     console.log(data);
-    return axios.post(`${process.env.REACT_APP_API_DOMAIN}`, data,{ withCredentials: true });
+    return axios.post(`${process.env.REACT_APP_API_DOMAIN}/news`, data, {
+        withCredentials: true,
+    });
 };
+
 const ListNews = () => {
-    
-    // const storedToken = sessionStorage.getItem('token');
-    // const token = storedToken ? JSON.parse(storedToken) : null;
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/admin/news`,
-        {
-            withCredentials: true
-        });
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/admin/news`, {
+        withCredentials: true,
+    });
 };
 
 const GetNewCanUpdate = (id) => {
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/${id}`);
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/news/${id}`, {
+        withCredentials: true,
+    });
 };
 
 const updateViewCount = (id) => {
-    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/updateViewCount/${id}`);
+    return axios.put(
+        `${process.env.REACT_APP_API_DOMAIN}/news/updateViewCount/${id}`
+    );
 };
 
 const PutNewsByID = (
@@ -83,26 +89,32 @@ const PutNewsByID = (
         thumbnail: thumbnail,
     };
     console.log("data", data);
-    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/${id}`, data,{ withCredentials: true });
+    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/news/${id}`, data, {
+        withCredentials: true,
+    });
 };
 
 const UpdateStatusVi = (id) => {
-    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/update-status-vi/${id}`,{
-        withCredentials: true
-    });
+    return axios.put(
+        `${process.env.REACT_APP_API_DOMAIN}/news/update-status-vi/${id}`
+    );
 };
+
 const UpdateStatusEn = (id) => {
-    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/update-status-en/${id}`,{
-        withCredentials: true
-    });
+    return axios.put(
+        `${process.env.REACT_APP_API_DOMAIN}/news/update-status-en/${id}`
+    );
 };
 
 const UpdateStatuses = (data) => {
-    
-    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/UpdateStatuses`, data, {
-        withCredentials: true
-    });
-}
+    return axios.put(
+        `${process.env.REACT_APP_API_DOMAIN}/news/UpdateStatuses`,
+        data,
+        {
+            withCredentials: true,
+        }
+    );
+};
 
 export {
     GetNewViEn,
@@ -118,7 +130,7 @@ export {
     UpdateStatusVi,
     UpdateStatusEn,
     updateViewCount,
-    UpdateStatuses
+    UpdateStatuses,
 };
 
 // CreateUser, GetAllUser, GetUserById

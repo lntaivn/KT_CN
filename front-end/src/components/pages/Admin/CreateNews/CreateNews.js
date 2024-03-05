@@ -1,32 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { Breadcrumbs, BreadcrumbItem, Button, Avatar, Input } from "@nextui-org/react";
-import { Upload, Select, message, Tooltip } from 'antd';
-import ImgCrop from 'antd-img-crop';
-import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
-import { GetAllCategories, SaveDataNewViEn } from "../../../../service/ApiService";
-import "./CreateNews.css"
-import { Link } from 'react-router-dom';
-
+import React, { useState, useEffect } from "react";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import {
+    Breadcrumbs,
+    BreadcrumbItem,
+    Button,
+    Avatar,
+    Input,
+} from "@nextui-org/react";
+import { Upload, Select, message, Tooltip } from "antd";
+import ImgCrop from "antd-img-crop";
+import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
+import {
+    GetAllCategories,
+    SaveDataNewViEn,
+} from "../../../../service/ApiService";
+import "./CreateNews.css";
+import { Link } from "react-router-dom";
 
 const { Option } = Select;
 
 const items = [
     {
-        key: '1',
-        label: 'Tạo bài viết tiếng việt',
+        key: "1",
+        label: "Tạo bài viết tiếng việt",
         children: "<p></p>",
     },
     {
-        key: '2',
-        label: 'Tạo bài viết tiếng anh',
+        key: "2",
+        label: "Tạo bài viết tiếng anh",
         children: "<p></p>",
-    }
+    },
 ];
 
 const CreateNews = (props) => {
-
     const { setCollapsedNav } = props;
 
     const [loading, setLoading] = useState(false);
@@ -60,7 +67,6 @@ const CreateNews = (props) => {
             const response = await GetAllCategories();
             console.log("News data:", response.data);
             setCategoryData(response.data);
-
         } catch (error) {
             console.error("Error fetching news:", error);
         }
@@ -73,7 +79,7 @@ const CreateNews = (props) => {
         } else {
             setCollapsedNav(true);
         }
-    }
+    };
 
     useEffect(() => {
         getCategorys();
@@ -92,10 +98,10 @@ const CreateNews = (props) => {
 
         handleResize();
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener("resize", handleResize);
 
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener("resize", handleResize);
         };
     }, []);
 
@@ -103,39 +109,47 @@ const CreateNews = (props) => {
         const title_vi = titleVI !== "" ? titleVI : null;
         const title_en = titleEN !== "" ? titleEN : null;
 
-        SaveDataNewViEn(selectedCategory, title_en, title_vi, contentEN, contentVI, imageUrl)
-            .then(response => {
-                console.log('Phản hồi từ máy chủ:', response);
+        SaveDataNewViEn(
+            selectedCategory,
+            title_en,
+            title_vi,
+            contentEN,
+            contentVI,
+            imageUrl
+        )
+            .then((response) => {
+                console.log("Phản hồi từ máy chủ:", response);
             })
-            .catch(error => {
-                console.error('Lỗi khi gửi dữ liệu:', error);
+            .catch((error) => {
+                console.error("Lỗi khi gửi dữ liệu:", error);
             });
-    }
+    };
 
-    const handleChange = info => {
-        if (info.file.status === 'uploading') {
+    const handleChange = (info) => {
+        if (info.file.status === "uploading") {
             setLoading(true);
             return;
         }
-        if (info.file.status === 'done') {
+        if (info.file.status === "done") {
             // done thì lấy được url hình
             setImageUrl(info.file.response.imageUrl);
             setLoading(false);
         }
-        if (info.file.status === 'error') {
+        if (info.file.status === "error") {
             message.error(`${info.file.name} file upload failed.`);
             setLoading(false);
         }
     };
 
-    const beforeUpload = file => {
-        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    const beforeUpload = (file) => {
+        const isJpgOrPng =
+            file.type === "image/jpeg" || file.type === "image/png";
         if (!isJpgOrPng) {
-            message.error('You can only upload JPG/PNG file!');
+            message.error("You can only upload JPG/PNG file!");
         }
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) {
-            message.error('Image must smaller than 2MB!');
+            message.error("Image must smaller than 2MB!");
         }
         return isJpgOrPng && isLt2M;
     };
@@ -149,20 +163,24 @@ const CreateNews = (props) => {
 
     return (
         <div>
-            <div className='CreateNews flex flex-col gap-7 items-start'>
-                <div className='flex items-center justify-between w-full'>
+            <div className="CreateNews flex flex-col gap-7 items-start">
+                <div className="flex items-center justify-between w-full">
                     <Breadcrumbs underline="hover">
                         <BreadcrumbItem>Admin Dashboard</BreadcrumbItem>
-                        <BreadcrumbItem><Link to="/admin/post">Quản lý bài viết</Link></BreadcrumbItem>
+                        <BreadcrumbItem>
+                            <Link to="/admin/post">Quản lý bài viết</Link>
+                        </BreadcrumbItem>
                         <BreadcrumbItem>Thêm bài viết</BreadcrumbItem>
                     </Breadcrumbs>
-                    <div className='flex gap-2'>
+                    <div className="flex gap-2">
                         <Tooltip title="Chế độ 1 cột">
                             <Button
                                 isIconOnly
-                                variant={layout === "col" ? "solid" : 'light'}
-                                radius='full'
-                                onClick={() => { handleToggleLayout("col") }}
+                                variant={layout === "col" ? "solid" : "light"}
+                                radius="full"
+                                onClick={() => {
+                                    handleToggleLayout("col");
+                                }}
                             >
                                 <i className="fa-solid fa-table-list"></i>
                             </Button>
@@ -170,9 +188,11 @@ const CreateNews = (props) => {
                         <Tooltip title="Chế độ song song">
                             <Button
                                 isIconOnly
-                                variant={layout === "row" ? "solid" : 'light'}
-                                radius='full'
-                                onClick={() => { handleToggleLayout("row") }}
+                                variant={layout === "row" ? "solid" : "light"}
+                                radius="full"
+                                onClick={() => {
+                                    handleToggleLayout("row");
+                                }}
                                 isDisabled={disableRowLayout}
                             >
                                 <i className="fa-solid fa-table-columns"></i>
@@ -181,21 +201,29 @@ const CreateNews = (props) => {
                     </div>
                 </div>
 
-                <div className='flex w-full gap-8'>
-                    <div className='flex flex-1 flex-col gap-2 w-full'>
-                        <p className='text-sm'>Ảnh bìa bài viết <span className='text-red-500 font-bold'>*</span></p>
-                        <ImgCrop aspect={4/3} modalTitle="Cắt hình ảnh" rotationSlider showReset>
+                <div className="flex w-full gap-8">
+                    <div className="flex flex-1 flex-col gap-2 w-full">
+                        <p className="text-sm">
+                            Ảnh bìa bài viết{" "}
+                            <span className="text-red-500 font-bold">*</span>
+                        </p>
+                        <ImgCrop
+                            aspect={4 / 3}
+                            modalTitle="Cắt hình ảnh"
+                            rotationSlider
+                            showReset
+                        >
                             <Upload
                                 name="avatar"
                                 listType="picture-card"
                                 className="avatar-uploader"
                                 showUploadList={false}
-                                action="http://127.0.0.1:8000/api/admin/upload-image-"
+                                action="api/admin/upload-image-"
                                 beforeUpload={beforeUpload}
                                 onChange={handleChange}
                             >
                                 {imageUrl ? (
-                                    <img src={imageUrl} alt="avatar"/>
+                                    <img src={imageUrl} alt="avatar" />
                                 ) : (
                                     uploadButton
                                 )}
@@ -203,11 +231,21 @@ const CreateNews = (props) => {
                         </ImgCrop>
                     </div>
 
-                    <div className='flex flex-1 flex-col gap-2 w-full'>
-                        <p className='text-sm'>Thể loại <span className='text-red-500 font-bold'>*</span></p>
-                        <Select defaultValue="Chọn loại" onChange={handleCategoryChange} size='large'>
-                            {CategoryData.map(category => (
-                                <Option key={category.id_category} value={category.id_category}>
+                    <div className="flex flex-1 flex-col gap-2 w-full">
+                        <p className="text-sm">
+                            Thể loại{" "}
+                            <span className="text-red-500 font-bold">*</span>
+                        </p>
+                        <Select
+                            defaultValue="Chọn loại"
+                            onChange={handleCategoryChange}
+                            size="large"
+                        >
+                            {CategoryData.map((category) => (
+                                <Option
+                                    key={category.id_category}
+                                    value={category.id_category}
+                                >
                                     {category.name_vi} ({category.name_en})
                                 </Option>
                             ))}
@@ -215,22 +253,45 @@ const CreateNews = (props) => {
                     </div>
                 </div>
 
-                <div className={`flex w-full gap-${layout === "col" ? "10" : "8"} flex-${layout}`}>
-                    <div className={`${layout === "col" ? "w-full" : "w-[40%]"} flex-1 flex flex-col gap-6`}>
+                <div
+                    className={`flex w-full gap-${
+                        layout === "col" ? "10" : "8"
+                    } flex-${layout}`}
+                >
+                    <div
+                        className={`${
+                            layout === "col" ? "w-full" : "w-[40%]"
+                        } flex-1 flex flex-col gap-6`}
+                    >
                         <Input
-                            label={<p>Nhập tiêu đề tiếng Việt <span className='text-red-500 font-bold'>*</span></p>}
+                            label={
+                                <p>
+                                    Nhập tiêu đề tiếng Việt{" "}
+                                    <span className="text-red-500 font-bold">
+                                        *
+                                    </span>
+                                </p>
+                            }
                             placeholder="Nhập tiêu đề tiếng Việt"
                             labelPlacement="outside"
                             startContent={
-                                <Avatar className="w-5 h-5" src="https://flagcdn.com/vn.svg" />
+                                <Avatar
+                                    className="w-5 h-5"
+                                    src="https://flagcdn.com/vn.svg"
+                                />
                             }
                             isClearable
-                            radius='sm'
+                            radius="sm"
                             value={titleVI}
                             onValueChange={setTitleVI}
                         />
-                        <div className='flex flex-col gap-2'>
-                            <p className='text-sm'>Nội dung bài viết tiếng Việt <span className='text-red-500 font-bold'>*</span></p>
+                        <div className="flex flex-col gap-2">
+                            <p className="text-sm">
+                                Nội dung bài viết tiếng Việt{" "}
+                                <span className="text-red-500 font-bold">
+                                    *
+                                </span>
+                            </p>
                             <CKEditor
                                 editor={ClassicEditor}
                                 data={items[0].children}
@@ -239,27 +300,36 @@ const CreateNews = (props) => {
                                 }}
                                 config={{
                                     ckfinder: {
-                                        uploadUrl: 'http://127.0.0.1:8000/api/admin/upload-image'
-                                    }
+                                        uploadUrl: "api/admin/upload-image",
+                                    },
                                 }}
                             />
                         </div>
                     </div>
-                    <div className={`${layout === "col" ? "w-full" : "w-[40%]"} flex-1 flex flex-col gap-6`}>
+                    <div
+                        className={`${
+                            layout === "col" ? "w-full" : "w-[40%]"
+                        } flex-1 flex flex-col gap-6`}
+                    >
                         <Input
                             label="Tiêu đề bài viết tiếng Anh"
                             placeholder="Nhập tiêu đề tiếng Anh"
                             labelPlacement="outside"
                             startContent={
-                                <Avatar className="w-5 h-5" src="https://flagcdn.com/gb.svg" />
+                                <Avatar
+                                    className="w-5 h-5"
+                                    src="https://flagcdn.com/gb.svg"
+                                />
                             }
                             isClearable
-                            radius='sm'
+                            radius="sm"
                             value={titleEN}
                             onValueChange={setTitleEN}
                         />
-                        <div className='flex flex-col gap-2'>
-                            <p className='text-sm'>Nội dung bài viết tiếng Anh</p>
+                        <div className="flex flex-col gap-2">
+                            <p className="text-sm">
+                                Nội dung bài viết tiếng Anh
+                            </p>
                             <CKEditor
                                 editor={ClassicEditor}
                                 data={items[1].children}
@@ -268,20 +338,23 @@ const CreateNews = (props) => {
                                 }}
                                 config={{
                                     ckfinder: {
-                                        uploadUrl: 'http://127.0.0.1:8000/api/admin/upload-image'
-                                    }
+                                        uploadUrl: "api/admin/upload-image",
+                                    },
                                 }}
                             />
-                            <div className='text-[12px] opacity-50'><i className="fa-solid fa-circle-info mr-1"></i>Bài viết tiếng Anh là không bắt buộc</div>
+                            <div className="text-[12px] opacity-50">
+                                <i className="fa-solid fa-circle-info mr-1"></i>
+                                Bài viết tiếng Anh là không bắt buộc
+                            </div>
                         </div>
                     </div>
                 </div>
-                <Button onClick={SaveData} color='primary' radius='sm'>
-                    <span className='font-semibold'>Tạo bài viết</span>
+                <Button onClick={SaveData} color="primary" radius="sm">
+                    <span className="font-semibold">Tạo bài viết</span>
                 </Button>
             </div>
         </div>
     );
-}
+};
 
 export default CreateNews;

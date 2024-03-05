@@ -20,7 +20,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'logout']]);
+        $this->middleware('auth:api', ['except' => ['login', 'logout', 'getCurrentUser']]);
     }
 
     public function login(Request $request)
@@ -32,7 +32,7 @@ class AuthController extends Controller
         if ($user) {
             if ($user->UID) {
                 if ($user->UID !== $UID) {
-                    return response()->json(0);
+                    return response()->json("UId fail", 404);
                 }
                 if ($user->photoURL !== $photoURL) {
                     $user->photoURL = $photoURL;
@@ -42,11 +42,15 @@ class AuthController extends Controller
                 $user->UID = $UID;
                 $user->photoURL = $photoURL;
                 $user->save();
+                if ($user->photoURL !== $photoURL) {
+                    $user->photoURL = $photoURL;
+                    $user->save();
+                }
             }
-    
+
             $token = JWTAuth::fromUser($user);
             if ($token) {
-                $cookie = Cookie::make('jwt_token', $token, 3600); 
+                $cookie = Cookie::make('jwt_token', $token, 3600);
                 return response()->json(compact('user'))->withCookie($cookie);
             } else {
                 return response()->json(0);
@@ -55,9 +59,9 @@ class AuthController extends Controller
             return response()->json(0);
         }
     }
-    
 
-    
+
+
     public function logout(Request $request)
     {
         try {
@@ -72,4 +76,8 @@ class AuthController extends Controller
         }
     }
 
+    public function getCurrentUser(Request $request)
+    {
+        return response()->json($request->user_info);
+    }
 }
