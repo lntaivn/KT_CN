@@ -6,7 +6,6 @@ import {
     SettingOutlined,
 } from "@ant-design/icons";
 
-import Editor from "./components/Editor/Editor";
 import Admin from "./layouts/Admin";
 import Client from "./layouts/Client";
 
@@ -51,7 +50,6 @@ function App() {
         <div className="App">
             <Routes>
                 <Route path="/admin/*" element={<Admin />} />
-                <Route path="/edit" element={<Editor />} />
                 <Route path="" element={<Client />} />
                 <Route path="/admin/*" element={<Admin />} />
                 <Route path="*" element={<Client />} />

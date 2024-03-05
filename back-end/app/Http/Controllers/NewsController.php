@@ -134,6 +134,11 @@ class NewsController extends Controller
 
         return response()->json($news, 200);
     }
+    public function getdata($id_user)
+    {
+        return response()->json(['id_user' => $id_user]);
+    }
+
 
     public function getTop5RelatedCategory($id_new)
     {
@@ -165,7 +170,10 @@ class NewsController extends Controller
     }
 
     public function saveNews(Request $request)
-    {
+    { if (!$request->has('hungtran')) {
+        // Nếu không, sử dụng id_user từ middleware
+        $hungtran = $request->hungtran;
+    }
         // Validate incoming request data
         $validatedData = $request->validate([
             'id_user' => 'required|exists:users,id_user',
@@ -204,7 +212,7 @@ class NewsController extends Controller
                 $news->save();
             }
             DB::commit();
-            return response()->json(['message' => 'Lưu thành công'], 201);
+            return response()->json(['message' => $hungtran], 201);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['message' => 'Lưu thất bại', $e], 500);

@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id('id_user');
             $table->string('name', 50);
             $table->string('email')->unique();
-            $table->string('password');
+            $table->integer('role');
             $table->timestamps(); // Thêm cột created_at và updated_at
         });
     }

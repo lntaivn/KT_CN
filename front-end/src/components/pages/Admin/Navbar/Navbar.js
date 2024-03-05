@@ -1,14 +1,14 @@
 import logo from "../../../../assets/KTCN.png"
 import { Link, useLocation } from 'react-router-dom';
 import { onAuthStateChanged } from "firebase/auth";
+import Cookies from 'js-cookie';
 
-import { auth, signInWithGoogle, signOut, postToken, logoutToken } from "../../../../service/firebase";
-
+import { auth, signInWithGoogle, signOut} from "../../../../service/firebase";
+import { postToken, logoutToken } from "../../../../service/LoginService";
 import { User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, ScrollShadow, Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Tooltip } from "antd";
 import { motion } from "framer-motion";
-import Cookies from 'js-cookie';
 
 function Navbar(props) {
 
