@@ -35,18 +35,17 @@ use App
 
 // });
 //Admin
-Route::put('/news/UpdateStatuses', [NewsController::class, 'UpdateStatuses']);//ok 
-Route::post('/login', [AuthController::class, 'login']);
-Route::middleware('check.jwt')->group(function () {
 
-    
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware('check.jwt')->group(function () {
     Route::get('/admin/news', [NewsController::class, 'getAllNews']);
     Route::put('/news/UpdateStatuses', [NewsController::class, 'UpdateStatuses']); //ok 
     Route::put('/news/{id}', [NewsController::class, 'updateNews']); //ok
     Route::post('/news', [NewsController::class, 'saveNews']); //ok
-    Route::get('/getCurrentUser', [AuthController::class, 'getCurrentUser']);
-        Route::put('/news/update-status-vi/{id}', [NewsController::class, 'updateStatusVi']);//ok
-    Route::put('/news/update-status-en/{id}', [NewsController::class, 'updateStatusEn']);//ok
+    Route::get('/getUserByToken', [AuthController::class, 'getUserByToken']);
+    Route::put('/news/update-status-vi/{id}', [NewsController::class, 'updateStatusVi']); //ok
+    Route::put('/news/update-status-en/{id}', [NewsController::class, 'updateStatusEn']); //ok
 });
 
 Route::middleware(['check.jwt', 'check.role'])->group(function () {
@@ -69,9 +68,9 @@ Route::get('/news/{id}', [NewsController::class, 'getNewByID'])->middleware('ver
 Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']); //ok
 
 Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByUser']);
-Route::get('/get5LatestNews', [NewsController::class, 'get5LatestNews']);//ok
-Route::get('/getTop5ViewCount', [NewsController::class, 'getTop5ViewCount']);//ok
-Route::get('/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5RelatedCategory']);//ok
+Route::get('/get5LatestNews', [NewsController::class, 'get5LatestNews']); //ok
+Route::get('/getTop5ViewCount', [NewsController::class, 'getTop5ViewCount']); //ok
+Route::get('/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5RelatedCategory']); //ok
 
 
 

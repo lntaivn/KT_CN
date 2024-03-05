@@ -113,7 +113,6 @@ export {
     UpdateStatusEn,
     updateViewCount,
     UpdateStatuses
-    UpdateStatuses
 };
 
 // CreateUser, GetAllUser, GetUserById

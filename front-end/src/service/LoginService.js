@@ -12,16 +12,10 @@ const postToken = (email,uid,photoURL) => {
 
 const logoutToken = () => {
     return axios.get(`${process.env.REACT_APP_API_DOMAIN}/logout`, { withCredentials: true });
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/logout`, { withCredentials: true });
 };
 
-const getCurrentUser = () => {
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/getCurrentUser`, { withCredentials: true });
-};
-const GetUserByToken = () => {
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/GetUserByToken`, { withCredentials: true });
+const getUserByToken = () => {
+    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/getUserByToken`, { withCredentials: true });
 };
 
-export { postToken, logoutToken, getCurrentUser }
-
-export {postToken, logoutToken, GetUserByToken}
+export {postToken, logoutToken, getUserByToken}

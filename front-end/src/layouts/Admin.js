@@ -8,6 +8,7 @@ import Navbar from "../components/pages/Admin/Navbar/Navbar";
 import Post from "../components/pages/Admin/Post/Post";
 import { useState } from "react";
 import { message } from 'antd';
+import UserManager from "../components/pages/Admin/UserManager/UserManager";
 
 function Admin() {
 
@@ -36,6 +37,7 @@ function Admin() {
           <Route path="/post" element={<Post successNoti={successNoti} errorNoti={errorNoti}/>} />
           <Route path="/post/create" element={<CreateNews collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} />} />
           <Route path="/post/update/:id" element={<UpdateNews />} />
+          <Route path="/user" element={<UserManager successNoti={successNoti} errorNoti={errorNoti}/>} />
         </Routes>
       </div>
     </div>

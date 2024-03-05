@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import moment from 'moment';
 import { Table, Tooltip, Image, Spin } from 'antd';
 import { Avatar, BreadcrumbItem, Breadcrumbs, Button, Switch, User } from "@nextui-org/react";
-import { getCurrentUser } from "../../../../service/LoginService";
+import { getUserByToken } from "../../../../service/LoginService";
 
 const Post = (props) => {
 
@@ -226,8 +226,8 @@ const Post = (props) => {
             lang: lang,
             status: lang === "vi" ? !checkValueVI : !checkValueEN
         }
-        console.log(putData);
-        const response = await UpdateStatuses(putData);
+        
+        await UpdateStatuses(putData);
 
         await getNews();
 
@@ -291,6 +291,8 @@ const Post = (props) => {
                 };
             });
 
+            console.log(updatedNewsData)
+
             setNewsListData(updatedNewsData);
 
             setSpinning(false);
@@ -307,7 +309,7 @@ const Post = (props) => {
     }, []);
     
     const handleGetCurrentUser = async () => {
-        const user_info = await getCurrentUser();
+        const user_info = await getUserByToken();
         console.log(user_info);
     }
 

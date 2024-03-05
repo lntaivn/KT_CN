@@ -20,7 +20,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'logout', 'getCurrentUser']]);
+        $this->middleware('auth:api', ['except' => ['login', 'logout', 'getUserByToken']]);
     }
 
     public function login(Request $request)
@@ -40,12 +40,13 @@ class AuthController extends Controller
                 }
             } else {
                 $user->UID = $UID;
+                $user->photoURL = $photoURL;
                 $user->save();
             }
-    
+
             $token = JWTAuth::fromUser($user);
             if ($token) {
-                $cookie = Cookie::make('jwt_token', $token, 3600); 
+                $cookie = Cookie::make('jwt_token', $token, 2592000);
                 return response()->json(compact('user'))->withCookie($cookie);
             } else {
                 return response()->json(0);
@@ -54,9 +55,7 @@ class AuthController extends Controller
             return response()->json(0);
         }
     }
-    
 
-    
     public function logout(Request $request)
     {
         try {
@@ -71,4 +70,14 @@ class AuthController extends Controller
         }
     }
 
+    public function getUserByToken(Request $request)
+    {
+        try {
+            // Trả về phản hồi thành công
+            return response()->json($request->user_info);
+        } catch (\Exception $e) {
+            // Xử lý nếu có lỗi xảy ra
+            return response()->json(['error' => 'Đã có lỗi xảy ra'], 500);
+        }
+    }
 }
