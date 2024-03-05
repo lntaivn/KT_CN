@@ -1,5 +1,4 @@
 import axios from "axios";
-import axiosInstance from './AxiosInstance'; // Đường dẫn tới tệp axiosInstance bạn đã tạo
 
 const GetNewViEn = () => {
   
@@ -41,11 +40,11 @@ const SaveDataNewViEn = (
         title_vi: title_vi,
         content_en: content_en,
         content_vi: content_vi,
-        view_count: 1000,
+        view_count: 0,
         thumbnail: thumbnail,
     };
     console.log(data);
-    return axios.post(`http://127.0.0.1:8000/api/news`, data);
+    return axios.post(`http://127.0.0.1:8000/api/news`, data,{ withCredentials: true });
 };
 const ListNews = () => {
     
@@ -72,6 +71,7 @@ const PutNewsByID = (
     title_vi,
     content_en,
     content_vi,
+    view_count,
     thumbnail
 ) => {
     const data = {
@@ -81,11 +81,11 @@ const PutNewsByID = (
         title_vi: title_vi,
         content_en: content_en,
         content_vi: content_vi,
-        view_count: 0,
+        view_count: view_count,
         thumbnail: thumbnail,
     };
     console.log("data", data);
-    return axios.put(`http://127.0.0.1:8000/api/news/${id}`, data);
+    return axios.put(`http://127.0.0.1:8000/api/news/${id}`, data,{ withCredentials: true });
 };
 
 const UpdateStatusVi = (id) => {

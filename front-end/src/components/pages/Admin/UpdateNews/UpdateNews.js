@@ -26,6 +26,7 @@ const UpdateNews = () => {
 
     const [contentLoadEn, setContentLoadEn] = useState("");
     const [contentLoadVi, setContentLoadVi] = useState("");
+    const [viewcount, setviewcount] = useState(0);
 
     const handleENChange = (event, editor) => {
         const data = editor.getData();
@@ -60,12 +61,14 @@ const UpdateNews = () => {
                 const categoryFromResponse = response.data[0].id_category;
                 const content_enFromResponse = response.data[0].content_en;
                 const content_viFromResponse = response.data[0].content_vi;
+                const viewCount = response.data[0].view_count;
                 setContentLoadEn(content_enFromResponse);
                 setContentLoadVi(content_viFromResponse);
                 setSelectedCategory(categoryFromResponse);
                 setImageUrl(imageUrlFromResponse);
                 setContentEN(content_enFromResponse);
                 setContentVI(content_viFromResponse);
+                setviewcount(viewCount)
             } else {
                 console.error("No data found in the response");
             }
@@ -139,6 +142,7 @@ const UpdateNews = () => {
             title_vi,
             contentEN,
             contentVI,
+            viewcount,
             imageUrl
         )
             .then((response) => {

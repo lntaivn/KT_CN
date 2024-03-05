@@ -32,7 +32,8 @@ class CheckJwtToken
             if (!$user) {
                 throw new Exception('User not authenticated.');
             }
-            return $next($request);
+        
+            return $next($id_user);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
