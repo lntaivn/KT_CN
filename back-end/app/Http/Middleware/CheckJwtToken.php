@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Middleware;
+
 use Exception;
 use Closure;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\User;
-use Illuminate\Support\Facades\DB; 
-use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CheckJwtToken
 {

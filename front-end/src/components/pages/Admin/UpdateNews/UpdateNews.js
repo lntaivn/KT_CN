@@ -68,7 +68,7 @@ const UpdateNews = () => {
                 setImageUrl(imageUrlFromResponse);
                 setContentEN(content_enFromResponse);
                 setContentVI(content_viFromResponse);
-                setviewcount(viewCount)
+                setviewcount(viewCount);
             } else {
                 console.error("No data found in the response");
             }
@@ -76,7 +76,9 @@ const UpdateNews = () => {
             console.error("Error fetching newsDetailData:", error);
         }
     };
+
     useEffect(() => {
+        console.log("id bài viết", id);
         getDetailNews();
         getCategories();
     }, []);
@@ -184,7 +186,7 @@ const UpdateNews = () => {
                     listType="picture-card"
                     className="avatar-uploader"
                     showUploadList={false}
-                    action="http://127.0.0.1:8000/api/admin/upload-image-" // Thay đổi URL tại đây
+                    action="api/admin/upload-image-" // Thay đổi URL tại đây
                     beforeUpload={beforeUpload}
                     onChange={handleChange}
                 >
@@ -236,8 +238,7 @@ const UpdateNews = () => {
                                 }}
                                 config={{
                                     ckfinder: {
-                                        uploadUrl:
-                                            "http://127.0.0.1:8000/api/admin/upload-image",
+                                        uploadUrl: "api/admin/upload-image",
                                     },
                                 }}
                             />
