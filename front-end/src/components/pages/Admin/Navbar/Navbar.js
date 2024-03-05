@@ -1,7 +1,6 @@
 import logo from "../../../../assets/KTCN.png"
 import { Link, useLocation } from 'react-router-dom';
 import { onAuthStateChanged } from "firebase/auth";
-import Cookies from 'js-cookie';
 
 import { auth, signInWithGoogle, signOut} from "../../../../service/firebase";
 import { postToken, logoutToken } from "../../../../service/LoginService";
@@ -16,7 +15,7 @@ function Navbar(props) {
     const { collapsedNav, setCollapsedNav } = props;
 
     const [currentUser, setCurrentUser] = useState(null);
-    const [Authdata, setAuth] = useState(null);
+    //const [Authdata, setAuth] = useState(null);
 
     const setActive = (href) => {
         if (location.pathname === href) return "Admin_tab-active";
@@ -56,6 +55,7 @@ function Navbar(props) {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setCurrentUser(user);
+
             } else {
                 console.log("user is logged out");
                 setCurrentUser(null);
@@ -67,7 +67,7 @@ function Navbar(props) {
         try {
             const user = await signInWithGoogle();
 
-            await postToken(user.email);
+            await postToken(user.email, user.uid, user.photoURL);
 
             window.location.reload();
         } catch (err) {

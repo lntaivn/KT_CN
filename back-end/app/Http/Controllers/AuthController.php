@@ -26,17 +26,35 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $email = $request->input('email');
-
+        $UID = $request->input('uid');
+        $photoURL = $request->input('photoURL');
         $user = User::where('email', $email)->first();
-        if (!$user) {
+        if ($user) {
+            if ($user->UID) {
+                if ($user->UID !== $UID) {
+                    return response()->json(0);
+                }
+                if ($user->photoURL !== $photoURL) {
+                    $user->photoURL = $photoURL;
+                    $user->save();
+                }
+            } else {
+                $user->UID = $UID;
+                $user->save();
+            }
+    
+            $token = JWTAuth::fromUser($user);
+            if ($token) {
+                $cookie = Cookie::make('jwt_token', $token, 3600); 
+                return response()->json(compact('user'))->withCookie($cookie);
+            } else {
+                return response()->json(0);
+            }
+        } else {
             return response()->json(0);
         }
-
-        $token = JWTAuth::fromUser($user, ['ttl' => 3600]);
-        $cookie = Cookie::make('jwt_token', $token, 3600); // Cookie expires in 60 minutes
-
-        return response()->json(compact('user'))->withCookie($cookie);
     }
+    
 
     
     public function logout(Request $request)
