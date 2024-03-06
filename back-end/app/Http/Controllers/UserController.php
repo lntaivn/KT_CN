@@ -34,16 +34,21 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
-            $request->validate([
-                'email' => 'required|email|unique:users,email',
-            ]);
-
-            $user = User::create([
-                'email' => $request->input('email'),
-            ]);
-            return response()->json($user, 201);
+            // $request->validate([
+            //     'email' => 'required|email|unique:users,email',
+            // ]);
+            $email = $request->input('email');
+            $checkEmailUser = User::where('email', $email)->first();
+            if ($checkEmailUser) {
+                return response()->json(['message' => 'Email already exists.'], 409);
+            } else {
+                $user = User::create([
+                    'email' => $email,
+                ]);
+                return response()->json(['message' => 'ok', $user], 201);
+            }
         } catch (\Exception $e) {
-            return response()->json(['message' => 'An error occurred while processing your request.'], 500);
+            return response()->json(['message' => 'please input email'], 500);
         }
     }
     public function updateRole(Request $request)
@@ -56,9 +61,9 @@ class UserController extends Controller
 
             if ($user) {
                 // Set the role based on the value of the $role variable
-                if ($role === 'admin') {
+                if ($role === 'SuperAdmin') {
                     $user->role = 1;
-                } elseif ($role === 'user') {
+                } elseif ($role === 'Admin') {
                     $user->role = 0;
                 } else {
                     // Invalid role provided
