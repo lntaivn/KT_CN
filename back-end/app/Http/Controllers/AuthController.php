@@ -41,6 +41,7 @@ class AuthController extends Controller
             } else {
                 $user->UID = $UID;
                 $user->photoURL = $photoURL;
+                $user->photoURL = $photoURL;
                 $user->save();
                 if ($user->photoURL !== $photoURL) {
                     $user->photoURL = $photoURL;
@@ -48,9 +49,12 @@ class AuthController extends Controller
                 }
             }
 
-            $token = JWTAuth::fromUser($user);
+            // Tạo token với TTL là 30 ngày
+            $token = JWTAuth::fromUser($user, ['ttl' => 2592000]);
+
             if ($token) {
-                $cookie = Cookie::make('jwt_token', $token, 36000);
+                // Tạo cookie với TTL là 30 ngày
+                $cookie = Cookie::make('jwt_token', $token, 2592000);
                 return response()->json(compact('user'))->withCookie($cookie);
             } else {
                 return response()->json("Token error", 500);
@@ -59,8 +63,6 @@ class AuthController extends Controller
             return response()->json("Error", 500);
         }
     }
-
-
 
     public function logout(Request $request)
     {
@@ -75,6 +77,12 @@ class AuthController extends Controller
 
     public function getCurrentUser(Request $request)
     {
-        return response()->json($request->user_info);
+        try {
+            // Trả về phản hồi thành công
+            return response()->json($request->user_info);
+        } catch (\Exception $e) {
+            // Xử lý nếu có lỗi xảy ra
+            return response()->json(['error' => 'Đã có lỗi xảy ra'], 500);
+        }
     }
 }

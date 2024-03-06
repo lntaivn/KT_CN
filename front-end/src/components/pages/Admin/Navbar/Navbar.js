@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 function Navbar(props) {
 
     const location = useLocation();
-    const { collapsedNav, setCollapsedNav } = props;
+    const { collapsedNav, setCollapsedNav, setSpinning } = props;
 
     const [currentUser, setCurrentUser] = useState(null);
     //const [Authdata, setAuth] = useState(null);
@@ -55,7 +55,7 @@ function Navbar(props) {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setCurrentUser(user);
-
+                // postToken(user.email, user.uid, user.photoURL);
             } else {
                 console.log("user is logged out");
                 setCurrentUser(null);
@@ -64,11 +64,12 @@ function Navbar(props) {
     }, []);
 
     const handleLoginWithGoogle = async (onClose) => {
+        setSpinning(true);
         try {
             const user = await signInWithGoogle();
 
             await postToken(user.email, user.uid, user.photoURL);
-
+            setSpinning(false);
             window.location.reload();
         } catch (err) {
             console.error(err);
@@ -76,10 +77,10 @@ function Navbar(props) {
     }
 
     const handleLogout = async () => {
+        setSpinning(true);
         try {
-            await signOut(auth);
-            await logoutToken();
-
+            await Promise.all([signOut(auth), logoutToken()]);
+            setSpinning(false);
             window.location.reload();
         } catch (err) {
             console.error(err);

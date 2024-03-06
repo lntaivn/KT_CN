@@ -7,12 +7,15 @@ import { Link, Route, Routes } from 'react-router-dom';
 import Navbar from "../components/pages/Admin/Navbar/Navbar";
 import Post from "../components/pages/Admin/Post/Post";
 import { useState } from "react";
-import { message } from 'antd';
+import { message, Spin } from 'antd';
+import UserManager from "../components/pages/Admin/UserManager/UserManager";
+import PostStored from "../components/pages/Admin/Post/PostStored";
 
 function Admin() {
 
   const [collapsedNav, setCollapsedNav] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const [spinning, setSpinning] = useState(false);
 
   const successNoti = (msg) => {
     messageApi.open({
@@ -30,12 +33,15 @@ function Admin() {
   return (
     <div className="Admin flex h-[100vh]">
       {contextHolder}
-      <Navbar collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} />
+      <Spin spinning={spinning} fullscreen />
+      <Navbar collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} setSpinning={setSpinning}/>
       <div className='Admin-Content flex-1 h-full overflow-auto p-5 px-7'>
         <Routes>
-          <Route path="/post" element={<Post successNoti={successNoti} errorNoti={errorNoti}/>} />
+          <Route path="/post" element={<Post successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
+          <Route path="/post/stored" element={<PostStored successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
           <Route path="/post/create" element={<CreateNews collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} />} />
-          <Route path="/post/update/:id" element={<UpdateNews />} />
+          <Route path="/post/update/:id" element={<UpdateNews collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav}/>} />
+          <Route path="/user" element={<UserManager successNoti={successNoti} errorNoti={errorNoti}/>} />
         </Routes>
       </div>
     </div>

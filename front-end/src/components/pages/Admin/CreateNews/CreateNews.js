@@ -164,7 +164,7 @@ const CreateNews = (props) => {
     return (
         <div>
             <div className="CreateNews flex flex-col gap-7 items-start">
-                <div className="flex items-center justify-between w-full">
+                <div className="flex items-start justify-between w-full">
                     <Breadcrumbs underline="hover">
                         <BreadcrumbItem>Admin Dashboard</BreadcrumbItem>
                         <BreadcrumbItem>
@@ -350,7 +350,7 @@ const CreateNews = (props) => {
                     </div>
                 </div>
                 <Button onClick={SaveData} color="primary" radius="sm">
-                    <span className="font-semibold">Tạo bài viết</span>
+                    <span className="font-medium">Tạo bài viết</span>
                 </Button>
             </div>
         </div>

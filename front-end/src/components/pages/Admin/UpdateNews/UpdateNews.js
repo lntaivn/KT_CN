@@ -6,15 +6,22 @@ import {
     GetAllCategories,
     PutNewsByID,
 } from "../../../../service/ApiService";
-import { Collapse, Input, Upload, Select, Button, Image, message } from "antd";
+import { Collapse, Input, Upload, Select, Image, message, Tooltip } from "antd";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 
 import { Link, useParams } from "react-router-dom";
 import "./UpdateNews.css";
+import { BreadcrumbItem, Breadcrumbs, Button } from "@nextui-org/react";
 const { Option } = Select;
 const { Panel } = Collapse;
 
-const UpdateNews = () => {
+const UpdateNews = (props) => {
+
+    const { setCollapsedNav } = props;
+
+    const [layout, setLayout] = useState("col");
+    const [disableRowLayout, setDisableRowLayout] = useState(false);
+
     const { id } = useParams();
     const [newsDetailData, setNewsDetailData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -37,6 +44,36 @@ const UpdateNews = () => {
         const data = editor.getData();
         setContentVI(data);
     };
+
+    const handleToggleLayout = (_layout) => {
+        setLayout(_layout);
+        if (_layout === "col") {
+            setCollapsedNav(false);
+        } else {
+            setCollapsedNav(true);
+        }
+    };
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 1024) {
+                setLayout("col");
+                setDisableRowLayout(true);
+            } else {
+                setDisableRowLayout(false);
+            }
+            console.log(window.innerWidth);
+        };
+
+        handleResize();
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
     const handleCategoryChange = (value, option) => {
         setSelectedCategory(value);
     };
@@ -156,9 +193,45 @@ const UpdateNews = () => {
     };
 
     return (
-        <div>
-            <div className="CreateNews">
-                <h1>Tạo bài viết mới</h1>
+        <div className="CreateNews">
+            <div className="flex items-start justify-between w-full">
+                <Breadcrumbs underline="hover">
+                    <BreadcrumbItem>Admin Dashboard</BreadcrumbItem>
+                    <BreadcrumbItem>
+                        <Link to="/admin/post">Quản lý bài viết</Link>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem>Chỉnh sửa bài viết</BreadcrumbItem>
+                </Breadcrumbs>
+                <div className="flex gap-2">
+                    <Tooltip title="Chế độ 1 cột">
+                        <Button
+                            isIconOnly
+                            variant={layout === "col" ? "solid" : "light"}
+                            radius="full"
+                            onClick={() => {
+                                handleToggleLayout("col");
+                            }}
+                        >
+                            <i className="fa-solid fa-table-list"></i>
+                        </Button>
+                    </Tooltip>
+                    <Tooltip title="Chế độ song song">
+                        <Button
+                            isIconOnly
+                            variant={layout === "row" ? "solid" : "light"}
+                            radius="full"
+                            onClick={() => {
+                                handleToggleLayout("row");
+                            }}
+                            isDisabled={disableRowLayout}
+                        >
+                            <i className="fa-solid fa-table-columns"></i>
+                        </Button>
+                    </Tooltip>
+                </div>
+            </div>
+            <div>
+
                 {newsDetailData.map((news) => (
                     <Input.TextArea
                         id="title_vi"
@@ -247,9 +320,11 @@ const UpdateNews = () => {
                 </Collapse>
                 <br />
                 <br />
-                <Button type="dashed" onClick={Update}>
-                    Get Data
-                </Button>
+                <div className="w-full flex justify-end">
+                    <Button radius="sm" onClick={Update} color="primary" className="font-medium text-[white]">
+                        Lưu thay đổi
+                    </Button>
+                </div>
             </div>
         </div>
     );
