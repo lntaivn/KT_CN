@@ -17,11 +17,13 @@ class News extends Model
         'title_vi',
         'content_en',
         'content_vi',
+        'is_deleted',
         'status_vi',
         'status_en',
         'thumbnail',
+        'is_deleted',
         'view_count',
-        'update_by',
+        'update_by'
     ];
 
     // Xác định mối quan hệ với các model khác
