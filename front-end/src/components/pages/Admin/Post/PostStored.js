@@ -15,11 +15,12 @@ import {
     BreadcrumbItem,
     Breadcrumbs,
     Button,
-    Switch
+    Switch,
+    User,
 } from "@nextui-org/react";
 import { getAllNewsForAdmin } from "../../../../service/NewsService";
 
-const Post = (props) => {
+const PostStored = (props) => {
     const { successNoti, errorNoti, setSpinning } = props;
 
     const [newsListData, setNewsListData] = useState([]);
@@ -28,6 +29,25 @@ const Post = (props) => {
 
     const [selectedRow, setSelectedRow] = useState([]);
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
+    const calculateRemainingTime = (deleteDate) => {
+        const deleteMoment = moment(deleteDate);
+        const futureDate = deleteMoment.add(30, 'days');
+        const remainingMinutes = futureDate.diff(moment(), 'minutes');
+
+        if (remainingMinutes < 60) {
+            // Nếu còn dưới 1 giờ, tính số phút còn lại
+            return { minutes: Math.max(0, remainingMinutes) };
+        } else if (remainingMinutes < 24 * 60) {
+            // Nếu còn dưới 1 ngày, tính số giờ còn lại
+            const hours = Math.floor(remainingMinutes / 60);
+            return { hours };
+        } else {
+            // Nếu còn trên 1 ngày, tính số ngày còn lại
+            const remainingDays = futureDate.diff(moment(), 'days');
+            return { days: remainingDays };
+        }
+    };
 
     const columns = [
         {
@@ -158,57 +178,22 @@ const Post = (props) => {
         {
             title: (
                 <div className="flex items-center justify-center w-full">
-                    <Tooltip title="Ẩn/hiện VN">
-                        <Avatar
-                            alt="Việt Nam"
-                            className="w-5 h-5"
-                            src="https://flagcdn.com/vn.svg"
-                        />
+                    <Tooltip title="Thời gian tự động xoá">
+                        <i className="fa-solid fa-hourglass-half text-[15px]"></i>
                     </Tooltip>
                 </div>
             ),
-            dataIndex: "status_vi",
-            render: (record) => (
-                <div className="flex items-center justify-center w-full">
-                    <Switch
-                        key={record.id}
-                        size="sm"
-                        classNames={{
-                            wrapper: "mr-0",
-                        }}
-                        isSelected={record.value}
-                        onClick={() => handleUpdateStatus_vi(record.id)}
-                        className="scale-80"
-                    ></Switch>
-                </div>
-            ),
-        },
-        {
-            title: (
-                <div className="flex items-center justify-center w-full">
-                    <Tooltip title="Ẩn/hiện EN">
-                        <Avatar
-                            alt="Engish"
-                            className="w-5 h-5"
-                            src="https://flagcdn.com/gb.svg"
-                        />
-                    </Tooltip>
-                </div>
-            ),
-            dataIndex: "status_en",
-            render: (record) => (
-                <div className="flex items-center justify-center w-full">
-                    <Switch
-                        size="sm"
-                        isSelected={record.value}
-                        classNames={{
-                            wrapper: "mr-0",
-                        }}
-                        onClick={() => handleUpdateStatus_en(record.id)}
-                        className="scale-80"
-                    ></Switch>
-                </div>
-            ),
+            dataIndex: "auto_delete",
+            render: (date) => {
+                const { days, hours, minutes } = calculateRemainingTime(date);
+                if (days) {
+                    return <p className="text-[14px]">Tự động xoá sau {days} ngày</p>;
+                } else if (hours) {
+                    return <p className="text-[14px]">Tự động xoá sau {hours} giờ</p>;
+                } else {
+                    return <p className="text-[14px]">Tự động xoá sau {minutes} phút</p>;
+                }
+            },
         },
         {
             title: (
@@ -219,24 +204,12 @@ const Post = (props) => {
             dataIndex: "action",
             render: (_id) => (
                 <div className="flex flex-col items-center justify-center w-full gap-2">
-                    <Tooltip title="Chỉnh sửa">
-                        <Button
-                            isIconOnly
-                            variant="light"
-                            radius="full"
-                            size="sm"
-                            as={Link}
-                            to={`update/${_id}`}
-                        >
-                            <i className="fa-solid fa-pen"></i>
-                        </Button>
-                    </Tooltip>
                     <Tooltip title="Xoá">
                         <Button
                             isIconOnly
                             variant="light"
                             radius="full"
-                            size="sm"
+                            color="danger"
                         >
                             <i className="fa-solid fa-trash-can"></i>
                         </Button>
@@ -340,14 +313,6 @@ const Post = (props) => {
                         title_vi: news.vi.title_vi,
                         title_en: news.en.title_en,
                     },
-                    status_vi: {
-                        value: news.vi.status_vi,
-                        id: news.id_new,
-                    },
-                    status_en: {
-                        value: news.en.status_en,
-                        id: news.id_new,
-                    },
                     view_count: news.view_count,
                     category: {
                         en: news.en.category_name_en,
@@ -373,6 +338,7 @@ const Post = (props) => {
                         }
                     },
                     action: news.id_new,
+                    auto_delete: news.updated_at
                 };
             });
 
@@ -390,63 +356,29 @@ const Post = (props) => {
         getCategory();
     }, []);
 
-    const handleUpdateStatus_vi = async (id) => {
-        setSpinning(true);
-        try {
-            const response = await UpdateStatusVi(id);
-            await getNews();
-            setSpinning(false);
-            successNoti("Cập nhật thành công");
-        } catch (error) {
-            console.error("error update: ", error);
-            setSpinning(false);
-            errorNoti("Cập nhật thất bại");
-        }
-    };
-
-    const handleUpdateStatus_en = async (id) => {
-        setSpinning(true);
-        try {
-            const response = await UpdateStatusEn(id);
-            await getNews();
-            setSpinning(false);
-            successNoti("Cập nhật thành công");
-        } catch (error) {
-            console.error("error update: ", error);
-            setSpinning(false);
-            errorNoti("Cập nhật thất bại");
-        }
-    };
-
     return (
         <div className="HomeAdmin flex flex-col gap-5 items-start">
             <div className="flex items-start justify-between w-full">
                 <Breadcrumbs underline="hover">
                     <BreadcrumbItem>Admin Dashboard</BreadcrumbItem>
-                    <BreadcrumbItem>Quản lý bài viết</BreadcrumbItem>
+                    <BreadcrumbItem>
+                        <Link to="/admin/post">Quản lý bài viết</Link>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem>Bài viết được lưu trữ</BreadcrumbItem>
                 </Breadcrumbs>
                 <div className="flex gap-2">
-                    <Tooltip title="Bài viết đã xoá">
+                    <Tooltip title="Xoá vĩnh viễn toàn bộ bài viết" placement="left">
                         <Button
                             isIconOnly
-                            radius="full"
                             variant="light"
-                            to="stored"
-                            as={Link}
+                            color="danger"
+                            radius="full"
                         >
-                            <i className="fa-solid fa-trash-can-arrow-up text-[17px]"></i>
+                            <i className="fa-solid fa-broom"></i>
                         </Button>
                     </Tooltip>
                 </div>
             </div>
-            <Button
-                color="primary"
-                radius="sm"
-                as={Link}
-                to="/admin/post/create"
-            >
-                Tạo bài viết
-            </Button>
             {selectedRowKeys.length !== 0 && (
                 <div className="Quick__Option flex justify-between items-center sticky top-2 bg-[white] z-50 w-full p-4 py-3 shadow-lg rounded-md border-1 border-slate-300">
                     <p className="text-sm font-medium">
@@ -455,59 +387,17 @@ const Post = (props) => {
                     </p>
                     <div className="flex items-center gap-2">
                         <Tooltip
-                            title={`${getValueOfVISelectedRow() ? "Ẩn" : "Hiện"
-                                } ${selectedRowKeys.length} bài viết`}
+                            title={`Khôi phục ${selectedRowKeys.length} bài viết`}
                             getPopupContainer={() =>
                                 document.querySelector(".Quick__Option")
                             }
                         >
-                            <Switch
-                                size="sm"
-                                className="scale-80"
-                                isSelected={getValueOfVISelectedRow()}
-                                classNames={{
-                                    base: "flex-row-reverse gap-2",
-                                    wrapper: "mr-0",
-                                }}
-                                onClick={() => {
-                                    handleUpdateStatuses("vi");
-                                }}
-                            >
-                                <Avatar
-                                    alt="Việt Nam"
-                                    className="w-6 h-6"
-                                    src="https://flagcdn.com/vn.svg"
-                                />
-                            </Switch>
+                            <Button isIconOnly variant="light" radius="full">
+                                <i className="fa-solid fa-clock-rotate-left"></i>
+                            </Button>
                         </Tooltip>
                         <Tooltip
-                            title={`${getValueOfENSelectedRow() ? "Ẩn" : "Hiện"
-                                } ${selectedRowKeys.length} bài viết`}
-                            getPopupContainer={() =>
-                                document.querySelector(".Quick__Option")
-                            }
-                        >
-                            <Switch
-                                size="sm"
-                                className="scale-80"
-                                isSelected={getValueOfENSelectedRow()}
-                                classNames={{
-                                    base: "flex-row-reverse gap-2",
-                                    wrapper: "mr-0",
-                                }}
-                                onClick={() => {
-                                    handleUpdateStatuses("en");
-                                }}
-                            >
-                                <Avatar
-                                    alt="English"
-                                    className="w-6 h-6"
-                                    src="https://flagcdn.com/gb.svg"
-                                />
-                            </Switch>
-                        </Tooltip>
-                        <Tooltip
-                            title={`Xoá ${selectedRowKeys.length} bài viết`}
+                            title={`Xoá vĩnh viễn ${selectedRowKeys.length} bài viết`}
                             getPopupContainer={() =>
                                 document.querySelector(".Quick__Option")
                             }
@@ -536,7 +426,11 @@ const Post = (props) => {
                     </div>
                 </div>
             )}
-            <div className="ListNews w-full">
+            <div className="ListNews w-full flex flex-col gap-1">
+                <div className="text-[12px] opacity-50">
+                    <i className="fa-solid fa-circle-info mr-1"></i>
+                    Bài viết được lưu trữ sẽ tự động xoá sau 30 ngày
+                </div>
                 <Table
                     bordered
                     loading={loading}
@@ -553,4 +447,4 @@ const Post = (props) => {
     );
 };
 
-export default Post;
+export default PostStored;

@@ -32,13 +32,12 @@ Route::get('/logout', [AuthController::class, 'logout']);
 Route::middleware('check.jwt')->group(function () {
     Route::get('/admin/news', [NewsController::class, 'getAllNewsAdmin']);
     Route::post('/admin/news', [NewsController::class, 'saveNews']);//ok
-    Route::put('/admin/news/{id}', [NewsController::class, 'updateNews']);
-    Route::get('/admin/news/{id}', [NewsController::class, 'getNewByIDAdmin']);//ok
+    Route::put('/admin/news/update/UpdateStatuses', [NewsController::class, 'UpdateStatuses']);
     Route::put('/admin/news/update/status-en/{id}', [NewsController::class, 'updateStatusEn']);
     Route::put('/admin/news/update/status-vi/{id}', [NewsController::class, 'updateStatusVi']);
-    Route::put('/admin/news/update/UpdateStatuses', [NewsController::class, 'UpdateStatuses']);
+    Route::put('/admin/news/{id}', [NewsController::class, 'updateNews']);
+    Route::get('/admin/news/{id}', [NewsController::class, 'getNewByIDAdmin']);//ok
     Route::get('/admin/getCurrentUser', [AuthController::class, 'getCurrentUser']);
-
 });
 //category
 Route::middleware('check.jwt')->group(function () {

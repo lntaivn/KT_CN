@@ -1,4 +1,5 @@
 import axios from "axios";
+import { axiosInstance } from "./AxiosCofig";
 
 const GetNewViEn = () => {
     return axios.get(`${process.env.REACT_APP_API_DOMAIN}/news`);
@@ -95,25 +96,16 @@ const PutNewsByID = (
 };
 
 const UpdateStatusVi = (id) => {
-    return axios.put(
-        `${process.env.REACT_APP_API_DOMAIN}/news/update-status-vi/${id}`
-    );
+    return axiosInstance.put(`/admin/news/update/status-vi/${id}`);
 };
 
+// Hàm update trạng thái cho tiếng Anh
 const UpdateStatusEn = (id) => {
-    return axios.put(
-        `${process.env.REACT_APP_API_DOMAIN}/news/update-status-en/${id}`
-    );
+    return axiosInstance.put(`/admin/news/update/status-en/${id}`);
 };
 
 const UpdateStatuses = (data) => {
-    return axios.put(
-        `${process.env.REACT_APP_API_DOMAIN}/news/UpdateStatuses`,
-        data,
-        {
-            withCredentials: true,
-        }
-    );
+    return axiosInstance.put(`/admin/news/update/UpdateStatuses`, data);
 };
 
 export {

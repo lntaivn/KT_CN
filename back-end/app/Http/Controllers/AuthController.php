@@ -20,7 +20,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'logout', 'getUserByToken']]);
+        $this->middleware('auth:api', ['except' => ['login', 'logout', 'getCurrentUser']]);
     }
 
     public function login(Request $request)
@@ -48,8 +48,11 @@ class AuthController extends Controller
                 }
             }
 
-            $token = JWTAuth::fromUser($user);
+            // Tạo token với TTL là 30 ngày
+            $token = JWTAuth::fromUser($user, ['ttl' => 2592000]);
+
             if ($token) {
+                // Tạo cookie với TTL là 30 ngày
                 $cookie = Cookie::make('jwt_token', $token, 2592000);
                 return response()->json(compact('user'))->withCookie($cookie);
             } else {
@@ -74,7 +77,7 @@ class AuthController extends Controller
         }
     }
 
-    public function getUserByToken(Request $request)
+    public function getCurrentUser(Request $request)
     {
         try {
             // Trả về phản hồi thành công

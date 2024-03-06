@@ -69,7 +69,7 @@ function User(props) {
                 </div>
             </div>
             <div className='flex items-center gap-2'>
-                <Dropdown>
+                <Dropdown className='scale-90'>
                     <DropdownTrigger>
                         <Button
                             variant="bordered"

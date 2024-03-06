@@ -444,6 +444,7 @@ class NewsController extends Controller
     public function updateStatusVi($id)
     {
         try {
+
             $news = News::find($id);
 
             if ($news) {
