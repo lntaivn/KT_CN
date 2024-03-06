@@ -67,7 +67,9 @@ class NewsController extends Controller
                 ->where('news.is_deleted', '=', 0)
                 ->orderBy('id_new')
                 ->get();
-
+            if (count($news) === 0) {
+                return response()->json([], 200);
+            }
 
             foreach ($news as $item) {
                 $responseData[] = [
@@ -106,7 +108,7 @@ class NewsController extends Controller
 
             return response()->json($responseData, 200);
         } catch (\Throwable $th) {
-            return response()->json("", 500);
+            return response()->json("Error", 500);
         }
     }
 
@@ -144,6 +146,9 @@ class NewsController extends Controller
                 ->orderBy('id_new')
                 ->get();
 
+            if (count($news) === 0) {
+                return response()->json([], 200);
+            }
 
             foreach ($news as $item) {
                 $responseData[] = [
@@ -180,9 +185,10 @@ class NewsController extends Controller
                 ];
             }
 
+
             return response()->json($responseData, 200);
         } catch (\Throwable $th) {
-            return response()->json("", 500);
+            return response()->json("error", 500);
         }
     }
 
@@ -403,7 +409,7 @@ class NewsController extends Controller
 
             return response()->json($responseData, 200);
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Bài viết không tồn tại'], 404);
+            return response()->json(['message' => 'Lỗi'], 404);
         }
     }
 
