@@ -237,6 +237,7 @@ const Post = (props) => {
                             variant="light"
                             radius="full"
                             size="sm"
+                            onClick={() => handleSoftDeleteById(_id)}
                         >
                             <i className="fa-solid fa-trash-can"></i>
                         </Button>
@@ -316,10 +317,29 @@ const Post = (props) => {
             const response = await softDeleteNewsByIds(putData);
             await getNews();
             setSpinning(false);
-            successNoti("Cập nhật thành công");
+            successNoti("Xoá thành công");
+            handleUnSelect();
         } catch (error) {
             setSpinning(false);
-            successNoti("Cập nhật thất bại");
+            successNoti("Xoá thất bại");
+            console.error("Error fetching news:", error);
+        }
+    };
+
+    const handleSoftDeleteById = async (_id) => {
+        setSpinning(true);
+        const putData = {
+            id_new: [_id],
+            deleted: true,
+        }
+        try {
+            const response = await softDeleteNewsByIds(putData);
+            await getNews();
+            setSpinning(false);
+            successNoti("Xoá thành công");
+        } catch (error) {
+            setSpinning(false);
+            successNoti("Xoá thất bại");
             console.error("Error fetching news:", error);
         }
     };

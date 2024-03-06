@@ -18,7 +18,7 @@ import {
     Switch,
     User,
 } from "@nextui-org/react";
-import { getAllNewsForAdmin } from "../../../../service/NewsService";
+import { getAllNewsHiddenForAdmin, softDeleteNewsByIds } from "../../../../service/NewsService";
 
 const PostStored = (props) => {
     const { successNoti, errorNoti, setSpinning } = props;
@@ -204,7 +204,17 @@ const PostStored = (props) => {
             dataIndex: "action",
             render: (_id) => (
                 <div className="flex flex-col items-center justify-center w-full gap-2">
-                    <Tooltip title="Xoá">
+                    <Tooltip title="Khôi phục">
+                        <Button
+                            isIconOnly
+                            variant="light"
+                            radius="full"
+                            onClick={() => handleSoftDeleteById(_id)}
+                        >
+                            <i className="fa-solid fa-clock-rotate-left"></i>
+                        </Button>
+                    </Tooltip>
+                    <Tooltip title="Xoá vĩnh viễn">
                         <Button
                             isIconOnly
                             variant="light"
@@ -259,24 +269,41 @@ const PostStored = (props) => {
         return checkValueEN;
     };
 
-    const handleUpdateStatuses = async (lang) => {
+    const handleSoftDelete = async () => {
         setSpinning(true);
-
-        const checkValueVI = getValueOfVISelectedRow();
-        const checkValueEN = getValueOfENSelectedRow();
-
         const putData = {
             id_new: selectedRowKeys,
-            lang: lang,
-            status: lang === "vi" ? !checkValueVI : !checkValueEN
+            deleted: false,
         }
-        console.log(putData);
-        const response = await UpdateStatuses(putData);
+        try {
+            const response = await softDeleteNewsByIds(putData);
+            await getNews();
+            setSpinning(false);
+            successNoti("Cập nhật thành công");
+            handleUnSelect();
+        } catch (error) {
+            setSpinning(false);
+            successNoti("Cập nhật thất bại");
+            console.error("Error fetching news:", error);
+        }
+    };
 
-        await getNews();
-
-        successNoti("Cập nhật thành công");
-        setSpinning(false);
+    const handleSoftDeleteById = async (_id) => {
+        setSpinning(true);
+        const putData = {
+            id_new: [_id],
+            deleted: false,
+        }
+        try {
+            const response = await softDeleteNewsByIds(putData);
+            await getNews();
+            setSpinning(false);
+            successNoti("Khôi phục thành công");
+        } catch (error) {
+            setSpinning(false);
+            successNoti("Khôi phục thất bại");
+            console.error("Error fetching news:", error);
+        }
     };
 
     const getCategory = async () => {
@@ -300,7 +327,7 @@ const PostStored = (props) => {
     const getNews = async () => {
         setSpinning(true);
         try {
-            const response = await getAllNewsForAdmin();
+            const response = await getAllNewsHiddenForAdmin();
 
             console.log(response.data)
 
@@ -367,6 +394,16 @@ const PostStored = (props) => {
                     <BreadcrumbItem>Bài viết được lưu trữ</BreadcrumbItem>
                 </Breadcrumbs>
                 <div className="flex gap-2">
+                    <Tooltip title="Làm mới">
+                        <Button
+                            isIconOnly
+                            radius="full"
+                            variant="light"
+                            onClick={() => getNews()}
+                        >
+                            <i className="fa-solid fa-rotate-right text-[17px]"></i>
+                        </Button>
+                    </Tooltip>
                     <Tooltip title="Xoá vĩnh viễn toàn bộ bài viết" placement="left">
                         <Button
                             isIconOnly
@@ -392,7 +429,7 @@ const PostStored = (props) => {
                                 document.querySelector(".Quick__Option")
                             }
                         >
-                            <Button isIconOnly variant="light" radius="full">
+                            <Button isIconOnly variant="light" radius="full" onClick={() => handleSoftDelete()}>
                                 <i className="fa-solid fa-clock-rotate-left"></i>
                             </Button>
                         </Tooltip>
