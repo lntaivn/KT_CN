@@ -17,7 +17,7 @@ import {
     Button,
     Switch
 } from "@nextui-org/react";
-import { getAllNewsForAdmin } from "../../../../service/NewsService";
+import { getAllNewsForAdmin, softDeleteNewsByIds } from "../../../../service/NewsService";
 
 const Post = (props) => {
     const { successNoti, errorNoti, setSpinning } = props;
@@ -306,6 +306,24 @@ const Post = (props) => {
         setSpinning(false);
     };
 
+    const handleSoftDelete = async () => {
+        setSpinning(true);
+        const putData = {
+            id_new: selectedRowKeys,
+            deleted: true,
+        }
+        try {
+            const response = await softDeleteNewsByIds(putData);
+            await getNews();
+            setSpinning(false);
+            successNoti("Cập nhật thành công");
+        } catch (error) {
+            setSpinning(false);
+            successNoti("Cập nhật thất bại");
+            console.error("Error fetching news:", error);
+        }
+    };
+
     const getCategory = async () => {
         try {
             const response = await GetAllCategories();
@@ -426,6 +444,16 @@ const Post = (props) => {
                     <BreadcrumbItem>Quản lý bài viết</BreadcrumbItem>
                 </Breadcrumbs>
                 <div className="flex gap-2">
+                    <Tooltip title="Làm mới">
+                        <Button
+                            isIconOnly
+                            radius="full"
+                            variant="light"
+                            onClick={() => getNews()}
+                        >
+                            <i className="fa-solid fa-rotate-right text-[17px]"></i>
+                        </Button>
+                    </Tooltip>
                     <Tooltip title="Bài viết đã xoá">
                         <Button
                             isIconOnly
@@ -512,7 +540,7 @@ const Post = (props) => {
                                 document.querySelector(".Quick__Option")
                             }
                         >
-                            <Button isIconOnly variant="light" radius="full">
+                            <Button isIconOnly variant="light" radius="full" onClick={() => { handleSoftDelete() }}>
                                 <i className="fa-solid fa-trash-can"></i>
                             </Button>
                         </Tooltip>

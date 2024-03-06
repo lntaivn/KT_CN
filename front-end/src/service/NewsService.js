@@ -1,9 +1,16 @@
 import axios from "axios";
+import { axiosInstance } from "./AxiosCofig";
 
 const getAllNewsForAdmin = () => {
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/admin/news`, {
-        withCredentials: true,
-    });
+    return axiosInstance.get(`/admin/news`);
 };
 
-export { getAllNewsForAdmin };
+const softDeleteNewsById = (id) => {
+    return axiosInstance.put(`/admin/news/softDelete/${id}`);
+};
+
+const softDeleteNewsByIds = (data) => {
+    return axiosInstance.put(`/admin/news/soft-list/delete`, data);
+};
+
+export { getAllNewsForAdmin, softDeleteNewsById, softDeleteNewsByIds };
