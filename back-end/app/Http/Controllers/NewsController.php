@@ -106,7 +106,7 @@ class NewsController extends Controller
 
             return response()->json($responseData, 200);
         } catch (\Throwable $th) {
-            return response()->json("Error", 500);
+            return response()->json("", 500);
         }
     }
 
