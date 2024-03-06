@@ -1,12 +1,34 @@
 
 import { Avatar, BreadcrumbItem, Breadcrumbs, Button, Input, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/react';
-import { useMemo, useState } from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
+import { useMemo, useState, useEffect } from 'react';
 
+import { Link, Route, Routes } from 'react-router-dom';
+import { addUser, getAllUser, updateRoleUser } from '../../../../service/UserService';
 function UserManager() {
 
     const [newUser, setNewUser] = useState("");
+    const [notification, setNotification] = useState('');
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+        fetchUsers();
+    }, []);
 
+    const fetchUsers = async () => {
+        try {
+            const response = await getAllUser();
+            setUsers(response.data);
+        } catch (error) {
+            console.error("Error fetching users:", error);
+        }
+    };
+    const handleAddUser = async () => {
+        try {
+            const response = await addUser(newUser);
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);        
+        }
+    };
     return (
         <div className='flex flex-col gap-10 w-full'>
             <Breadcrumbs underline="hover">
@@ -24,16 +46,16 @@ function UserManager() {
                         onValueChange={setNewUser}
                         isClearable
                         radius='sm'
+                        type='email'
                     />
-                    <Button radius='sm' className='text-[white] font-medium bg-green-500'>
+                    <Button radius='sm' className='text-[white] font-medium bg-green-500' onClick={handleAddUser}>
                         Thêm
                     </Button>
                 </div>
                 <div className='flex flex-col gap-3'>
-                    <User />
-                    <User />
-                    <User />
-                    <User pending={true} />
+                    {users.map(user => (
+                        <User key={user.id_user} user={user} />
+                    ))}
                 </div>
             </div>
         </div>
@@ -42,30 +64,38 @@ function UserManager() {
 
 export default UserManager;
 
-function User(props) {
+function User({ user }) {
+    const [selectedKeys, setSelectedKeys] = useState(new Set(user.role === 1 ? ["Super Admin"] : ["Admin"]));
+    const selectedValue = useMemo(() => Array.from(selectedKeys).join(", ").replaceAll("_", " "), [selectedKeys]);
 
-    const { pending } = props;
-
-    const [selectedKeys, setSelectedKeys] = useState(new Set(["Admin"]));
-
-    const selectedValue = useMemo(
-        () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
-        [selectedKeys]
-    );
-
+    const handleChangeRole = async (newSelectedKeys) => {
+        try {
+            const newRole = newSelectedKeys.has("Super Admin") ? "SuperAdmin" : "Admin";
+            const data = {
+                id_user: user.id_user,
+                role: newRole
+            }
+            console.log(data);
+            await updateRoleUser(data);
+            setSelectedKeys(newSelectedKeys);
+        } catch (error) {
+            console.error("Error updating user role:", error);
+        }
+    };
     return (
         <div className='flex items-center justify-between p-2 rounded-lg px-3 hover:bg-zinc-100 p-l-4'>
             <div className='flex items-center gap-2'>
-                <Avatar className="w-9 h-9 cursor-pointer" src="https://scontent.fsgn5-13.fna.fbcdn.net/v/t39.30808-1/416123707_1056694625528684_2294956291004952905_n.jpg?stp=dst-jpg_p320x320&_nc_cat=101&ccb=1-7&_nc_sid=5740b7&_nc_ohc=8g9Y4UOtbLUAX_4CnHV&_nc_ht=scontent.fsgn5-13.fna&oh=00_AfDBo-9Ha8mXhPOCt21obukiphEpNAEaJEI7NiIgindkIw&oe=65EB38B2" />
+                <Avatar className="w-9 h-9 cursor-pointer" src={user.photoURL} />
                 <div className="flex flex-col">
-                    {!pending ? <span className="text-[15px] font-semibold">Ka Ka</span> :
-                        pending &&
+                    {user.name ? (
+                        <span className="text-[15px] font-semibold">{user.name}</span>
+                    ) : (
                         <span className="text-[12px] text-yellow-500 mb-[1px]">
                             <i className="fa-solid fa-triangle-exclamation mr-1"></i>
                             Chưa đăng nhập
                         </span>
-                    }
-                    <p className={`text-[13px] opacity-70 -mt-1`}>kakanvk@gmail.com</p>
+                    )}
+                    <p className={`text-[13px] opacity-70 -mt-1`}>{user.email}</p>
                 </div>
             </div>
             <div className='flex items-center gap-2'>
@@ -85,7 +115,7 @@ function User(props) {
                         disallowEmptySelection
                         selectionMode="single"
                         selectedKeys={selectedKeys}
-                        onSelectionChange={setSelectedKeys}
+                        onSelectionChange={handleChangeRole}
                     >
                         <DropdownItem key="Admin">Admin</DropdownItem>
                         <DropdownItem key="Super Admin">Super Admin</DropdownItem>
@@ -94,5 +124,5 @@ function User(props) {
                 <Button isIconOnly size='sm' radius='full' variant='light' color='danger'><i className="fa-regular fa-trash-can"></i></Button>
             </div>
         </div>
-    )
+    );
 }

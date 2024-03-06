@@ -28,6 +28,7 @@ class AuthController extends Controller
         $email = $request->input('email');
         $UID = $request->input('uid');
         $photoURL = $request->input('photoURL');
+        $displayName = $request->input('displayName');
         $user = User::where('email', $email)->first();
         if ($user) {
             if ($user->UID) {
@@ -38,14 +39,19 @@ class AuthController extends Controller
                     $user->photoURL = $photoURL;
                     $user->save();
                 }
+                if ($user->name !== $displayName) {
+                    $user->name = $displayName;
+                    $user->save();
+                }
             } else {
                 $user->UID = $UID;
-                $user->photoURL = $photoURL;
-                $user->photoURL = $photoURL;
                 $user->save();
                 if ($user->photoURL !== $photoURL) {
                     $user->photoURL = $photoURL;
                     $user->save();
+                }
+                if ($user->name !== $displayName) {
+                    $user->name = $displayName;
                 }
             }
 

@@ -65,8 +65,8 @@ Route::middleware(['check.jwt', 'check.role'])->group(function () {
     Route::get('admin/users/{id_user}', [UserController::class, 'findByIdUser']);
     Route::post('admin/users', [UserController::class, 'store']);
     Route::delete('admin/users/{id_user}', [UserController::class, 'destroy']);
-    Route::put('admin/users/{id_user}', [UserController::class, 'update']);
-
+    // Route::put('admin/users/{id_user}', [UserController::class, 'update']);
+    Route::put('admin/users/role/change', [UserController::class, 'updateRole']);
 });
 
 //Admin: check role

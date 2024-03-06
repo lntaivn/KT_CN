@@ -14,8 +14,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all(); // Lấy tất cả các users từ model User
-        return response()->json($users); // Trả về view với dữ liệu users
+        try {
+            $users = User::all();
+            
+            return response()->json($users);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while fetching users'], 500);
+        }
     }
 
     /**
@@ -28,55 +33,98 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
-        ]);
-
-        $user = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password'))
-        ]);
-
-        return response()->json($user, 201);
+        try {
+            // $request->validate([
+            //     'email' => 'required|email|unique:users,email',
+            // ]);
+            $email = $request->input('email');
+            $checkEmailUser = User::where('email', $email)->first();
+            if ($checkEmailUser) {
+                return response()->json(['message' => 'Email already exists.'], 409);
+            } else {
+                $user = User::create([
+                    'email' => $email,
+                ]);
+                return response()->json(['message' => 'ok', $user], 201);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'please input email'], 500);
+        }
     }
-
-    public function update(Request $request, $id)
+    public function updateRole(Request $request)
     {
-        // Validate dữ liệu đầu vào
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email,' . $id,
-        ]);
+        try {
+            $role = $request->input('role');
+            $id = $request->input('id_user');
 
-        // Tìm người dùng cần cập nhật
-        $user = User::findOrFail($id);
+            $user = User::find($id);
 
-        // Cập nhật thông tin người dùng
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->save();
+            if ($user) {
+                // Set the role based on the value of the $role variable
+                if ($role === 'SuperAdmin') {
+                    $user->role = 1;
+                } elseif ($role === 'Admin') {
+                    $user->role = 0;
+                } else {
+                    // Invalid role provided
+                    return response()->json(['message' => 'Invalid role provided'], 400);
+                }
 
-        // Trả về thông tin của người dùng đã cập nhật
-        return response()->json($user, 200);
+                $user->save();
+                return response()->json([
+                    'message' => 'Role updated successfully',
+                    'id_user' => $id
+                ], 200);
+            } else {
+                return response()->json(['message' => 'Invalid user ID'], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred while updating the role'], 500);
+        }
     }
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
+        try {
+            $user = User::findOrFail($id);
+            
+            $user->delete();
 
-        $user->delete();
-
-        return response()->json(['message' => 'User deleted successfully'], 200);
+            return response()->json(['message' => 'User deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'User not found or could not be deleted'], 404);
+        }
     }
 
     public function findByIdUser($id_user)
     {
-        $user = User::findOrFail($id_user);
-
-
-        return response()->json($user);
+        try {
+            $user = User::findOrFail($id_user);
+            
+            return response()->json($user);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
     }
+
+    // public function update(Request $request, $id)
+    // {
+    //     // Validate dữ liệu đầu vào
+    //     $request->validate([
+    //         'name' => 'required|string',
+    //         'email' => 'required|email|unique:users,email,' . $id,
+    //     ]);
+
+    //     // Tìm người dùng cần cập nhật
+    //     $user = User::findOrFail($id);
+
+    //     // Cập nhật thông tin người dùng
+    //     $user->name = $request->name;
+    //     $user->email = $request->email;
+    //     $user->save();
+
+    //     // Trả về thông tin của người dùng đã cập nhật
+    //     return response()->json($user, 200);
+    // }
+
 }
