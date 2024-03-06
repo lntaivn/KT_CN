@@ -36,73 +36,160 @@ class NewsController extends Controller
 
     public function getAllNewsAdmin()
     {
-        $news = News::join('categories', 'news.id_category', '=', 'categories.id_category')
-            ->join('users', 'news.id_user', '=', 'users.id_user')
-            ->leftJoin('users as update_user', 'news.update_by', '=', 'update_user.id_user')
-            ->select(
-                'news.id_new',
-                'news.title_vi',
-                'news.title_en',
-                'news.id_user',
-                'users.name as user_name',
-                'users.email as user_email',
-                'users.photoURL',
-                'news.content_en',
-                'news.content_vi',
-                'news.view_count',
-                'news.updated_at',
-                'news.created_at',
-                'news.thumbnail',
-                'news.id_category',
-                'categories.name_en as category_name_en',
-                'categories.name_vi as category_name_vi',
-                'news.status_vi',
-                'news.status_en',
-                'news.update_by',
-                'update_user.name as update_user_name',
-                'update_user.email as update_user_email',
-                'update_user.photoURL as update_user_photoURL'
-            )
-            ->orderBy('id_new')
-            ->get();
+        try {
+            $news = News::join('categories', 'news.id_category', '=', 'categories.id_category')
+                ->join('users', 'news.id_user', '=', 'users.id_user')
+                ->leftJoin('users as update_user', 'news.update_by', '=', 'update_user.id_user')
+                ->select(
+                    'news.id_new',
+                    'news.title_vi',
+                    'news.title_en',
+                    'news.id_user',
+                    'users.name as user_name',
+                    'users.email as user_email',
+                    'users.photoURL',
+                    'news.content_en',
+                    'news.content_vi',
+                    'news.view_count',
+                    'news.updated_at',
+                    'news.created_at',
+                    'news.thumbnail',
+                    'news.id_category',
+                    'categories.name_en as category_name_en',
+                    'categories.name_vi as category_name_vi',
+                    'news.status_vi',
+                    'news.status_en',
+                    'news.update_by',
+                    'update_user.name as update_user_name',
+                    'update_user.email as update_user_email',
+                    'update_user.photoURL as update_user_photoURL'
+                )
+                ->where('news.is_deleted', '=', 0)
+                ->orderBy('id_new')
+                ->get();
+            if (count($news) === 0) {
+                return response()->json([], 200);
+            }
 
+            foreach ($news as $item) {
+                $responseData[] = [
+                    'id_new' => $item->id_new,
+                    'vi' => [
+                        'title_vi' => $item->title_vi,
+                        'content_vi' => $item->content_vi,
+                        'status_vi' => $item->status_vi,
+                        'category_name_vi' => $item->category_name_vi,
+                    ],
+                    'en' => [
+                        'title_en' => $item->title_en,
+                        'content_en' => $item->content_en,
+                        'status_en' => $item->status_en,
+                        'category_name_en' => $item->category_name_en,
+                    ],
+                    'view_count' => $item->view_count,
+                    'updated_at' => $item->updated_at,
+                    'created_at' => $item->created_at,
+                    'thumbnail' => $item->thumbnail,
+                    'id_category' => $item->id_category,
+                    'user' => [
+                        'id_user' => $item->id_user,
+                        'name' => $item->name,
+                        'email' => $item->email,
+                        'photoURL' => $item->photoURL,
+                    ],
+                    'user_update' => [
+                        'id_user' => $item->update_by,
+                        'name' => $item->update_user_name,
+                        'email' => $item->update_user_email,
+                        'photoURL' => $item->update_user_photoURL,
+                    ],
+                ];
+            }
 
-        foreach ($news as $item) {
-            $responseData[] = [
-                'id_new' => $item->id_new,
-                'vi' => [
-                    'title_vi' => $item->title_vi,
-                    'content_vi' => $item->content_vi,
-                    'status_vi' => $item->status_vi,
-                    'category_name_vi' => $item->category_name_vi,
-                ],
-                'en' => [
-                    'title_en' => $item->title_en,
-                    'content_en' => $item->content_en,
-                    'status_en' => $item->status_en,
-                    'category_name_en' => $item->category_name_en,
-                ],
-                'view_count' => $item->view_count,
-                'updated_at' => $item->updated_at,
-                'created_at' => $item->created_at,
-                'thumbnail' => $item->thumbnail,
-                'id_category' => $item->id_category,
-                'user' => [
-                    'id_user' => $item->id_user,
-                    'name' => $item->name,
-                    'email' => $item->email,
-                    'photoURL' => $item->photoURL,
-                ],
-                'user_update' => [
-                    'id_user' => $item->update_by,
-                    'name' => $item->update_user_name,
-                    'email' => $item->update_user_email,
-                    'photoURL' => $item->update_user_photoURL,
-                ],
-            ];
+            return response()->json($responseData, 200);
+        } catch (\Throwable $th) {
+            return response()->json("Error", 500);
         }
+    }
 
-        return response()->json($responseData, 200);
+    public function getAllNewsAdminHidden()
+    {
+        try {
+            $news = News::join('categories', 'news.id_category', '=', 'categories.id_category')
+                ->join('users', 'news.id_user', '=', 'users.id_user')
+                ->leftJoin('users as update_user', 'news.update_by', '=', 'update_user.id_user')
+                ->select(
+                    'news.id_new',
+                    'news.title_vi',
+                    'news.title_en',
+                    'news.id_user',
+                    'users.name as user_name',
+                    'users.email as user_email',
+                    'users.photoURL',
+                    'news.content_en',
+                    'news.content_vi',
+                    'news.view_count',
+                    'news.updated_at',
+                    'news.created_at',
+                    'news.thumbnail',
+                    'news.id_category',
+                    'categories.name_en as category_name_en',
+                    'categories.name_vi as category_name_vi',
+                    'news.status_vi',
+                    'news.status_en',
+                    'news.update_by',
+                    'update_user.name as update_user_name',
+                    'update_user.email as update_user_email',
+                    'update_user.photoURL as update_user_photoURL'
+                )
+                ->where('news.is_deleted', '=', 1)
+                ->orderBy('id_new')
+                ->get();
+
+            if (count($news) === 0) {
+                return response()->json([], 200);
+            }
+
+            foreach ($news as $item) {
+                $responseData[] = [
+                    'id_new' => $item->id_new,
+                    'vi' => [
+                        'title_vi' => $item->title_vi,
+                        'content_vi' => $item->content_vi,
+                        'status_vi' => $item->status_vi,
+                        'category_name_vi' => $item->category_name_vi,
+                    ],
+                    'en' => [
+                        'title_en' => $item->title_en,
+                        'content_en' => $item->content_en,
+                        'status_en' => $item->status_en,
+                        'category_name_en' => $item->category_name_en,
+                    ],
+                    'view_count' => $item->view_count,
+                    'updated_at' => $item->updated_at,
+                    'created_at' => $item->created_at,
+                    'thumbnail' => $item->thumbnail,
+                    'id_category' => $item->id_category,
+                    'user' => [
+                        'id_user' => $item->id_user,
+                        'name' => $item->name,
+                        'email' => $item->email,
+                        'photoURL' => $item->photoURL,
+                    ],
+                    'user_update' => [
+                        'id_user' => $item->update_by,
+                        'name' => $item->update_user_name,
+                        'email' => $item->update_user_email,
+                        'photoURL' => $item->update_user_photoURL,
+                    ],
+                ];
+            }
+
+
+            return response()->json($responseData, 200);
+        } catch (\Throwable $th) {
+            return response()->json("error", 500);
+        }
     }
 
 
@@ -164,81 +251,167 @@ class NewsController extends Controller
 
     public function getNewByIDAdmin($id)
     {
-        $news = News::join('categories', 'news.id_category', '=', 'categories.id_category')
-            ->join('users', 'news.id_user', '=', 'users.id_user')
-            ->leftJoin('users as update_user', 'news.update_by', '=', 'update_user.id_user')
-            ->select(
-                'news.id_new',
-                'news.title_vi',
-                'news.title_en',
-                'news.id_user',
-                'users.name as user_name',
-                'users.email as user_email',
-                'users.photoURL',
-                'news.content_en',
-                'news.content_vi',
-                'news.view_count',
-                'news.updated_at',
-                'news.created_at',
-                'news.thumbnail',
-                'news.id_category',
-                'categories.name_en as category_name_en',
-                'categories.name_vi as category_name_vi',
-                'news.status_vi',
-                'news.status_en',
-                'news.update_by',
-                'update_user.name as update_user_name',
-                'update_user.email as update_user_email',
-                'update_user.photoURL as update_user_photoURL'
-            )
-            ->orderBy('id_new')
-            ->where('news.id_new', '=', $id)
-            ->get();
+        try {
+            $news = News::join('categories', 'news.id_category', '=', 'categories.id_category')
+                ->join('users', 'news.id_user', '=', 'users.id_user')
+                ->leftJoin('users as update_user', 'news.update_by', '=', 'update_user.id_user')
+                ->select(
+                    'news.id_new',
+                    'news.title_vi',
+                    'news.title_en',
+                    'news.id_user',
+                    'users.name as user_name',
+                    'users.email as user_email',
+                    'users.photoURL',
+                    'news.content_en',
+                    'news.content_vi',
+                    'news.view_count',
+                    'news.updated_at',
+                    'news.created_at',
+                    'news.thumbnail',
+                    'news.id_category',
+                    'categories.name_en as category_name_en',
+                    'categories.name_vi as category_name_vi',
+                    'news.status_vi',
+                    'news.status_en',
+                    'news.update_by',
+                    'update_user.name as update_user_name',
+                    'update_user.email as update_user_email',
+                    'update_user.photoURL as update_user_photoURL'
+                )
+                ->orderBy('id_new')
+                ->where('news.is_deleted', '=', 0)
+                ->where('news.id_new', '=', $id)
+                ->get();
 
 
-        foreach ($news as $item) {
-            $responseData[] = [
-                'id_new' => $item->id_new,
-                'vi' => [
-                    'title_vi' => $item->title_vi,
-                    'content_vi' => $item->content_vi,
-                    'status_vi' => $item->status_vi,
-                    'category_name_vi' => $item->category_name_vi,
-                ],
-                'en' => [
-                    'title_en' => $item->title_en,
-                    'content_en' => $item->content_en,
-                    'status_en' => $item->status_en,
-                    'category_name_en' => $item->category_name_en,
-                ],
-                'view_count' => $item->view_count,
-                'updated_at' => $item->updated_at,
-                'created_at' => $item->created_at,
-                'thumbnail' => $item->thumbnail,
-                'id_category' => $item->id_category,
-                'user' => [
-                    'id_user' => $item->id_user,
-                    'name' => $item->name,
-                    'email' => $item->email,
-                    'photoURL' => $item->photoURL,
-                ],
-                'user_update' => [
-                    'id_user' => $item->update_by,
-                    'name' => $item->update_user_name,
-                    'email' => $item->update_user_email,
-                    'photoURL' => $item->update_user_photoURL,
-                ],
-            ];
-        }
+            foreach ($news as $item) {
+                $responseData[] = [
+                    'id_new' => $item->id_new,
+                    'vi' => [
+                        'title_vi' => $item->title_vi,
+                        'content_vi' => $item->content_vi,
+                        'status_vi' => $item->status_vi,
+                        'category_name_vi' => $item->category_name_vi,
+                    ],
+                    'en' => [
+                        'title_en' => $item->title_en,
+                        'content_en' => $item->content_en,
+                        'status_en' => $item->status_en,
+                        'category_name_en' => $item->category_name_en,
+                    ],
+                    'view_count' => $item->view_count,
+                    'updated_at' => $item->updated_at,
+                    'created_at' => $item->created_at,
+                    'thumbnail' => $item->thumbnail,
+                    'id_category' => $item->id_category,
+                    'user' => [
+                        'id_user' => $item->id_user,
+                        'name' => $item->name,
+                        'email' => $item->email,
+                        'photoURL' => $item->photoURL,
+                    ],
+                    'user_update' => [
+                        'id_user' => $item->update_by,
+                        'name' => $item->update_user_name,
+                        'email' => $item->update_user_email,
+                        'photoURL' => $item->update_user_photoURL,
+                    ],
+                ];
+            }
 
 
-        if (!$news) {
+            if (!$news) {
+                return response()->json(['message' => 'Bài viết không tồn tại'], 404);
+            }
+
+            return response()->json($responseData, 200);
+        } catch (\Throwable $th) {
             return response()->json(['message' => 'Bài viết không tồn tại'], 404);
         }
-
-        return response()->json($responseData, 200);
     }
 
+    public function getNewByIDAdminHidden($id)
+    {
+        try {
+            $news = News::join('categories', 'news.id_category', '=', 'categories.id_category')
+                ->join('users', 'news.id_user', '=', 'users.id_user')
+                ->leftJoin('users as update_user', 'news.update_by', '=', 'update_user.id_user')
+                ->select(
+                    'news.id_new',
+                    'news.title_vi',
+                    'news.title_en',
+                    'news.id_user',
+                    'users.name as user_name',
+                    'users.email as user_email',
+                    'users.photoURL',
+                    'news.content_en',
+                    'news.content_vi',
+                    'news.view_count',
+                    'news.updated_at',
+                    'news.created_at',
+                    'news.thumbnail',
+                    'news.id_category',
+                    'categories.name_en as category_name_en',
+                    'categories.name_vi as category_name_vi',
+                    'news.status_vi',
+                    'news.status_en',
+                    'news.update_by',
+                    'update_user.name as update_user_name',
+                    'update_user.email as update_user_email',
+                    'update_user.photoURL as update_user_photoURL'
+                )
+                ->orderBy('id_new')
+                ->where('news.is_deleted', '=', 1)
+                ->where('news.id_new', '=', $id)
+                ->get();
+
+
+            foreach ($news as $item) {
+                $responseData[] = [
+                    'id_new' => $item->id_new,
+                    'vi' => [
+                        'title_vi' => $item->title_vi,
+                        'content_vi' => $item->content_vi,
+                        'status_vi' => $item->status_vi,
+                        'category_name_vi' => $item->category_name_vi,
+                    ],
+                    'en' => [
+                        'title_en' => $item->title_en,
+                        'content_en' => $item->content_en,
+                        'status_en' => $item->status_en,
+                        'category_name_en' => $item->category_name_en,
+                    ],
+                    'view_count' => $item->view_count,
+                    'updated_at' => $item->updated_at,
+                    'created_at' => $item->created_at,
+                    'thumbnail' => $item->thumbnail,
+                    'id_category' => $item->id_category,
+                    'user' => [
+                        'id_user' => $item->id_user,
+                        'name' => $item->name,
+                        'email' => $item->email,
+                        'photoURL' => $item->photoURL,
+                    ],
+                    'user_update' => [
+                        'id_user' => $item->update_by,
+                        'name' => $item->update_user_name,
+                        'email' => $item->update_user_email,
+                        'photoURL' => $item->update_user_photoURL,
+                    ],
+                ];
+            }
+
+
+            if (!$news) {
+                return response()->json(['message' => 'Bài viết không tồn tại'], 404);
+            }
+
+            return response()->json($responseData, 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Lỗi'], 404);
+        }
+    }
 
     public function get5LatestNews()
     {
@@ -316,7 +489,6 @@ class NewsController extends Controller
     public function saveNews(Request $request)
     {
         if (!$request->has('user_info')) {
-            // Nếu không, sử dụng id_user từ middleware
             $user_info = $request->user_info;
         }
         // Validate incoming request data
@@ -541,7 +713,7 @@ class NewsController extends Controller
             return response()->json(['message' => 'Đã xảy ra lỗi khi xóa news'], 500);
         }
     }
- 
+
     public function updateManyDeleted(Request $request)
     {
         try {

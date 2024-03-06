@@ -50,13 +50,13 @@ class AuthController extends Controller
 
             $token = JWTAuth::fromUser($user);
             if ($token) {
-                $cookie = Cookie::make('jwt_token', $token, 3600);
+                $cookie = Cookie::make('jwt_token', $token, 36000);
                 return response()->json(compact('user'))->withCookie($cookie);
             } else {
-                return response()->json(0);
+                return response()->json("Token error", 500);
             }
         } else {
-            return response()->json(0);
+            return response()->json("Error", 500);
         }
     }
 
@@ -65,13 +65,10 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         try {
-            // Xóa cookie 'jwt_token'
             $cookie = Cookie::forget('jwt_token');
 
-            // Trả về phản hồi thành công
             return response()->json(['message' => 'Đăng xuất thành công'])->withCookie($cookie);
         } catch (\Exception $e) {
-            // Xử lý nếu có lỗi xảy ra
             return response()->json(['error' => 'Đã có lỗi xảy ra khi đăng xuất'], 500);
         }
     }
