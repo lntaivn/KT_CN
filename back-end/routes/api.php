@@ -37,9 +37,14 @@ Route::middleware('check.jwt')->group(function () {
     Route::put('/admin/news/update/status-en/{id}', [NewsController::class, 'updateStatusEn']);
     Route::put('/admin/news/update/status-vi/{id}', [NewsController::class, 'updateStatusVi']);
     Route::put('/admin/news/update/UpdateStatuses', [NewsController::class, 'UpdateStatuses']);
-    Route::get('/admin/getCurrentUser', [AuthController::class, 'getCurrentUser']);
+    Route::put('/admin/news/softDelete/{id}', [NewsController::class, 'updateDeleted']);
+    Route::put('/admin/news/soft-list/delete', [NewsController::class, 'updateManyDeleted']);
+    Route::delete('/admin/news', [NewsController::class, 'deleteNews']);
 
+    Route::get('/admin/getCurrentUser', [AuthController::class, 'getCurrentUser']);
 });
+
+
 //category
 Route::middleware('check.jwt')->group(function () {
     Route::post('/admin/category', [CategoryController::class, 'create']);

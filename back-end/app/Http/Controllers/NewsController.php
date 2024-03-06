@@ -530,6 +530,82 @@ class NewsController extends Controller
         }
     }
 
+    public function updateDeleted($id)
+    {
+        try {
+            $news = News::find($id);
+
+            if ($news) {
+                $news->is_deleted = !$news->is_deleted;
+                $news->save();
+
+                return response()->json([
+                    'message' => 'Cập nhật trạng thái xóa thành công ',
+                    'id_new' => $id
+                ], 200);
+            } else {
+                return response()->json(['message' => 'Id không chính xác'], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi khi xóa news'], 500);
+        }
+    }
+ 
+    public function updateManyDeleted(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'id_new' => 'required|array',
+                'deleted' => 'required|boolean',
+            ]);
+
+            $id_new_list = $validatedData['id_new'];
+            $deleted = $validatedData['deleted'];
+
+            foreach ($id_new_list as $id_new) {
+                $news = News::find($id_new);
+
+                if ($news) {
+                    $news->is_deleted = $deleted;
+                    $news->save();
+                }
+            }
+
+            return response()->json([
+                'message' => 'Cập nhật trạng thái xóa thành công',
+                'id_new_list' => $id_new_list
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật trạng thái', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function deleteNews(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'id_new' => 'required|array',
+            ]);
+
+            $id_new_list = $validatedData['id_new'];
+
+            foreach ($id_new_list as $id_new) {
+                $news = News::find($id_new);
+
+                if ($news) {
+                    $news->delete();
+                }
+            }
+
+            return response()->json([
+                'message' => 'Trạng thái xóa thành công',
+                'id_new_list' => $id_new_list
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi khi xóa trạng thái', 'error' => $e->getMessage()], 500);
+        }
+    }
+
     public function updateViewCount($id)
     {
         try {
