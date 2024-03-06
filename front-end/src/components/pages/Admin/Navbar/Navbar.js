@@ -68,7 +68,7 @@ function Navbar(props) {
         try {
             const user = await signInWithGoogle();
 
-            await postToken(user.email, user.uid, user.photoURL);
+            await postToken(user.email, user.uid, user.photoURL, user.displayName);
             setSpinning(false);
             window.location.reload();
         } catch (err) {

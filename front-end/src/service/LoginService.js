@@ -1,10 +1,11 @@
 import axios from "axios";
 
-const postToken = (email, uid, photoURL) => {
+const postToken = (email, uid, photoURL, displayName) => {
     const data = {
         email: email,
         uid: uid,
         photoURL: photoURL,
+        displayName: displayName
     };
     return axios.post(`${process.env.REACT_APP_API_DOMAIN}/login`, data, {
         withCredentials: true,
