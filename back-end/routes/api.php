@@ -34,6 +34,8 @@ Route::middleware('check.jwt')->group(function () {
     Route::post('/admin/news', [NewsController::class, 'saveNews']);//ok
     Route::get('/admin/news/{id}', [NewsController::class, 'getNewByIDAdmin']);//ok
     Route::put('/admin/news/{id}', [NewsController::class, 'updateNews']);//ok
+    Route::get('/admin/news-hidden', [NewsController::class, 'getAllNewsAdminHidden']);//ok
+    Route::get('/admin/news-hidden/{id}', [NewsController::class, 'getNewByIDAdminHidden']);//ok
     Route::put('/admin/news/update/status-en/{id}', [NewsController::class, 'updateStatusEn']);
     Route::put('/admin/news/update/status-vi/{id}', [NewsController::class, 'updateStatusVi']);
     Route::put('/admin/news/update/UpdateStatuses', [NewsController::class, 'UpdateStatuses']);
