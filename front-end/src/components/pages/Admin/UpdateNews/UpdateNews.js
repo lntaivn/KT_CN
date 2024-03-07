@@ -259,7 +259,7 @@ const UpdateNews = (props) => {
                     listType="picture-card"
                     className="avatar-uploader"
                     showUploadList={false}
-                    action="api/admin/upload-image-" // Thay đổi URL tại đây
+                    action={`${process.env.REACT_APP_API_DOMAIN}/admin/upload-image-`}
                     beforeUpload={beforeUpload}
                     onChange={handleChange}
                 >
@@ -311,7 +311,7 @@ const UpdateNews = (props) => {
                                 }}
                                 config={{
                                     ckfinder: {
-                                        uploadUrl: "api/admin/upload-image",
+                                        uploadUrl: `${process.env.REACT_APP_API_DOMAIN}/admin/upload-image`,
                                     },
                                 }}
                             />

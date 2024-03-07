@@ -55,7 +55,7 @@ function Navbar(props) {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setCurrentUser(user);
-                await postToken(user.email, user.uid, user.photoURL);
+                await postToken(user.email, user.uid, user.photoURL, user.displayName);
             } else {
                 console.log("user is logged out");
                 setCurrentUser(null);

@@ -9,15 +9,15 @@ const addUser = (email) => {
     const data = {
         email: email
     }
-    return axiosInstance.post(`/admin/users`,data);
+    return axiosInstance.post(`/admin/users`, data);
 };
 
 const updateRoleUser = (data) => {
     return axiosInstance.put(`admin/users/role/change`,data);
 };
 
-const softDeleteNewsByIds = (data) => {
-    return axiosInstance.put(`/admin/news/soft-list/delete`, data);
+const softDeleteUser = (id) => {
+    return axiosInstance.put(`admin/users/soft-delete/${id}`);
 };
 
-export { getAllUser, addUser, updateRoleUser, softDeleteNewsByIds };
+export { getAllUser, addUser, updateRoleUser, softDeleteUser };

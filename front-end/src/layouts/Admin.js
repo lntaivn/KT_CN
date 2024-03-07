@@ -41,7 +41,7 @@ function Admin() {
           <Route path="/post/stored" element={<PostStored successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
           <Route path="/post/create" element={<CreateNews collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} />} />
           <Route path="/post/update/:id" element={<UpdateNews collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav}/>} />
-          <Route path="/user" element={<UserManager successNoti={successNoti} errorNoti={errorNoti}/>} />
+          <Route path="/user" element={<UserManager successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
         </Routes>
       </div>
     </div>

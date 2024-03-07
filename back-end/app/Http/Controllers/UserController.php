@@ -15,8 +15,8 @@ class UserController extends Controller
     public function index()
     {
         try {
-            $users = User::all();
-            
+            $users = User::where('is_deleted', 0)->get();
+
             return response()->json($users);
         } catch (\Exception $e) {
             return response()->json(['message' => 'An error occurred while fetching users'], 500);
@@ -34,23 +34,30 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
-            // $request->validate([
-            //     'email' => 'required|email|unique:users,email',
-            // ]);
             $email = $request->input('email');
-            $checkEmailUser = User::where('email', $email)->first();
-            if ($checkEmailUser) {
-                return response()->json(['message' => 'Email already exists.'], 409);
+
+            // Kiểm tra xem người dùng đã tồn tại dựa trên email
+            $existingUser = User::where('email', $email)->first();
+
+            if ($existingUser) {
+                // Nếu người dùng đã tồn tại, chỉ cập nhật trạng thái is_deleted thành 0
+                $existingUser->is_deleted = 0;
+                $existingUser->save();
+
+                return response()->json(['message' => 'User email exists. Updated is_deleted to 0.'], 200);
             } else {
+                // Nếu người dùng chưa tồn tại, tạo mới và đặt is_deleted thành 0
                 $user = User::create([
-                    'email' => $email,
+                    'email' => $email
                 ]);
-                return response()->json(['message' => 'ok', $user], 201);
+
+                return response()->json(['message' => 'User created successfully.', 'user' => $user], 201);
             }
         } catch (\Exception $e) {
-            return response()->json(['message' => 'please input email'], 500);
+            return response()->json(['message' => 'Please input email.'], 500);
         }
     }
+
     public function updateRole(Request $request)
     {
         try {
@@ -87,7 +94,7 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id);
-            
+
             $user->delete();
 
             return response()->json(['message' => 'User deleted successfully'], 200);
@@ -100,10 +107,24 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id_user);
-            
+
             return response()->json($user);
         } catch (\Exception $e) {
             return response()->json(['message' => 'User not found'], 404);
+        }
+    }
+
+    public function softDelete($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+
+            $user->is_deleted = 1;
+            $user->save();
+
+            return response()->json(['message' => 'User soft deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'User not found or could not be soft deleted'], 404);
         }
     }
 

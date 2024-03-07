@@ -218,7 +218,7 @@ const CreateNews = (props) => {
                                 listType="picture-card"
                                 className="avatar-uploader"
                                 showUploadList={false}
-                                action="api/admin/upload-image-"
+                                action={`${process.env.REACT_APP_API_DOMAIN}/admin/upload-image-`}
                                 beforeUpload={beforeUpload}
                                 onChange={handleChange}
                             >
@@ -300,7 +300,7 @@ const CreateNews = (props) => {
                                 }}
                                 config={{
                                     ckfinder: {
-                                        uploadUrl: "api/admin/upload-image",
+                                        uploadUrl: `${process.env.REACT_APP_API_DOMAIN}/admin/upload-image`,
                                     },
                                 }}
                             />
@@ -338,7 +338,7 @@ const CreateNews = (props) => {
                                 }}
                                 config={{
                                     ckfinder: {
-                                        uploadUrl: "api/admin/upload-image",
+                                        uploadUrl: `${process.env.REACT_APP_API_DOMAIN}/admin/upload-image`,
                                     },
                                 }}
                             />

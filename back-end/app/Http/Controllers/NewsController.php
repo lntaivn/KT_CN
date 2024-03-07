@@ -748,6 +748,9 @@ class NewsController extends Controller
     public function deleteNews(Request $request)
     {
         try {
+
+            error_log("Req". $request);
+
             $validatedData = $request->validate([
                 'id_new' => 'required|array',
             ]);
