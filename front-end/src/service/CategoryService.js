@@ -1,9 +1,9 @@
 import { axiosInstance } from "./AxiosCofig";
 
-const GetAllCategories = () => {
+const getAllCategories = () => {
     return axiosInstance.get(`/categories`);
 };
 
-export { GetAllCategories };
+export { getAllCategories };
 
 

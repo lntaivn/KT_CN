@@ -91,5 +91,4 @@ Route::put('/news/update/viewCount/{id}', [NewsController::class, 'updateViewCou
 Route::get('/categories', [CategoryController::class, 'getAll']);
 Route::get('/category/{id_category}', [CategoryController::class, 'get']);
 
-
 // Route::post('/admin/authentication', [AuthController::class, 'UserAuthentication']);

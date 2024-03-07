@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Breadcrumbs, BreadcrumbItem, Button, Avatar, Input, } from "@nextui-org/react";
-import { Upload, Select, message, Tooltip, Modal} from "antd";
+import { Breadcrumbs, BreadcrumbItem, Button, Avatar, Input} from "@nextui-org/react";
+import { Upload, Select, message, Tooltip } from "antd";
 import ImgCrop from "antd-img-crop";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
-import { GetAllCategories } from "../../../../service/CategoryService";
-import {GetNewCanUpdate, PutNewsByID} from "../../../../service/NewsService";
-import "./CreateNews.css";
-import { Link, useParams } from "react-router-dom";
+import { SaveDataNews } from "../../../../service/NewsService";
+import { getAllCategories } from "../../../../service/CategoryService";
+import "./Post.css";
+import { Link } from "react-router-dom";
 
-const CreateNewsCopy = (props) => {
+const { Option } = Select;
+
+const CreatePost = (props) => {
     const { setCollapsedNav } = props;
-    const { id } = useParams();
+
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -21,60 +23,14 @@ const CreateNewsCopy = (props) => {
     const [titleVI, setTitleVI] = useState("");
     const [contentEN, setContentEN] = useState("");
     const [contentVI, setContentVI] = useState("");
+
     const [layout, setLayout] = useState("col");
     const [disableRowLayout, setDisableRowLayout] = useState(false);
-    const [viewcount, setviewcount] = useState(0);
-    const { Option } = Select;
 
     //hangle database
-    const Update = async () => {
-        try {
-            if (!titleEN || !titleVI) {
-                throw new Error("Vui lòng nhập tiêu đề tiếng Anh và tiếng Việt.");
-            }
-            const data = {
-                id_category: selectedCategory,
-                title_en: titleEN || null,
-                title_vi: titleVI || null,
-                content_en: contentEN,
-                content_vi: contentVI,
-                view_count: viewcount,
-                thumbnail: imageUrl
-            };  
-            const response = await PutNewsByID(id, data);
-            console.log("Phản hồi từ máy chủ:", response);
-       
-        } catch (error) {
-            console.error("Lỗi khi gửi dữ liệu:", error);
-        }
-    };
-    
-    const getDetailNews = async () => {
-        try {
-            const response = await GetNewCanUpdate(id);
-            console.log("newsDetailData:", response.data);
-            const newsDetail = response.data[0];
-            if (newsDetail) {
-                const { en, vi, thumbnail, id_category, view_count } = newsDetail;
-                setTitleEN(en.title_en);
-                setTitleVI(vi.title_vi);
-                setSelectedCategory(id_category);
-                setImageUrl(thumbnail);
-                setContentEN(en.content_en);
-                setContentVI(vi.content_vi);
-                setviewcount(view_count);
-            } else {
-                console.error("No data found in the response");
-            }
-        } catch (error) {
-            console.error("Error fetching newsDetailData:", error);
-        }
-        
-    };
-
     const getCategorys = async () => {
         try {
-            const response = await GetAllCategories();
+            const response = await getAllCategories();
             console.log("News data:", response.data);
             setCategoryData(response.data);
         } catch (error) {
@@ -82,10 +38,31 @@ const CreateNewsCopy = (props) => {
         }
     };
 
+    const SaveData = () => {
+        const title_vi = titleVI !== "" ? titleVI : null;
+        const title_en = titleEN !== "" ? titleEN : null;
+
+        const data = {
+            id_category: selectedCategory,
+            title_en: title_en,
+            title_vi: title_vi,
+            content_en: contentEN,
+            content_vi: contentVI,
+            thumbnail: imageUrl
+        };
+    
+        SaveDataNews(data)
+            .then((response) => {
+                console.log("Phản hồi từ máy chủ:", response);
+            })
+            .catch((error) => {
+                console.error("Lỗi khi gửi dữ liệu:", error);
+            });
+    };
+
     useEffect(() => {
-        console.log("id bài viết", id);
         getCategorys();
-        getDetailNews();
+
         const handleResize = () => {
             if (window.innerWidth < 1024) {
                 setLayout("col");
@@ -105,8 +82,7 @@ const CreateNewsCopy = (props) => {
         };
     }, []);
 
-
-    //hangle data CKEditor 
+    //hangle data save
     const handleENChange = (event, editor) => {
         const data = editor.getData();
         setContentEN(data);
@@ -120,8 +96,8 @@ const CreateNewsCopy = (props) => {
     const handleCategoryChange = (value, option) => {
         setSelectedCategory(value);
     };
-    
-    //hangle layout
+
+    //hangle Layout 
     const handleToggleLayout = (_layout) => {
         setLayout(_layout);
         if (_layout === "col") {
@@ -168,18 +144,20 @@ const CreateNewsCopy = (props) => {
         </div>
     );
 
-    //config CKEditor    
+    //config CKEditor 
     const items = [
         {
             key: "1",
             label: "Tạo bài viết tiếng việt",
+            children: "<p></p>",
         },
         {
             key: "2",
             label: "Tạo bài viết tiếng anh",
+            children: "<p></p>",
         },
     ];
-    
+
     return (
         <div>
             <div className="CreateNews flex flex-col gap-7 items-start">
@@ -257,7 +235,6 @@ const CreateNewsCopy = (props) => {
                         </p>
                         <Select
                             defaultValue="Chọn loại"
-                            value={selectedCategory}
                             onChange={handleCategoryChange}
                             size="large"
                         >
@@ -278,7 +255,6 @@ const CreateNewsCopy = (props) => {
                         layout === "col" ? "10" : "8"
                     } flex-${layout}`}
                 >
-                    {/* load map data detail */}
                     <div
                         className={`${
                             layout === "col" ? "w-full" : "w-[40%]"
@@ -315,7 +291,7 @@ const CreateNewsCopy = (props) => {
                             </p>
                             <CKEditor
                                 editor={ClassicEditor}
-                                data={contentVI}
+                                data={items[0].children}
                                 onChange={(event, editor) => {
                                     handleVIChange(event, editor);
                                 }}
@@ -353,7 +329,7 @@ const CreateNewsCopy = (props) => {
                             </p>
                             <CKEditor
                                 editor={ClassicEditor}
-                                data={contentEN}
+                                data={items[1].children}
                                 onChange={(event, editor) => {
                                     handleENChange(event, editor);
                                 }}
@@ -370,13 +346,12 @@ const CreateNewsCopy = (props) => {
                         </div>
                     </div>
                 </div>
-                <Button onClick={Update} color="primary" radius="sm">
+                <Button onClick={SaveData} color="primary" radius="sm">
                     <span className="font-medium">Tạo bài viết</span>
                 </Button>
-
             </div>
         </div>
     );
 };
 
-export default CreateNewsCopy;
+export default CreatePost;

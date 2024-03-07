@@ -67,10 +67,8 @@ class NewsController extends Controller
                 ->where('news.is_deleted', '=', 0)
                 ->orderBy('id_new')
                 ->get();
-            if (count($news) === 0) {
-                return response()->json([], 200);
-            }
 
+            $responseData = [];
             foreach ($news as $item) {
                 $responseData[] = [
                     'id_new' => $item->id_new,
@@ -93,8 +91,8 @@ class NewsController extends Controller
                     'id_category' => $item->id_category,
                     'user' => [
                         'id_user' => $item->id_user,
-                        'name' => $item->name,
-                        'email' => $item->email,
+                        'name' => $item->user_name,
+                        'email' => $item->user_email,
                         'photoURL' => $item->photoURL,
                     ],
                     'user_update' => [
@@ -172,8 +170,8 @@ class NewsController extends Controller
                     'id_category' => $item->id_category,
                     'user' => [
                         'id_user' => $item->id_user,
-                        'name' => $item->name,
-                        'email' => $item->email,
+                        'name' => $item->user_name, // Sửa tên trường dữ liệu
+                        'email' => $item->user_email,
                         'photoURL' => $item->photoURL,
                     ],
                     'user_update' => [
@@ -689,7 +687,6 @@ class NewsController extends Controller
                 'message' => 'Cập nhật trạng thái thành công',
                 'id_new_list' => $id_new_list
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật trạng thái', 'error' => $e->getMessage()], 500);
         }
@@ -749,7 +746,7 @@ class NewsController extends Controller
     {
         try {
 
-            error_log("Req". $request);
+            error_log("Req" . $request);
 
             $validatedData = $request->validate([
                 'id_new' => 'required|array',
@@ -794,5 +791,4 @@ class NewsController extends Controller
             return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật view'], 500);
         }
     }
-
 }
