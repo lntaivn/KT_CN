@@ -1,7 +1,5 @@
 
 import logo from "../assets/KTCN-in.png"
-import CreateNews from '../components/pages/Admin/CreateNews/CreateNews';
-import UpdateNews from '../components/pages/Admin/UpdateNews/UpdateNews';
 import './Layout.css';
 import { Link, Route, Routes } from 'react-router-dom';
 import Navbar from "../components/pages/Admin/Navbar/Navbar";
@@ -10,7 +8,9 @@ import { useState } from "react";
 import { message, Spin } from 'antd';
 import UserManager from "../components/pages/Admin/UserManager/UserManager";
 import PostStored from "../components/pages/Admin/Post/PostStored";
-import CreateNewsCopy from "../components/pages/Admin/CreateNewsCopy/CreateNewsCopy";
+import CategoryManager from "../components/pages/Admin/CategoryManager/CategoryManager";
+import UpdatePost from "../components/pages/Admin/Post/UpdatePost";
+import CreatePost from "../components/pages/Admin/Post/CreatePost";
 
 function Admin() {
 
@@ -40,8 +40,9 @@ function Admin() {
         <Routes>
           <Route path="/post" element={<Post successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
           <Route path="/post/stored" element={<PostStored successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
-          <Route path="/post/create" element={<CreateNews collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} />} />
-          <Route path="/post/update/:id" element={<CreateNewsCopy collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav}/>} />
+          <Route path="/post/create" element={<CreatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} />} />
+          <Route path="/post/update/:id" element={<UpdatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} setSpinning={setSpinning} successNoti={successNoti} errorNoti={errorNoti}/>} />
+          <Route path="/category" element={<CategoryManager successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
           <Route path="/user" element={<UserManager successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
         </Routes>
       </div>

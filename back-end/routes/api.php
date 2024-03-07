@@ -93,5 +93,4 @@ Route::get('/news/search/TitleCategory', [NewsController::class, 'searchByTitleC
 Route::get('/categories', [CategoryController::class, 'getAll']);
 Route::get('/category/{id_category}', [CategoryController::class, 'get']);
 
-
 // Route::post('/admin/authentication', [AuthController::class, 'UserAuthentication']);
