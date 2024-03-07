@@ -25,4 +25,11 @@ const GetNewCanUpdate = (id) => {
     return axiosInstance.get(`/admin/news/${id}`);
 };
 
-export { getAllNewsForAdmin, getAllNewsHiddenForAdmin, softDeleteNewsById, softDeleteNewsByIds, forceDeleteNewsByIds, GetNewCanUpdate };
+const PutNewsByID = (id, data) => {
+    return axiosInstance.put(`/admin/news/${id}`, data);
+};
+
+const SaveDataNews = (data) => {
+    return axiosInstance.post(`/admin/news`, data);
+};
+export { getAllNewsForAdmin, getAllNewsHiddenForAdmin, softDeleteNewsById, softDeleteNewsByIds, forceDeleteNewsByIds, GetNewCanUpdate, PutNewsByID, SaveDataNews};

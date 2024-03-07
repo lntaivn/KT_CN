@@ -1,37 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import {
-    Breadcrumbs,
-    BreadcrumbItem,
-    Button,
-    Avatar,
-    Input,
-} from "@nextui-org/react";
+import { Breadcrumbs, BreadcrumbItem, Button, Avatar, Input} from "@nextui-org/react";
 import { Upload, Select, message, Tooltip } from "antd";
 import ImgCrop from "antd-img-crop";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
-import {
-    GetAllCategories,
-    SaveDataNewViEn,
-} from "../../../../service/ApiService";
+import { SaveDataNews } from "../../../../service/NewsService";
+import { GetAllCategories } from "../../../../service/CategoryService";
 import "./CreateNews.css";
 import { Link } from "react-router-dom";
 
 const { Option } = Select;
-
-const items = [
-    {
-        key: "1",
-        label: "Tạo bài viết tiếng việt",
-        children: "<p></p>",
-    },
-    {
-        key: "2",
-        label: "Tạo bài viết tiếng anh",
-        children: "<p></p>",
-    },
-];
 
 const CreateNews = (props) => {
     const { setCollapsedNav } = props;
@@ -48,20 +27,7 @@ const CreateNews = (props) => {
     const [layout, setLayout] = useState("col");
     const [disableRowLayout, setDisableRowLayout] = useState(false);
 
-    const handleENChange = (event, editor) => {
-        const data = editor.getData();
-        setContentEN(data);
-    };
-
-    const handleVIChange = (event, editor) => {
-        const data = editor.getData();
-        setContentVI(data);
-    };
-
-    const handleCategoryChange = (value, option) => {
-        setSelectedCategory(value);
-    };
-
+    //hangle database
     const getCategorys = async () => {
         try {
             const response = await GetAllCategories();
@@ -72,20 +38,31 @@ const CreateNews = (props) => {
         }
     };
 
-    const handleToggleLayout = (_layout) => {
-        setLayout(_layout);
-        if (_layout === "col") {
-            setCollapsedNav(false);
-        } else {
-            setCollapsedNav(true);
-        }
+    const SaveData = () => {
+        const title_vi = titleVI !== "" ? titleVI : null;
+        const title_en = titleEN !== "" ? titleEN : null;
+
+        const data = {
+            id_category: selectedCategory,
+            title_en: title_en,
+            title_vi: title_vi,
+            content_en: contentEN,
+            content_vi: contentVI,
+            thumbnail: imageUrl
+        };
+    
+        SaveDataNews(data)
+            .then((response) => {
+                console.log("Phản hồi từ máy chủ:", response);
+            })
+            .catch((error) => {
+                console.error("Lỗi khi gửi dữ liệu:", error);
+            });
     };
 
     useEffect(() => {
         getCategorys();
-    }, []);
 
-    useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth < 1024) {
                 setLayout("col");
@@ -105,26 +82,32 @@ const CreateNews = (props) => {
         };
     }, []);
 
-    const SaveData = () => {
-        const title_vi = titleVI !== "" ? titleVI : null;
-        const title_en = titleEN !== "" ? titleEN : null;
-
-        SaveDataNewViEn(
-            selectedCategory,
-            title_en,
-            title_vi,
-            contentEN,
-            contentVI,
-            imageUrl
-        )
-            .then((response) => {
-                console.log("Phản hồi từ máy chủ:", response);
-            })
-            .catch((error) => {
-                console.error("Lỗi khi gửi dữ liệu:", error);
-            });
+    //hangle data save
+    const handleENChange = (event, editor) => {
+        const data = editor.getData();
+        setContentEN(data);
     };
 
+    const handleVIChange = (event, editor) => {
+        const data = editor.getData();
+        setContentVI(data);
+    };
+
+    const handleCategoryChange = (value, option) => {
+        setSelectedCategory(value);
+    };
+
+    //hangle Layout 
+    const handleToggleLayout = (_layout) => {
+        setLayout(_layout);
+        if (_layout === "col") {
+            setCollapsedNav(false);
+        } else {
+            setCollapsedNav(true);
+        }
+    };
+
+    //hangle Img
     const handleChange = (info) => {
         if (info.file.status === "uploading") {
             setLoading(true);
@@ -160,6 +143,20 @@ const CreateNews = (props) => {
             <div style={{ marginTop: 8 }}>Upload</div>
         </div>
     );
+
+    //config CKEditor 
+    const items = [
+        {
+            key: "1",
+            label: "Tạo bài viết tiếng việt",
+            children: "<p></p>",
+        },
+        {
+            key: "2",
+            label: "Tạo bài viết tiếng anh",
+            children: "<p></p>",
+        },
+    ];
 
     return (
         <div>

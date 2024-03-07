@@ -1,28 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import {
-    Breadcrumbs,
-    BreadcrumbItem,
-    Button,
-    Avatar,
-    Input,
-} from "@nextui-org/react";
-import { Upload, Select, message, Tooltip } from "antd";
+import { Breadcrumbs, BreadcrumbItem, Button, Avatar, Input, } from "@nextui-org/react";
+import { Upload, Select, message, Tooltip, Modal} from "antd";
 import ImgCrop from "antd-img-crop";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
-import {
-    GetAllCategories,
-    PutNewsByID,
-} from "../../../../service/ApiService";
-
-
-import { GetNewCanUpdate} from "../../../../service/NewsService";
-
-
+import { GetAllCategories } from "../../../../service/CategoryService";
+import {GetNewCanUpdate, PutNewsByID} from "../../../../service/NewsService";
 import "./CreateNews.css";
 import { Link, useParams } from "react-router-dom";
-
 
 const CreateNewsCopy = (props) => {
     const { setCollapsedNav } = props;
@@ -40,29 +26,28 @@ const CreateNewsCopy = (props) => {
     const [viewcount, setviewcount] = useState(0);
     const { Option } = Select;
 
-
+    //hangle database
     const Update = async () => {
         try {
-            const updatedTitle_vi = titleVI || null;
-            const updatedTitle_en = titleEN || null;
-    
-            const response = await PutNewsByID(
-                id,
-                selectedCategory,
-                updatedTitle_en,
-                updatedTitle_vi,
-                contentEN,
-                contentVI,
-                viewcount,
-                imageUrl
-            );
-    
+            if (!titleEN || !titleVI) {
+                throw new Error("Vui lòng nhập tiêu đề tiếng Anh và tiếng Việt.");
+            }
+            const data = {
+                id_category: selectedCategory,
+                title_en: titleEN || null,
+                title_vi: titleVI || null,
+                content_en: contentEN,
+                content_vi: contentVI,
+                view_count: viewcount,
+                thumbnail: imageUrl
+            };  
+            const response = await PutNewsByID(id, data);
             console.log("Phản hồi từ máy chủ:", response);
+       
         } catch (error) {
             console.error("Lỗi khi gửi dữ liệu:", error);
         }
     };
-    
     
     const getDetailNews = async () => {
         try {
