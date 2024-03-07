@@ -515,7 +515,7 @@ const Post = (props) => {
                 as={Link}
                 to="/admin/post/create"
             >
-                Tạo bài viết
+                Tạo bài viết mới
             </Button>
             {selectedRowKeys.length !== 0 && (
                 <div className="Quick__Option flex justify-between items-center sticky top-2 bg-[white] z-50 w-full p-4 py-3 shadow-lg rounded-md border-1 border-slate-300">

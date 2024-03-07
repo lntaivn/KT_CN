@@ -172,7 +172,7 @@ function Navbar(props) {
                                 base: "min-w-[230px]"
                             }}>
                                 <DropdownItem key="profile" className="h-14 gap-2" isReadOnly>
-                                    <p className="font-semibold opacity-50">Admin</p>
+                                    <p className="font-semibold opacity-50">{currentUser?.role === 1 ? "Super Admin" : "Admin"}</p>
                                     <p className="font-bold">{currentUser.email}</p>
                                 </DropdownItem>
                                 <DropdownSection showDivider>
