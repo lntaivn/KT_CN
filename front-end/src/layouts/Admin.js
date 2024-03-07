@@ -11,6 +11,7 @@ import { message, Spin } from 'antd';
 import UserManager from "../components/pages/Admin/UserManager/UserManager";
 import PostStored from "../components/pages/Admin/Post/PostStored";
 import CategoryManager from "../components/pages/Admin/CategoryManager/CategoryManager";
+import CreateNewsCopy from "../components/pages/Admin/CreateNewsCopy/CreateNewsCopy";
 
 function Admin() {
 
@@ -41,7 +42,7 @@ function Admin() {
           <Route path="/post" element={<Post successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
           <Route path="/post/stored" element={<PostStored successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
           <Route path="/post/create" element={<CreateNews collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} />} />
-          <Route path="/post/update/:id" element={<UpdateNews collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav}/>} />
+          <Route path="/post/update/:id" element={<CreateNewsCopy collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav}/>} />
           <Route path="/category" element={<CategoryManager successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
           <Route path="/user" element={<UserManager successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
         </Routes>

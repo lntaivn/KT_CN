@@ -90,7 +90,7 @@ const PutNewsByID = (
         thumbnail: thumbnail,
     };
     console.log("data", data);
-    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/news/${id}`, data, {
+    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/admin/news/${id}`, data, {
         withCredentials: true,
     });
 };

@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import {
-    GetNewCanUpdate,
     GetAllCategories,
     PutNewsByID,
 } from "../../../../service/ApiService";
+
+import { GetNewCanUpdate} from "../../../../service/NewsService";
+
+
 import { Collapse, Input, Upload, Select, Image, message, Tooltip } from "antd";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 
