@@ -17,8 +17,10 @@ import {
     ModalContent,
     ModalHeader,
     ModalBody,
-    ModalFooter, useDisclosure
+    ModalFooter, 
+    useDisclosure
 } from "@nextui-org/react";
+
 
 import { getAllNewsForAdmin, softDeleteNewsByIds } from "../../../../service/NewsService";
 
@@ -87,6 +89,8 @@ const CategoryManager = (props) => {
                         >
                             <i className="fa-solid fa-pen"></i>
                         </Button>
+
+                        
                     </Tooltip>
                     <Tooltip title="Xoá">
                         <Button
@@ -234,6 +238,7 @@ const CategoryManager = (props) => {
             >
                 Tạo danh mục mới
             </Button>
+
             {selectedRowKeys.length !== 0 && (
                 <div className="Quick__Option flex justify-between items-center sticky top-2 bg-[white] z-50 w-full p-4 py-3 shadow-lg rounded-md border-1 border-slate-300">
                     <p className="text-sm font-medium">

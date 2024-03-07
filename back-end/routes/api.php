@@ -42,13 +42,14 @@ Route::middleware('check.jwt')->group(function () {
     Route::put('/admin/news/softDelete/{id}', [NewsController::class, 'updateDeleted']);
     Route::put('/admin/news/soft-list/delete', [NewsController::class, 'updateManyDeleted']);
     Route::delete('/admin/news/force-delete', [NewsController::class, 'deleteNews']);
-    
     Route::get('/admin/getCurrentUser', [AuthController::class, 'getCurrentUser']);
 });
 
 
 //category
 Route::middleware('check.jwt')->group(function () {
+    Route::get('/admin/categories', [CategoryController::class, 'getAll']);
+    Route::get('/admin/category/{id}', [CategoryController::class, 'getCategoryById']);
     Route::post('/admin/category', [CategoryController::class, 'create']);
     Route::put('/admin/category/{id}', [CategoryController::class, 'update']);
 });

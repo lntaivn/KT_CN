@@ -14,20 +14,37 @@ class CategoryController extends Controller
         return response()->json($categories, 200);
     }
 
+    public function getCategoryById($id)
+    {
+        try {
+            $categories = Category::findOrFail($id);
+            return response()->json($categories, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Không tìm thấy danh mục'], 404);
+        }
+    }
+    
     public function create(Request $request)
     {
-        $request->validate([
-            'name_vi' => 'required|string',
-            'name_en' => 'required|string',
-        ]);
-
-        $category = Category::create([
-            'name_vi' => $request->input('name_vi'),
-            'name_en' => $request->input('name_en'),
-        ]);
-
-        return response()->json($category, 201);
+        try {
+            $request->validate([
+                'name_vi' => 'required|string',
+                'name_en' => 'required|string',
+            ]);
+    
+            $category = Category::create([
+                'name_vi' => $request->input('name_vi'),
+                'name_en' => $request->input('name_en'),
+            ]);
+    
+            return response()->json($category, 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi khi tạo danh mục'], 500);
+        }
     }
+    
+
+
 
     public function get($id)
     {
