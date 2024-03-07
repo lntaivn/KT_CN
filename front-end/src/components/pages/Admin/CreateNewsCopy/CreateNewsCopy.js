@@ -121,7 +121,6 @@ const CreateNewsCopy = (props) => {
         setSelectedCategory(value);
     };
     
-
     //hangle layout
     const handleToggleLayout = (_layout) => {
         setLayout(_layout);
