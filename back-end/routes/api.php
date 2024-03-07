@@ -41,8 +41,8 @@ Route::middleware('check.jwt')->group(function () {
     Route::put('/admin/news/update/UpdateStatuses', [NewsController::class, 'UpdateStatuses']);
     Route::put('/admin/news/softDelete/{id}', [NewsController::class, 'updateDeleted']);
     Route::put('/admin/news/soft-list/delete', [NewsController::class, 'updateManyDeleted']);
+    Route::get('/news/search/TitleCategory/is-deleted', [NewsController::class, 'searchByTitleCategoryIsDeleted']);//ok
     Route::delete('/admin/news', [NewsController::class, 'deleteNews']);
-
     Route::get('/admin/getCurrentUser', [AuthController::class, 'getCurrentUser']);
 });
 
@@ -87,7 +87,9 @@ Route::get('news/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5R
 Route::get('/news', [NewsController::class, 'getAllNews']);
 Route::get('/news/{id}', [NewsController::class, 'getNewByID']);//ok
 Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);//ok
-Route::put('/news/update/viewCount/{id}', [NewsController::class, 'updateViewCount']);//ok
+Route::get('/news/search/TitleCategory', [NewsController::class, 'searchByTitleCategory']);//ok
+
+
 
 //Category
 Route::get('/categories', [CategoryController::class, 'getAll']);
