@@ -1,4 +1,3 @@
-
 import { axiosInstance } from "./AxiosCofig";
 
 const getAllNewsForAdmin = () => {
@@ -21,4 +20,9 @@ const forceDeleteNewsByIds = (data) => {
     return axiosInstance.delete(`/admin/news/force-delete`, { params: data });
 };
 
-export { getAllNewsForAdmin, getAllNewsHiddenForAdmin, softDeleteNewsById, softDeleteNewsByIds, forceDeleteNewsByIds };
+const GetNewCanUpdate = (id) => {
+    console.log('id', id);
+    return axiosInstance.get(`/admin/news/${id}`);
+};
+
+export { getAllNewsForAdmin, getAllNewsHiddenForAdmin, softDeleteNewsById, softDeleteNewsByIds, forceDeleteNewsByIds, GetNewCanUpdate };
