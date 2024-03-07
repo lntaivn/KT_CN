@@ -44,10 +44,10 @@ const SaveDataNewViEn = (
         content_en: content_en,
         content_vi: content_vi,
         view_count: 0,
-        thumbnail: thumbnail,
+        thumbnail: thumbnail
     };
     console.log(data);
-    return axios.post(`${process.env.REACT_APP_API_DOMAIN}/news`, data, {
+    return axios.post(`${process.env.REACT_APP_API_DOMAIN}/admin/news`, data, {
         withCredentials: true,
     });
 };
@@ -90,7 +90,7 @@ const PutNewsByID = (
         thumbnail: thumbnail,
     };
     console.log("data", data);
-    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/news/${id}`, data, {
+    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/admin/news/${id}`, data, {
         withCredentials: true,
     });
 };

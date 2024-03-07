@@ -41,8 +41,8 @@ Route::middleware('check.jwt')->group(function () {
     Route::put('/admin/news/update/UpdateStatuses', [NewsController::class, 'UpdateStatuses']);
     Route::put('/admin/news/softDelete/{id}', [NewsController::class, 'updateDeleted']);
     Route::put('/admin/news/soft-list/delete', [NewsController::class, 'updateManyDeleted']);
-    Route::get('/news/search/TitleCategory/is-deleted', [NewsController::class, 'searchByTitleCategoryIsDeleted']);//ok
     Route::delete('/admin/news', [NewsController::class, 'deleteNews']);
+
     Route::get('/admin/getCurrentUser', [AuthController::class, 'getCurrentUser']);
 });
 
@@ -53,11 +53,8 @@ Route::middleware('check.jwt')->group(function () {
     Route::put('/admin/category/{id}', [CategoryController::class, 'update']);
 });
 
-//upload img
-Route::middleware('check.jwt')->group(function () {
-    Route::post('/admin/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');
-    Route::post('/admin/upload-image-', [ImageUploadController::class, 'upload1'])->name('upload.image');
-});
+Route::post('/admin/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');
+Route::post('/admin/upload-image-', [ImageUploadController::class, 'upload1'])->name('upload.image');
 
 //users
 Route::middleware(['check.jwt', 'check.role'])->group(function () {
@@ -66,6 +63,7 @@ Route::middleware(['check.jwt', 'check.role'])->group(function () {
     Route::post('admin/users', [UserController::class, 'store']);
     Route::delete('admin/users/{id_user}', [UserController::class, 'destroy']);
     // Route::put('admin/users/{id_user}', [UserController::class, 'update']);
+    Route::put('admin/users/soft-delete/{id}', [UserController::class, 'softDelete']);
     Route::put('admin/users/role/change', [UserController::class, 'updateRole']);
 });
 

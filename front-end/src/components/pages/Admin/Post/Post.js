@@ -15,7 +15,12 @@ import {
     BreadcrumbItem,
     Breadcrumbs,
     Button,
-    Switch
+    Switch,
+    Modal, Chip,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter, useDisclosure
 } from "@nextui-org/react";
 import { getAllNewsForAdmin, softDeleteNewsByIds } from "../../../../service/NewsService";
 
@@ -28,6 +33,10 @@ const Post = (props) => {
 
     const [selectedRow, setSelectedRow] = useState([]);
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+    const [deleteId, setDeleteId] = useState(null);
 
     const columns = [
         {
@@ -237,7 +246,7 @@ const Post = (props) => {
                             variant="light"
                             radius="full"
                             size="sm"
-                            onClick={() => handleSoftDeleteById(_id)}
+                            onClick={() => { onOpen(); setDeleteId(_id);}}
                         >
                             <i className="fa-solid fa-trash-can"></i>
                         </Button>
@@ -458,6 +467,19 @@ const Post = (props) => {
 
     return (
         <div className="HomeAdmin flex flex-col gap-5 items-start">
+            <ConfirmAction
+                onOpenChange={onOpenChange}
+                isOpen={isOpen}
+                onConfirm={() => {
+                    if (deleteId) {
+                        handleSoftDeleteById(deleteId);
+                        setDeleteId(null);
+                    } else if (selectedRowKeys.length > 0) {
+                        handleSoftDelete();
+                        setSelectedRowKeys([]);
+                    }
+                }}
+            />
             <div className="flex items-start justify-between w-full">
                 <Breadcrumbs underline="hover">
                     <BreadcrumbItem>Admin Dashboard</BreadcrumbItem>
@@ -560,7 +582,7 @@ const Post = (props) => {
                                 document.querySelector(".Quick__Option")
                             }
                         >
-                            <Button isIconOnly variant="light" radius="full" onClick={() => { handleSoftDelete() }}>
+                            <Button isIconOnly variant="light" radius="full" onClick={onOpen}>
                                 <i className="fa-solid fa-trash-can"></i>
                             </Button>
                         </Tooltip>
@@ -602,3 +624,63 @@ const Post = (props) => {
 };
 
 export default Post;
+
+function ConfirmAction(props) {
+
+    const { isOpen, onOpenChange, onConfirm } = props;
+
+    const handleOnOKClick = (onClose) => {
+        onClose();
+        if (typeof onConfirm === 'function') {
+            onConfirm();
+        }
+    }
+
+    return (
+        <Modal
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+            motionProps={{
+                variants: {
+                    enter: {
+                        y: 0,
+                        opacity: 1,
+                        transition: {
+                            duration: 0.2,
+                            ease: "easeOut",
+                        },
+                    },
+                    exit: {
+                        y: -20,
+                        opacity: 0,
+                        transition: {
+                            duration: 0.1,
+                            ease: "easeIn",
+                        },
+                    },
+                }
+            }}
+        >
+            <ModalContent>
+                {(onClose) => (
+                    <>
+                        <ModalHeader>Cảnh báo</ModalHeader>
+                        <ModalBody>
+                            <p className="text-[16px]">
+                                Bài viết sẽ được chuyển vào <Chip radius="sm" className="bg-zinc-200"><i class="fa-solid fa-trash-can-arrow-up mr-2"></i>Kho lưu trữ</Chip> và có thể khôi phục lại trong vòng 30 ngày, tiếp tục thao tác?
+                            </p>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button variant="light" onPress={onClose}>
+                                Huỷ
+                            </Button>
+                            <Button color="danger" className="font-medium" onPress={() => handleOnOKClick(onClose)}>
+                                Xoá
+                            </Button>
+                        </ModalFooter>
+                    </>
+                )}
+            </ModalContent>
+        </Modal>
+    )
+}

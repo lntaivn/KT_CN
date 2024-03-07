@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "./AxiosCofig";
 
 const postToken = (email, uid, photoURL, displayName) => {
     const data = {
@@ -7,24 +7,15 @@ const postToken = (email, uid, photoURL, displayName) => {
         photoURL: photoURL,
         displayName: displayName
     };
-    return axios.post(`${process.env.REACT_APP_API_DOMAIN}/login`, data, {
-        withCredentials: true,
-    });
+    return axiosInstance.post(`/login`, data);
 };
 
 const logoutToken = () => {
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/logout`, {
-        withCredentials: true,
-    });
+    return axiosInstance.get(`/logout`);
 };
 
 const getCurrentUser = () => {
-    return axios.get(
-        `${process.env.REACT_APP_API_DOMAIN}/admin/getCurrentUser`,
-        {
-            withCredentials: true,
-        }
-    );
+    return axiosInstance.get(`/admin/getCurrentUser`);
 };
 
 export { postToken, logoutToken, getCurrentUser };

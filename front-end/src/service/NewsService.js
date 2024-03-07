@@ -1,4 +1,3 @@
-import axios from "axios";
 import { axiosInstance } from "./AxiosCofig";
 
 const getAllNewsForAdmin = () => {
@@ -17,4 +16,20 @@ const softDeleteNewsByIds = (data) => {
     return axiosInstance.put(`/admin/news/soft-list/delete`, data);
 };
 
-export { getAllNewsForAdmin, getAllNewsHiddenForAdmin, softDeleteNewsById, softDeleteNewsByIds };
+const forceDeleteNewsByIds = (data) => {
+    return axiosInstance.delete(`/admin/news/force-delete`, { params: data });
+};
+
+const GetNewCanUpdate = (id) => {
+    console.log('id', id);
+    return axiosInstance.get(`/admin/news/${id}`);
+};
+
+const PutNewsByID = (id, data) => {
+    return axiosInstance.put(`/admin/news/${id}`, data);
+};
+
+const SaveDataNews = (data) => {
+    return axiosInstance.post(`/admin/news`, data);
+};
+export { getAllNewsForAdmin, getAllNewsHiddenForAdmin, softDeleteNewsById, softDeleteNewsByIds, forceDeleteNewsByIds, GetNewCanUpdate, PutNewsByID, SaveDataNews};

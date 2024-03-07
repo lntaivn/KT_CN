@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import {
-    GetNewCanUpdate,
     GetAllCategories,
     PutNewsByID,
 } from "../../../../service/ApiService";
+
+import { GetNewCanUpdate} from "../../../../service/NewsService";
+
+
 import { Collapse, Input, Upload, Select, Image, message, Tooltip } from "antd";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 
@@ -259,7 +262,7 @@ const UpdateNews = (props) => {
                     listType="picture-card"
                     className="avatar-uploader"
                     showUploadList={false}
-                    action="api/admin/upload-image-" // Thay đổi URL tại đây
+                    action={`${process.env.REACT_APP_API_DOMAIN}/admin/upload-image-`}
                     beforeUpload={beforeUpload}
                     onChange={handleChange}
                 >
@@ -311,7 +314,7 @@ const UpdateNews = (props) => {
                                 }}
                                 config={{
                                     ckfinder: {
-                                        uploadUrl: "api/admin/upload-image",
+                                        uploadUrl: `${process.env.REACT_APP_API_DOMAIN}/admin/upload-image`,
                                     },
                                 }}
                             />

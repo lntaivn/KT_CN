@@ -15,10 +15,13 @@ import {
     BreadcrumbItem,
     Breadcrumbs,
     Button,
-    Switch,
-    User,
+    Modal, Chip,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter, useDisclosure
 } from "@nextui-org/react";
-import { getAllNewsHiddenForAdmin, softDeleteNewsByIds } from "../../../../service/NewsService";
+import { getAllNewsHiddenForAdmin, forceDeleteNewsByIds, softDeleteNewsByIds, softDeleteNewsById } from "../../../../service/NewsService";
 
 const PostStored = (props) => {
     const { successNoti, errorNoti, setSpinning } = props;
@@ -29,6 +32,9 @@ const PostStored = (props) => {
 
     const [selectedRow, setSelectedRow] = useState([]);
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const [deleteId, setDeleteId] = useState(null);
 
     const calculateRemainingTime = (deleteDate) => {
         const deleteMoment = moment(deleteDate);
@@ -209,7 +215,7 @@ const PostStored = (props) => {
                             isIconOnly
                             variant="light"
                             radius="full"
-                            onClick={() => handleSoftDeleteById(_id)}
+                            onClick={() => handleRestoreById(_id)}
                         >
                             <i className="fa-solid fa-clock-rotate-left"></i>
                         </Button>
@@ -220,6 +226,7 @@ const PostStored = (props) => {
                             variant="light"
                             radius="full"
                             color="danger"
+                            onClick={() => { onOpen(); setDeleteId(_id);}}
                         >
                             <i className="fa-solid fa-trash-can"></i>
                         </Button>
@@ -232,7 +239,6 @@ const PostStored = (props) => {
     const rowSelection = {
         selectedRowKeys,
         onChange: (selectedRowKeys, selectedRows) => {
-            // console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
             setSelectedRow(selectedRows);
             setSelectedRowKeys(selectedRowKeys);
         },
@@ -243,33 +249,7 @@ const PostStored = (props) => {
         setSelectedRow([]);
     };
 
-    const getValueOfVISelectedRow = () => {
-        const selectedRows = newsListData.filter((news) =>
-            selectedRowKeys.includes(news.key)
-        );
-        const countVITrue = selectedRows.filter(
-            (row) => row.status_vi.value
-        ).length;
-        const checkValueVI =
-            countVITrue === selectedRowKeys.length ? true : false;
-
-        return checkValueVI;
-    };
-
-    const getValueOfENSelectedRow = () => {
-        const selectedRows = newsListData.filter((news) =>
-            selectedRowKeys.includes(news.key)
-        );
-        const countENTrue = selectedRows.filter(
-            (row) => row.status_en.value
-        ).length;
-        const checkValueEN =
-            countENTrue === selectedRowKeys.length ? true : false;
-
-        return checkValueEN;
-    };
-
-    const handleSoftDelete = async () => {
+    const handleRestore = async () => {
         setSpinning(true);
         const putData = {
             id_new: selectedRowKeys,
@@ -279,16 +259,16 @@ const PostStored = (props) => {
             const response = await softDeleteNewsByIds(putData);
             await getNews();
             setSpinning(false);
-            successNoti("Cập nhật thành công");
+            successNoti("Khôi phục thành công");
             handleUnSelect();
         } catch (error) {
             setSpinning(false);
-            successNoti("Cập nhật thất bại");
+            successNoti("Khôi phục thất bại");
             console.error("Error fetching news:", error);
         }
     };
 
-    const handleSoftDeleteById = async (_id) => {
+    const handleRestoreById = async (_id) => {
         setSpinning(true);
         const putData = {
             id_new: [_id],
@@ -299,9 +279,38 @@ const PostStored = (props) => {
             await getNews();
             setSpinning(false);
             successNoti("Khôi phục thành công");
+            handleUnSelect();
         } catch (error) {
             setSpinning(false);
             successNoti("Khôi phục thất bại");
+            console.error("Error fetching news:", error);
+        }
+    };
+
+    const handleForceDelete = async () => {
+        setSpinning(true);
+
+        let putData;
+
+        if (deleteId) {
+            putData = {
+                id_new: [deleteId]
+            }
+        } else {
+            putData = {
+                id_new: selectedRowKeys
+            }
+        }
+
+        try {
+            const response = await forceDeleteNewsByIds(putData);
+            await getNews();
+            setSpinning(false);
+            successNoti("Cập nhật thành công");
+            handleUnSelect();
+        } catch (error) {
+            setSpinning(false);
+            errorNoti("Cập nhật thất bại");
             console.error("Error fetching news:", error);
         }
     };
@@ -385,6 +394,15 @@ const PostStored = (props) => {
 
     return (
         <div className="HomeAdmin flex flex-col gap-5 items-start">
+            <ConfirmAction
+                onOpenChange={onOpenChange}
+                isOpen={isOpen}
+                onConfirm={() => {
+                    handleForceDelete();
+                    setDeleteId(null);
+                    setSelectedRowKeys([]);
+                }}
+            />
             <div className="flex items-start justify-between w-full">
                 <Breadcrumbs underline="hover">
                     <BreadcrumbItem>Admin Dashboard</BreadcrumbItem>
@@ -429,7 +447,7 @@ const PostStored = (props) => {
                                 document.querySelector(".Quick__Option")
                             }
                         >
-                            <Button isIconOnly variant="light" radius="full" onClick={() => handleSoftDelete()}>
+                            <Button isIconOnly variant="light" radius="full" onClick={() => handleRestore()}>
                                 <i className="fa-solid fa-clock-rotate-left"></i>
                             </Button>
                         </Tooltip>
@@ -439,7 +457,7 @@ const PostStored = (props) => {
                                 document.querySelector(".Quick__Option")
                             }
                         >
-                            <Button isIconOnly variant="light" radius="full">
+                            <Button isIconOnly variant="light" radius="full" onClick={onOpen}>
                                 <i className="fa-solid fa-trash-can"></i>
                             </Button>
                         </Tooltip>
@@ -485,3 +503,64 @@ const PostStored = (props) => {
 };
 
 export default PostStored;
+
+
+function ConfirmAction(props) {
+
+    const { isOpen, onOpenChange, onConfirm } = props;
+
+    const handleOnOKClick = (onClose) => {
+        onClose();
+        if (typeof onConfirm === 'function') {
+            onConfirm();
+        }
+    }
+
+    return (
+        <Modal
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+            motionProps={{
+                variants: {
+                    enter: {
+                        y: 0,
+                        opacity: 1,
+                        transition: {
+                            duration: 0.2,
+                            ease: "easeOut",
+                        },
+                    },
+                    exit: {
+                        y: -20,
+                        opacity: 0,
+                        transition: {
+                            duration: 0.1,
+                            ease: "easeIn",
+                        },
+                    },
+                }
+            }}
+        >
+            <ModalContent>
+                {(onClose) => (
+                    <>
+                        <ModalHeader>Cảnh báo</ModalHeader>
+                        <ModalBody>
+                            <p className="text-[16px]">
+                                Bài viết sẽ bị <Chip variant="flat" radius="sm" color="danger" className="mx-[1px]">Xoá vĩnh viễn<i class="fa-solid fa-circle-xmark ml-2"></i></Chip> và không thể khôi phục, tiếp tục thao tác?
+                            </p>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button variant="light" onPress={onClose}>
+                                Huỷ
+                            </Button>
+                            <Button color="danger" className="font-medium" onPress={() => handleOnOKClick(onClose)}>
+                                Xoá vĩnh viễn
+                            </Button>
+                        </ModalFooter>
+                    </>
+                )}
+            </ModalContent>
+        </Modal>
+    )
+}
