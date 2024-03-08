@@ -52,6 +52,7 @@ Route::middleware('check.jwt')->group(function () {
     Route::get('/admin/category/{id}', [CategoryController::class, 'getCategoryById']);
     Route::post('/admin/category', [CategoryController::class, 'create']);
     Route::put('/admin/category/{id}', [CategoryController::class, 'update']);
+    Route::put('/admin/category/soft-list/delete', [CategoryController::class, 'updateManyDeleted']);
 });
 
 Route::post('/admin/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');

@@ -22,9 +22,8 @@ import {
 } from "@nextui-org/react";
 
 
-import { getAllNewsForAdmin, softDeleteNewsByIds } from "../../../../service/NewsService";
 
-import { getAllCategories } from "../../../../service/CategoryService";
+import { getAllCategories, softDeleteCategoryByIds} from "../../../../service/CategoryService";
 
 const CategoryManager = (props) => {
 
@@ -125,12 +124,13 @@ const CategoryManager = (props) => {
     const handleSoftDelete = async () => {
         setSpinning(true);
         const putData = {
-            id_new: selectedRowKeys,
+            id_category: selectedRowKeys,
             deleted: true,
         }
         try {
-            const response = await softDeleteNewsByIds(putData);
+            const response = await softDeleteCategoryByIds(putData);
             setSpinning(false);
+            getCategory();
             successNoti("Xoá thành công");
             handleUnSelect();
         } catch (error) {
@@ -143,12 +143,13 @@ const CategoryManager = (props) => {
     const handleSoftDeleteById = async (_id) => {
         setSpinning(true);
         const putData = {
-            id_new: [_id],
+            id_category: [_id],
             deleted: true,
         }
         try {
-            const response = await softDeleteNewsByIds(putData);
+            const response = await softDeleteCategoryByIds(putData);
             setSpinning(false);
+            getCategory();
             successNoti("Xoá thành công");
         } catch (error) {
             setSpinning(false);
@@ -217,17 +218,7 @@ const CategoryManager = (props) => {
                             <i className="fa-solid fa-rotate-right text-[17px]"></i>
                         </Button>
                     </Tooltip>
-                    <Tooltip title="Bài viết đã xoá">
-                        <Button
-                            isIconOnly
-                            radius="full"
-                            variant="light"
-                            to="stored"
-                            as={Link}
-                        >
-                            <i className="fa-solid fa-trash-can-arrow-up text-[17px]"></i>
-                        </Button>
-                    </Tooltip>
+                    
                 </div>
             </div>
             <Button
@@ -336,7 +327,7 @@ function ConfirmAction(props) {
                         <ModalHeader>Cảnh báo</ModalHeader>
                         <ModalBody>
                             <p className="text-[16px]">
-                                Bài viết sẽ được chuyển vào <Chip radius="sm" className="bg-zinc-200"><i class="fa-solid fa-trash-can-arrow-up mr-2"></i>Kho lưu trữ</Chip> và có thể khôi phục lại trong vòng 30 ngày, tiếp tục thao tác?
+                                Bạn có muốn thực hiện thao tác xóa?
                             </p>
                         </ModalBody>
                         <ModalFooter>

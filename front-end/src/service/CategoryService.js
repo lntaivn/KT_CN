@@ -4,6 +4,12 @@ const getAllCategories = () => {
     return axiosInstance.get(`/admin/categories`);
 };
 
+const getAllCategoryByhidden = () => {
+    return axiosInstance.get(`/admin/categoryByHidden`);
+};
+
+
+
 const postSaveCategory = (data) => {
     return axiosInstance.post(`/admin/category`,data);
 };
@@ -16,6 +22,11 @@ const updateCategory = (id, data) => {
 const getCategoryByID = (id) => {
     return axiosInstance.get(`/admin/category/${id}`);
 };
-export { getAllCategories, postSaveCategory, updateCategory, getCategoryByID};
+
+const softDeleteCategoryByIds = (data) => {
+    return axiosInstance.put(`/admin/category/soft-list/delete`, data);
+};
+
+export { getAllCategories, postSaveCategory, updateCategory, getCategoryByID, softDeleteCategoryByIds, getAllCategoryByhidden};
 
 
