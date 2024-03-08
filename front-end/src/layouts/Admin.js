@@ -12,6 +12,7 @@ import CategoryManager from "../components/pages/Admin/CategoryManager/CategoryM
 import UpdatePost from "../components/pages/Admin/Post/UpdatePost";
 import CreatePost from "../components/pages/Admin/Post/CreatePost";
 import PostCategory from "../components/pages/Admin/CategoryManager/PostCategory";
+import UpdateCategory from "../components/pages/Admin/CategoryManager/UpdateCategory";
 
 function Admin() {
 
@@ -45,6 +46,8 @@ function Admin() {
           <Route path="/post/update/:id" element={<UpdatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} setSpinning={setSpinning} successNoti={successNoti} errorNoti={errorNoti}/>} />
           <Route path="/category" element={<CategoryManager successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
           <Route path="/category/create" element={<PostCategory successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
+          <Route path="/category/update/:id" element={<UpdateCategory successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
+
           <Route path="/user" element={<UserManager successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
         </Routes>
       </div>
