@@ -73,8 +73,11 @@
         "type2":"Under graduate"
     },
     "News": {
-        "text_new_1": "NEWS",
-        "text_new_2": "View More"
+        "text_new_1": "News",
+        "text_new_2": "View more",
+        "text_new_3": "Event",
+        "text_new_4": "Our partner",
+        "text_new_5": "Department as Engineering and Technology"
     },
     "NewsDetail": {
         "related": "Related news",

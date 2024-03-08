@@ -510,7 +510,7 @@ class NewsController extends Controller
                 'content_en' => $request->input('content_en'),
                 'title_vi' => $request->input('title_vi'),
                 'title_en' => $request->input('title_en'),
-                'thumbnail' => $request->input('thumbnail'),
+                'thumbnail' => $request->input('thumbnail')
             ]);
 
             if ($validatedData['content_en'] === null) {
