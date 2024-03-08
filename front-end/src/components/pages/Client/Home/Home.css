@@ -34,22 +34,3 @@
     border: 1px solid #486470;
     padding: 20px;
 }
-
-.News {
-    display: flex;
-    justify-content: center;
-}
-
-.News_display_grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px; 
-}
-
-.News_card {
-
-    width: 400px;
-    height: 100px; 
-    background-color: #f0f0f0; 
-
-}

@@ -73,8 +73,12 @@
         "type2":"ĐẠI HỌC"
     },
     "News": {
-        "text_new_1": "TIN TỨC",
-        "text_new_2": "Xem thêm"
+        "text_new_1": "Tin tức",
+        "text_new_2": "Xem thêm",
+        "text_new_3": "Sự kiện",
+        "text_new_4": "Đối tác của chúng tôi",
+        "text_new_5": "Bộ môn thuộc Khoa Kỹ Thuật & Công nghệ"
+
     },
     "NewsDetail": {
         "related": "Tin liên quan",

@@ -496,7 +496,6 @@ class NewsController extends Controller
             'title_vi' => 'nullable|string',
             'content_en' => 'nullable|string',
             'content_vi' => 'nullable|string',
-            'view_count' => 'nullable|integer',
             'thumbnail' => 'nullable|string',
         ]);
 
@@ -511,9 +510,7 @@ class NewsController extends Controller
                 'content_en' => $request->input('content_en'),
                 'title_vi' => $request->input('title_vi'),
                 'title_en' => $request->input('title_en'),
-                'thumbnail' => $request->input('thumbnail'),
-                'view_count' => $validatedData['view_count'],
-
+                'thumbnail' => $request->input('thumbnail')
             ]);
 
             if ($validatedData['content_en'] === null) {
