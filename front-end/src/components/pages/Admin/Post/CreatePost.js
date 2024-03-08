@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Breadcrumbs, BreadcrumbItem, Button, Avatar, Input} from "@nextui-org/react";
+import {
+    Breadcrumbs,
+    BreadcrumbItem,
+    Button,
+    Avatar,
+    Input,
+} from "@nextui-org/react";
 import { Upload, Select, message, Tooltip } from "antd";
 import ImgCrop from "antd-img-crop";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
@@ -40,7 +46,7 @@ const CreatePost = (props) => {
 
     const SaveData = () => {
         const title_vi = titleVI !== "" ? titleVI : null;
-        const title_en = titleEN !== "" ? titleEN : null;
+        const title_en = titleEN !== "" ? titleEN : "";
 
         const data = {
             id_category: selectedCategory,
@@ -48,14 +54,16 @@ const CreatePost = (props) => {
             title_vi: title_vi,
             content_en: contentEN,
             content_vi: contentVI,
-            thumbnail: imageUrl
+            thumbnail: imageUrl,
         };
-    
+
         SaveDataNews(data)
             .then((response) => {
                 console.log("Phản hồi từ máy chủ:", response);
             })
             .catch((error) => {
+                console.log("data: ", data);
+
                 console.error("Lỗi khi gửi dữ liệu:", error);
             });
     };
@@ -97,7 +105,7 @@ const CreatePost = (props) => {
         setSelectedCategory(value);
     };
 
-    //hangle Layout 
+    //hangle Layout
     const handleToggleLayout = (_layout) => {
         setLayout(_layout);
         if (_layout === "col") {
@@ -144,7 +152,7 @@ const CreatePost = (props) => {
         </div>
     );
 
-    //config CKEditor 
+    //config CKEditor
     const items = [
         {
             key: "1",
