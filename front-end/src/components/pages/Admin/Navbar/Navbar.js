@@ -1,9 +1,8 @@
 import logo from "../../../../assets/KTCN.png"
 import { Link, useLocation, useNavigate} from 'react-router-dom';
 import { onAuthStateChanged } from "firebase/auth";
-import Cookies from 'js-cookie';
 import { auth, signInWithGoogle, signOut} from "../../../../service/firebase";
-import { postToken, logoutToken, getCurrentUser } from "../../../../service/LoginService";
+import { postToken, logoutToken } from "../../../../service/LoginService";
 import { User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, ScrollShadow, Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Tooltip } from "antd";
@@ -57,29 +56,21 @@ function Navbar(props) {
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     const response= await postToken(user.email, user.uid, user.photoURL, user.displayName);
-                    console.log(response.data);
-                    setCurrentUser(response.data);
+                    if (response.data.email === user.email){
+                        setCurrentUser(response.data);
+                    } 
                 } else {
+                    alert("Bạn không có quyền vô trang này");
+                    await signOut(auth);
                     setCurrentUser(null);
                     navigate("/");
+
                 }
             });
     
     }, []);
 
-    const handleLoginWithGoogle = async (onClose) => {
-        // setSpinning(true);
-        // try {
-        //     const user = await signInWithGoogle();
-
-        //     await postToken(user.email, user.uid, user.photoURL, user.displayName);
-        //     setSpinning(false);
-        //     window.location.reload();
-        // } catch (err) {
-        //     console.error(err);
-        // }
-    }
-
+    const handleLoginWithGoogle = async (onClose) => {}
     const handleLogout = async () => {
         setSpinning(true);
         try {

@@ -31,12 +31,8 @@ class AuthController extends Controller
             $UID = $request->input('uid');
             $photoURL = $request->input('photoURL');
             $displayName = $request->input('displayName');
-            
-            // Tìm người dùng theo email
             $user = User::where('email', $email)->first();
-    
             if ($user) {
-                // Kiểm tra xem UID đã tồn tại không
                 if ($user->UID) {
                     if ($user->UID !== $UID) {
                         return response()->json("UId fail", 500);
@@ -63,12 +59,8 @@ class AuthController extends Controller
                         $user->save();
                     }
                 }
-    
-                // Tạo token với TTL là 30 ngày
                 $token = JWTAuth::fromUser($user, ['ttl' => 2592000]);
-    
                 if ($token) {
-                    // Tạo cookie với TTL là 30 ngày
                     $cookie = Cookie::make('jwt_token', $token, 2592000);
                     return response()->json($user)->withCookie($cookie);
                 } else {
