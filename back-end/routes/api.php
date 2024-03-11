@@ -90,7 +90,7 @@ Route::get('/news', [NewsController::class, 'getAllNews']);
 Route::get('/news/{id}', [NewsController::class, 'getNewByID']);//ok
 Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);//ok
 Route::get('/news/search/TitleCategory', [NewsController::class, 'searchByTitleCategory']);//ok
-
+Route::put('/news/updateViewCount/{id}', [NewsController::class, 'updateViewCount']);//ok
 
 
 //Category
