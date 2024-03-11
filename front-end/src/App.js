@@ -12,12 +12,14 @@ import Client from "./layouts/Client";
 import "./App.css"
 import { useTranslation } from 'react-i18next';
 import i18next from "i18next";
+import Login from "./components/pages/Admin/Login/Login";
 
 function App() {
 
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [user, setUser] = useState();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -49,10 +51,9 @@ function App() {
     return (
         <div className="App">
             <Routes>
-                <Route path="/admin/*" element={<Admin />} />
+                <Route path="/admin/*" element={<Admin user={user} />} />
                 <Route path="" element={<Client />} />
-                <Route path="/admin/*" element={<Admin />} />
-                <Route path="*" element={<Client />} />
+                <Route path="/login" element={<Login setUser={setUser}/>} />
             </Routes>
             {showScrollButton && (
                 <div className="scroll-to-top-button" onClick={scrollToTop}>

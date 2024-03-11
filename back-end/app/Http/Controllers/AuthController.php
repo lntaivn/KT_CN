@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Cookie;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -25,48 +26,61 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $email = $request->input('email');
-        $UID = $request->input('uid');
-        $photoURL = $request->input('photoURL');
-        $displayName = $request->input('displayName');
-        $user = User::where('email', $email)->first();
-        if ($user) {
-            if ($user->UID) {
-                if ($user->UID !== $UID) {
-                    return response()->json("UId fail", 404);
-                }
-                if ($user->photoURL !== $photoURL) {
-                    $user->photoURL = $photoURL;
+        try {
+            $email = $request->input('email');
+            $UID = $request->input('uid');
+            $photoURL = $request->input('photoURL');
+            $displayName = $request->input('displayName');
+            
+            // Tìm người dùng theo email
+            $user = User::where('email', $email)->first();
+    
+            if ($user) {
+                // Kiểm tra xem UID đã tồn tại không
+                if ($user->UID) {
+                    if ($user->UID !== $UID) {
+                        return response()->json("UId fail", 500);
+                    }
+                    if ($user->photoURL !== $photoURL) {
+                        $user->photoURL = $photoURL;
+                        $user->save();
+                    }
+                    if ($user->name !== $displayName) {
+                        $user->name = $displayName;
+                        $user->save();
+                    }
+                } else {
+                    $user->UID = $UID;
                     $user->save();
+    
+                    if ($user->photoURL !== $photoURL) {
+                        $user->photoURL = $photoURL;
+                        $user->save();
+                    }
+    
+                    if ($user->name !== $displayName) {
+                        $user->name = $displayName;
+                        $user->save();
+                    }
                 }
-                if ($user->name !== $displayName) {
-                    $user->name = $displayName;
-                    $user->save();
+    
+                // Tạo token với TTL là 30 ngày
+                $token = JWTAuth::fromUser($user, ['ttl' => 2592000]);
+    
+                if ($token) {
+                    // Tạo cookie với TTL là 30 ngày
+                    $cookie = Cookie::make('jwt_token', $token, 2592000);
+                    return response()->json($user)->withCookie($cookie);
+                } else {
+                    return response()->json("Token error", 500);
                 }
             } else {
-                $user->UID = $UID;
-                $user->save();
-                if ($user->photoURL !== $photoURL) {
-                    $user->photoURL = $photoURL;
-                    $user->save();
-                }
-                if ($user->name !== $displayName) {
-                    $user->name = $displayName;
-                }
+                return response()->json("Error", 500);
             }
-
-            // Tạo token với TTL là 30 ngày
-            $token = JWTAuth::fromUser($user, ['ttl' => 2592000]);
-
-            if ($token) {
-                // Tạo cookie với TTL là 30 ngày
-                $cookie = Cookie::make('jwt_token', $token, 2592000);
-                return response()->json(compact('user'))->withCookie($cookie);
-            } else {
-                return response()->json("Token error", 500);
-            }
-        } else {
-            return response()->json("Error", 500);
+        } catch (QueryException $e) {
+            return response()->json("Database error", 500);
+        } catch (\Exception $e) {
+            return response()->json("Unexpected error", 500);
         }
     }
 

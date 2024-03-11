@@ -1,15 +1,17 @@
 import logo from "../../../../assets/KTCN.png"
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate} from 'react-router-dom';
 import { onAuthStateChanged } from "firebase/auth";
-
+import Cookies from 'js-cookie';
 import { auth, signInWithGoogle, signOut} from "../../../../service/firebase";
-import { postToken, logoutToken } from "../../../../service/LoginService";
+import { postToken, logoutToken, getCurrentUser } from "../../../../service/LoginService";
 import { User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, ScrollShadow, Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { Tooltip } from "antd";
 import { motion } from "framer-motion";
 
 function Navbar(props) {
+
+    const navigate = useNavigate();
 
     const location = useLocation();
     const { collapsedNav, setCollapsedNav, setSpinning } = props;
@@ -52,28 +54,30 @@ function Navbar(props) {
     ]
 
     useEffect(() => {
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                setCurrentUser(user);
-                await postToken(user.email, user.uid, user.photoURL, user.displayName);
-            } else {
-                console.log("user is logged out");
-                setCurrentUser(null);
-            }
-        });
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    const response= await postToken(user.email, user.uid, user.photoURL, user.displayName);
+                    console.log(response.data);
+                    setCurrentUser(response.data);
+                } else {
+                    setCurrentUser(null);
+                    navigate("/");
+                }
+            });
+    
     }, []);
 
     const handleLoginWithGoogle = async (onClose) => {
-        setSpinning(true);
-        try {
-            const user = await signInWithGoogle();
+        // setSpinning(true);
+        // try {
+        //     const user = await signInWithGoogle();
 
-            await postToken(user.email, user.uid, user.photoURL, user.displayName);
-            setSpinning(false);
-            window.location.reload();
-        } catch (err) {
-            console.error(err);
-        }
+        //     await postToken(user.email, user.uid, user.photoURL, user.displayName);
+        //     setSpinning(false);
+        //     window.location.reload();
+        // } catch (err) {
+        //     console.error(err);
+        // }
     }
 
     const handleLogout = async () => {
@@ -81,7 +85,7 @@ function Navbar(props) {
         try {
             await Promise.all([signOut(auth), logoutToken()]);
             setSpinning(false);
-            window.location.reload();
+            navigate("/login");
         } catch (err) {
             console.error(err);
         }
