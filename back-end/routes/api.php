@@ -43,6 +43,8 @@ Route::middleware('check.jwt')->group(function () {
     Route::put('/admin/news/soft-list/delete', [NewsController::class, 'updateManyDeleted']);
     Route::delete('/admin/news/force-delete', [NewsController::class, 'deleteNews']);
     Route::get('/admin/getCurrentUser', [AuthController::class, 'getCurrentUser']);
+    Route::get('/news/search/TitleCategoryIsDeleted', [NewsController::class, 'searchByTitleCategoryIsDeleted']);//ok
+
 });
 
 

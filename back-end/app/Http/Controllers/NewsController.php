@@ -29,7 +29,9 @@ class NewsController extends Controller
                 'categories.name_vi as category_name_vi',
                 'news.status_vi',
                 'news.status_en'
-            )->get();
+            )
+            ->where('news.is_deleted', '=', 0)
+            ->get();
 
         return response()->json($news, 200);
     }
@@ -194,7 +196,9 @@ class NewsController extends Controller
     public function getAllByCategory($category_id)
     {
         try {
-            $news = News::where('id_category', $category_id)->get();
+            $news = News::where('id_category', $category_id)
+                ->where('news.is_deleted', '=', 0)
+                ->get();
             if ($news->isEmpty()) {
                 return response()->json(['message' => 'Không có tin tức nào trong danh mục này.'], 404);
             }
@@ -237,6 +241,7 @@ class NewsController extends Controller
                 'news.status_en',
             )
             ->where('news.id_new', '=', $id)
+            ->where('news.is_deleted', '=', 0)
             ->get();
 
 
@@ -786,6 +791,190 @@ class NewsController extends Controller
             }
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật view'], 500);
+        }
+    }
+
+    public function searchByTitleCategory(Request $request)
+    {
+        $searchTerm = $request->input('search');
+
+        try {
+            $news = News::join('categories', 'news.id_category', '=', 'categories.id_category')
+                ->join('users', 'news.id_user', '=', 'users.id_user')
+                ->leftJoin('users as update_user', 'news.update_by', '=', 'update_user.id_user')
+                ->select(
+                    'news.id_new',
+                    'news.is_deleted',
+                    'news.title_vi',
+                    'news.title_en',
+                    'news.id_user',
+                    'users.name as user_name',
+                    'users.email as user_email',
+                    'users.photoURL',
+                    'news.content_en',
+                    'news.content_vi',
+                    'news.view_count',
+                    'news.updated_at',
+                    'news.created_at',
+                    'news.thumbnail',
+                    'news.id_category',
+                    'categories.name_en as category_name_en',
+                    'categories.name_vi as category_name_vi',
+                    'news.status_vi',
+                    'news.status_en',
+                    'news.update_by',
+                    'update_user.name as update_user_name',
+                    'update_user.email as update_user_email',
+                    'update_user.photoURL as update_user_photoURL',
+                )
+                ->orderBy('id_new')
+                ->where(function ($query) use ($searchTerm) {
+                    $query->where('news.title_en', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('news.title_vi', 'like', '%' . $searchTerm . '%');
+                })
+                ->orWhere(function ($query) use ($searchTerm) {
+                    $query->where('categories.name_en', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('categories.name_vi', 'like', '%' . $searchTerm . '%');
+                })
+                ->where('news.is_deleted', '=', 0)
+                ->get();
+
+
+            foreach ($news as $item) {
+                $responseData[] = [
+                    'is_deleted' => $item->is_deleted,
+                    'id_new' => $item->id_new,
+                    'vi' => [
+                        'title_vi' => $item->title_vi,
+                        'content_vi' => $item->content_vi,
+                        'status_vi' => $item->status_vi,
+                        'category_name_vi' => $item->category_name_vi,
+                    ],
+                    'en' => [
+                        'title_en' => $item->title_en,
+                        'content_en' => $item->content_en,
+                        'status_en' => $item->status_en,
+                        'category_name_en' => $item->category_name_en,
+                    ],
+                    'view_count' => $item->view_count,
+                    'updated_at' => $item->updated_at,
+                    'created_at' => $item->created_at,
+                    'thumbnail' => $item->thumbnail,
+                    'id_category' => $item->id_category,
+                    'user' => [
+                        'id_user' => $item->id_user,
+                        'name' => $item->name,
+                        'email' => $item->email,
+                        'photoURL' => $item->photoURL,
+                    ],
+                    'user_update' => [
+                        'id_user' => $item->update_by,
+                        'name' => $item->update_user_name,
+                        'email' => $item->update_user_email,
+                        'photoURL' => $item->update_user_photoURL,
+                    ],
+                ];
+            }
+
+            if (!$news) {
+                return response()->json(['message' => 'Bài viết không tồn tại'], 404);
+            }
+
+            return response()->json($responseData, 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'error', $th], 404);
+        }
+    }
+
+    public function searchByTitleCategoryIsDeleted(Request $request)
+    {
+
+        $searchTerm = $request->input('search');
+
+        try {
+            $news = News::join('categories', 'news.id_category', '=', 'categories.id_category')
+                ->join('users', 'news.id_user', '=', 'users.id_user')
+                ->leftJoin('users as update_user', 'news.update_by', '=', 'update_user.id_user')
+                ->select(
+                    'news.id_new',
+                    'news.is_deleted',
+                    'news.title_vi',
+                    'news.title_en',
+                    'news.id_user',
+                    'users.name as user_name',
+                    'users.email as user_email',
+                    'users.photoURL',
+                    'news.content_en',
+                    'news.content_vi',
+                    'news.view_count',
+                    'news.updated_at',
+                    'news.created_at',
+                    'news.thumbnail',
+                    'news.id_category',
+                    'categories.name_en as category_name_en',
+                    'categories.name_vi as category_name_vi',
+                    'news.status_vi',
+                    'news.status_en',
+                    'news.update_by',
+                    'update_user.name as update_user_name',
+                    'update_user.email as update_user_email',
+                    'update_user.photoURL as update_user_photoURL',
+                )
+                ->orderBy('id_new')
+                ->where(function ($query) use ($searchTerm) {
+                    $query->where('news.title_en', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('news.title_vi', 'like', '%' . $searchTerm . '%');
+                })
+                ->orWhere(function ($query) use ($searchTerm) {
+                    $query->where('categories.name_en', 'like', '%' . $searchTerm . '%')
+                        ->orWhere('categories.name_vi', 'like', '%' . $searchTerm . '%');
+                })
+                ->where('news.is_deleted', '=', 1)
+                ->get();
+
+            foreach ($news as $item) {
+                $responseData[] = [
+                    'is_deleted' => $item->is_deleted,
+                    'id_new' => $item->id_new,
+                    'vi' => [
+                        'title_vi' => $item->title_vi,
+                        'content_vi' => $item->content_vi,
+                        'status_vi' => $item->status_vi,
+                        'category_name_vi' => $item->category_name_vi,
+                    ],
+                    'en' => [
+                        'title_en' => $item->title_en,
+                        'content_en' => $item->content_en,
+                        'status_en' => $item->status_en,
+                        'category_name_en' => $item->category_name_en,
+                    ],
+                    'view_count' => $item->view_count,
+                    'updated_at' => $item->updated_at,
+                    'created_at' => $item->created_at,
+                    'thumbnail' => $item->thumbnail,
+                    'id_category' => $item->id_category,
+                    'user' => [
+                        'id_user' => $item->id_user,
+                        'name' => $item->name,
+                        'email' => $item->email,
+                        'photoURL' => $item->photoURL,
+                    ],
+                    'user_update' => [
+                        'id_user' => $item->update_by,
+                        'name' => $item->update_user_name,
+                        'email' => $item->update_user_email,
+                        'photoURL' => $item->update_user_photoURL,
+                    ],
+                ];
+            }
+
+            if (!$news) {
+                return response()->json(['message' => 'Bài viết không tồn tại'], 404);
+            }
+
+            return response()->json($responseData, 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'error', $th], 404);
         }
     }
 }
