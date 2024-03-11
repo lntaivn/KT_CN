@@ -413,7 +413,7 @@ function Menu() {
                     </Button>
                 </NavbarContent>
 
-                <NavbarMenu className="pt-5 gap-0">
+                <NavbarMenu className='pt-5 gap-0 bg-[white]'>
                     <NavbarMenuItem>
                         <Link to="#" className="font-medium uppercase">
                             {t("menu.text_link_1")}
