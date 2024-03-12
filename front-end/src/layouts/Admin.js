@@ -14,11 +14,13 @@ import CreatePost from "../components/pages/Admin/Post/CreatePost";
 import PostCategory from "../components/pages/Admin/CategoryManager/PostCategory";
 import UpdateCategory from "../components/pages/Admin/CategoryManager/UpdateCategory";
 
-function Admin() {
+function Admin(props) {
 
   const [collapsedNav, setCollapsedNav] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [spinning, setSpinning] = useState(false);
+
+  const { user } = props;
 
   const successNoti = (msg) => {
     messageApi.open({
@@ -37,7 +39,7 @@ function Admin() {
     <div className="Admin flex h-[100vh]">
       {contextHolder}
       <Spin spinning={spinning} fullscreen />
-      <Navbar collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} setSpinning={setSpinning}/>
+      <Navbar collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} setSpinning={setSpinning} user={user}/>
       <div className='Admin-Content flex-1 h-full overflow-auto p-5 px-7'>
         <Routes>
           <Route path="/post" element={<Post successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />

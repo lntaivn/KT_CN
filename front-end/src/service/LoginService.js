@@ -7,8 +7,11 @@ const postToken = (email, uid, photoURL, displayName) => {
         photoURL: photoURL,
         displayName: displayName
     };
+    console.log(data);
+
     return axiosInstance.post(`/login`, data);
 };
+
 
 const logoutToken = () => {
     return axiosInstance.get(`/logout`);
