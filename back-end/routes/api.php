@@ -73,7 +73,6 @@ Route::middleware(['check.jwt', 'check.role'])->group(function () {
 
 //Admin: check role
 Route::middleware(['check.jwt', 'check.role'])->group(function () {
-    Route::get('/admin/news/test', [NewsController::class, 'getAllNews']);
     Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByUser']);
 });
 

@@ -11,8 +11,8 @@ import i18next from "i18next";
 const ActivityTVU = () => {
     const { t } = useTranslation();
 
-    const [newsData, setNewsData] = useState([]); // State to store news data
-    const [newsDataFitlered, setNewsDataFiltered] = useState([]); // State to store news data
+    const [newsData, setNewsData] = useState([]);
+    const [newsDataFitlered, setNewsDataFiltered] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(8);
 
@@ -144,15 +144,17 @@ const ActivityTVU = () => {
                     )}
                 </div>
             </div>
-            <Pagination
-                onShowSizeChange={(current, size) =>
-                    onShowSizeChange(current, size)
-                }
-                onChange={(page) => onPageChange(page)}
-                defaultCurrent={1}
-                total={newsDataFitlered.length}
-                pageSize={pageSize}
-            />
+            <div className="flex items-center justify-center w-full m-5">
+                <Pagination
+                    onShowSizeChange={(current, size) =>
+                        onShowSizeChange(current, size)
+                    }
+                    onChange={(page) => onPageChange(page)}
+                    defaultCurrent={1}
+                    total={newsDataFitlered.length}
+                    pageSize={pageSize}
+                />
+            </div>
         </div>
     );
 };

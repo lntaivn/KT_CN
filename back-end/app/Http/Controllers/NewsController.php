@@ -30,6 +30,7 @@ class NewsController extends Controller
                 'news.status_vi',
                 'news.status_en'
             )
+            ->orderBy('news.created_at')
             ->where('news.is_deleted', '=', 0)
             ->get();
 
@@ -67,7 +68,7 @@ class NewsController extends Controller
                     'update_user.photoURL as update_user_photoURL'
                 )
                 ->where('news.is_deleted', '=', 0)
-                ->orderBy('id_new')
+                ->orderBy('news.created_at')
                 ->get();
 
             $responseData = [];
@@ -143,7 +144,7 @@ class NewsController extends Controller
                     'update_user.photoURL as update_user_photoURL'
                 )
                 ->where('news.is_deleted', '=', 1)
-                ->orderBy('id_new')
+                ->orderBy('news.updated_at')
                 ->get();
 
             if (count($news) === 0) {
@@ -198,6 +199,7 @@ class NewsController extends Controller
         try {
             $news = News::where('id_category', $category_id)
                 ->where('news.is_deleted', '=', 0)
+                ->orderBy('news.created_at')
                 ->get();
             if ($news->isEmpty()) {
                 return response()->json(['message' => 'Không có tin tức nào trong danh mục này.'], 404);
@@ -211,7 +213,10 @@ class NewsController extends Controller
     public function getAllByUser($id)
     {
         try {
-            $news = News::where('id_user', $id)->get();
+            $news = News::where('id_user', $id)
+                ->where('news.is_deleted', '=', 0)
+                ->orderBy('news.created_at')
+                ->get();
             if ($news->isEmpty()) {
                 return response()->json(['message' => 'user chưa có bài đăng nào.'], 404);
             }
@@ -240,6 +245,7 @@ class NewsController extends Controller
                 'news.status_vi',
                 'news.status_en',
             )
+            ->orderBy('news.created_at')
             ->where('news.id_new', '=', $id)
             ->where('news.is_deleted', '=', 0)
             ->get();
@@ -282,7 +288,7 @@ class NewsController extends Controller
                     'update_user.email as update_user_email',
                     'update_user.photoURL as update_user_photoURL'
                 )
-                ->orderBy('id_new')
+                ->orderBy('news.created_at')
                 ->where('news.is_deleted', '=', 0)
                 ->where('news.id_new', '=', $id)
                 ->get();
@@ -364,7 +370,7 @@ class NewsController extends Controller
                     'update_user.email as update_user_email',
                     'update_user.photoURL as update_user_photoURL'
                 )
-                ->orderBy('id_new')
+                ->orderBy('news.updated_at')
                 ->where('news.is_deleted', '=', 1)
                 ->where('news.id_new', '=', $id)
                 ->get();
@@ -775,7 +781,6 @@ class NewsController extends Controller
     public function searchByTitleCategory(Request $request)
     {
         $searchTerm = $request->input('search');
-
         try {
             $news = News::join('categories', 'news.id_category', '=', 'categories.id_category')
                 ->join('users', 'news.id_user', '=', 'users.id_user')
@@ -805,7 +810,7 @@ class NewsController extends Controller
                     'update_user.email as update_user_email',
                     'update_user.photoURL as update_user_photoURL',
                 )
-                ->orderBy('id_new')
+                ->orderBy('news.created_at')
                 ->where(function ($query) use ($searchTerm) {
                     $query->where('news.title_en', 'like', '%' . $searchTerm . '%')
                         ->orWhere('news.title_vi', 'like', '%' . $searchTerm . '%');
@@ -866,7 +871,6 @@ class NewsController extends Controller
 
     public function searchByTitleCategoryIsDeleted(Request $request)
     {
-
         $searchTerm = $request->input('search');
 
         try {
@@ -898,7 +902,7 @@ class NewsController extends Controller
                     'update_user.email as update_user_email',
                     'update_user.photoURL as update_user_photoURL',
                 )
-                ->orderBy('id_new')
+                ->orderBy('news.updated_at')
                 ->where(function ($query) use ($searchTerm) {
                     $query->where('news.title_en', 'like', '%' . $searchTerm . '%')
                         ->orWhere('news.title_vi', 'like', '%' . $searchTerm . '%');
