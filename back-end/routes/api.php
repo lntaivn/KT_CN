@@ -49,6 +49,14 @@ Route::middleware('check.jwt')->group(function () {
 
 });
 
+//department
+Route::middleware('check.jwt')->group(function () {
+    Route::post('/department', [DepartmentController::class, 'createDepartment']);
+});
+//Admission news
+Route::middleware('check.jwt')->group(function () {
+    Route::post('/admission-news', [AdmissionNewsController::class, 'createAdmission']);
+});
 
 //category
 Route::middleware('check.jwt')->group(function () {
@@ -94,12 +102,9 @@ Route::get('/news/search/TitleCategory', [NewsController::class, 'searchByTitleC
 Route::put('/news/updateViewCount/{id}', [NewsController::class, 'updateViewCount']);//ok
 
 //department
-Route::post('/department', [DepartmentController::class, 'createDepartment']);
-
+Route::get('/department', [DepartmentController::class, 'getAll']);
 //Admission news
-Route::middleware('check.jwt')->group(function () {
-    Route::post('/admission-news', [AdmissionNewsController::class, 'createAdmission']);
-});
+Route::post('/admission-news', [AdmissionNewsController::class, 'createAdmission']);
 
 //Category
 Route::get('/categories', [CategoryController::class, 'getAll']);

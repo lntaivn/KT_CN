@@ -21,4 +21,14 @@ class DepartmentController extends Controller
 
         return response()->json(['message' => 'Department created successfully', 'department' => $department], 201);
     }
+    public function getAll()
+    {
+        try {
+            $department = Department::all();
+            return response()->json($department, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Server error'], 500);
+        }
+    }
+
 }
