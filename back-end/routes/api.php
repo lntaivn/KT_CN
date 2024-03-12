@@ -103,7 +103,9 @@ Route::put('/news/updateViewCount/{id}', [NewsController::class, 'updateViewCoun
 //department
 Route::get('/department', [DepartmentController::class, 'getAll']);
 //Admission news
-// Route::post('/admission-news', [AdmissionNewsController::class, 'createAdmission']);
+Route::get('/admission-news', [AdmissionNewsController::class, 'getAll']);
+Route::get('/admission-news/{id}', [AdmissionNewsController::class, 'getAdmissionNewsById']);
+
 
 //Category
 Route::get('/categories', [CategoryController::class, 'getAll']);
