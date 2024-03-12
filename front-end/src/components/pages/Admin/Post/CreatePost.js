@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Breadcrumbs, BreadcrumbItem, Button, Avatar, Input} from "@nextui-org/react";
+import {
+    Breadcrumbs,
+    BreadcrumbItem,
+    Button,
+    Avatar,
+    Input,
+} from "@nextui-org/react";
 import { Upload, Select, message, Tooltip } from "antd";
 import ImgCrop from "antd-img-crop";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
@@ -202,7 +208,7 @@ const CreatePost = (props) => {
         </div>
     );
 
-    //config CKEditor 
+    //config CKEditor
     const items = [
         {
             key: "1",

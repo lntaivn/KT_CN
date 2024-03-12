@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Breadcrumbs, BreadcrumbItem, Button, Avatar, Input, } from "@nextui-org/react";
+import {
+    Breadcrumbs,
+    BreadcrumbItem,
+    Button,
+    Avatar,
+    Input,
+} from "@nextui-org/react";
 import { Upload, Select, message, Tooltip, Modal } from "antd";
 import ImgCrop from "antd-img-crop";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
@@ -31,7 +37,9 @@ const UpdatePost = (props) => {
         setSpinning(true);
         try {
             if (!titleEN || !titleVI) {
-                throw new Error("Vui lòng nhập tiêu đề tiếng Anh và tiếng Việt.");
+                throw new Error(
+                    "Vui lòng nhập tiêu đề tiếng Anh và tiếng Việt."
+                );
             }
             const data = {
                 id_category: selectedCategory,
@@ -40,12 +48,11 @@ const UpdatePost = (props) => {
                 content_en: contentEN,
                 content_vi: contentVI,
                 view_count: viewcount,
-                thumbnail: imageUrl
+                thumbnail: imageUrl,
             };
             const response = await PutNewsByID(id, data);
             setSpinning(false);
             successNoti("Cập nhật thành công");
-
         } catch (error) {
             console.error("Lỗi khi gửi dữ liệu:", error);
             setSpinning(false);
@@ -60,7 +67,8 @@ const UpdatePost = (props) => {
             console.log("newsDetailData:", response.data);
             const newsDetail = response.data[0];
             if (newsDetail) {
-                const { en, vi, thumbnail, id_category, view_count } = newsDetail;
+                const { en, vi, thumbnail, id_category, view_count } =
+                    newsDetail;
 
                 setTitleEN(en.title_en);
                 setTitleVI(vi.title_vi);
@@ -77,7 +85,6 @@ const UpdatePost = (props) => {
             console.error("Error fetching newsDetailData:", error);
             setSpinning(false);
         }
-
     };
 
     const getCategorys = async () => {
@@ -113,8 +120,7 @@ const UpdatePost = (props) => {
         };
     }, []);
 
-
-    //hangle data CKEditor 
+    //hangle data CKEditor
     const handleENChange = (event, editor) => {
         const data = editor.getData();
         setContentEN(data);
@@ -128,7 +134,6 @@ const UpdatePost = (props) => {
     const handleCategoryChange = (value, option) => {
         setSelectedCategory(value);
     };
-
 
     //hangle layout
     const handleToggleLayout = (_layout) => {
@@ -173,7 +178,7 @@ const UpdatePost = (props) => {
         </div>
     );
 
-    //config CKEditor    
+    //config CKEditor
     const items = [
         {
             key: "1",
@@ -279,13 +284,15 @@ const UpdatePost = (props) => {
                 </div>
 
                 <div
-                    className={`flex w-full gap-${layout === "col" ? "10" : "8"
-                        } flex-${layout}`}
+                    className={`flex w-full gap-${
+                        layout === "col" ? "10" : "8"
+                    } flex-${layout}`}
                 >
                     {/* load map data detail */}
                     <div
-                        className={`${layout === "col" ? "w-full" : "w-[40%]"
-                            } flex-1 flex flex-col gap-6`}
+                        className={`${
+                            layout === "col" ? "w-full" : "w-[40%]"
+                        } flex-1 flex flex-col gap-6`}
                     >
                         <Input
                             label={
@@ -331,8 +338,9 @@ const UpdatePost = (props) => {
                         </div>
                     </div>
                     <div
-                        className={`${layout === "col" ? "w-full" : "w-[40%]"
-                            } flex-1 flex flex-col gap-6`}
+                        className={`${
+                            layout === "col" ? "w-full" : "w-[40%]"
+                        } flex-1 flex flex-col gap-6`}
                     >
                         <Input
                             label="Tiêu đề bài viết tiếng Anh"
@@ -375,7 +383,6 @@ const UpdatePost = (props) => {
                 <Button onClick={Update} color="primary" radius="sm">
                     <span className="font-medium">Tạo bài viết</span>
                 </Button>
-
             </div>
         </div>
     );
