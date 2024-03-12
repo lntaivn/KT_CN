@@ -39,6 +39,10 @@ const GetNewViEn = () => {
     return axiosInstance.get(`/news`);
 };
 
+const SaveDataNewsAdmissions = (data) => { 
+
+}
+
 export {
     getAllNewsForAdmin,
     getAllNewsHiddenForAdmin,
@@ -48,5 +52,6 @@ export {
     GetNewCanUpdate,
     PutNewsByID,
     SaveDataNews,
+    SaveDataNewsAdmissions,
     GetNewViEn,
 };
