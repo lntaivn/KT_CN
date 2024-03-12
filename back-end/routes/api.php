@@ -46,16 +46,15 @@ Route::middleware('check.jwt')->group(function () {
     Route::delete('/admin/news/force-delete', [NewsController::class, 'deleteNews']);
     Route::get('/admin/getCurrentUser', [AuthController::class, 'getCurrentUser']);
     Route::get('/news/search/TitleCategoryIsDeleted', [NewsController::class, 'searchByTitleCategoryIsDeleted']);//ok
-
 });
 
 //department
 Route::middleware('check.jwt')->group(function () {
-    Route::post('/department', [DepartmentController::class, 'createDepartment']);
+    Route::post('/admin/department', [DepartmentController::class, 'createDepartment']);
 });
 //Admission news
 Route::middleware('check.jwt')->group(function () {
-    Route::post('/admission-news', [AdmissionNewsController::class, 'createAdmission']);
+    Route::post('/admin/admission-news', [AdmissionNewsController::class, 'createAdmission']);
 });
 
 //category
@@ -104,7 +103,7 @@ Route::put('/news/updateViewCount/{id}', [NewsController::class, 'updateViewCoun
 //department
 Route::get('/department', [DepartmentController::class, 'getAll']);
 //Admission news
-Route::post('/admission-news', [AdmissionNewsController::class, 'createAdmission']);
+// Route::post('/admission-news', [AdmissionNewsController::class, 'createAdmission']);
 
 //Category
 Route::get('/categories', [CategoryController::class, 'getAll']);

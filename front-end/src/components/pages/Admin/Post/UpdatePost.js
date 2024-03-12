@@ -15,14 +15,19 @@ import { getAllCategories } from "../../../../service/CategoryService";
 import { GetNewCanUpdate, PutNewsByID } from "../../../../service/NewsService";
 import "./Post.css";
 import { Link, useParams } from "react-router-dom";
+import { getAllDepartments } from "../../../../service/DepartmentService";
 
 const UpdatePost = (props) => {
-    const { setCollapsedNav, setSpinning, successNoti, errorNoti } = props;
+    const { setCollapsedNav, setSpinning, successNoti, errorNoti, stype} = props;
     const { id } = useParams();
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedDepartments, setSelectedDepartments] = useState("");
     const [CategoryData, setCategoryData] = useState([]);
+    const [type_university, setTypeUniversity] = useState([]);
+    const [departments, setDepartments] = useState([]);
+    
     const [titleEN, setTitleEN] = useState("");
     const [titleVI, setTitleVI] = useState("");
     const [contentEN, setContentEN] = useState("");
@@ -89,11 +94,30 @@ const UpdatePost = (props) => {
 
     const getCategorys = async () => {
         try {
-            const response = await getAllCategories();
-            console.log("News data:", response.data);
-            setCategoryData(response.data);
+            if(stype === 1) {
+                const response = await getAllCategories();
+                console.log("News data:", response.data);
+                setCategoryData(response.data);
+            } else {
+                const StringCatagory = [
+                    { id: 1, type_university_vi: "Sau đại học", type_university_en: "SporHigher educationts"},
+                    { id: 2, type_university_vi: "Đại học", type_university_en: "Undergraduate"},
+                ];
+                setTypeUniversity(StringCatagory);
+                departmentAll();
+            }
         } catch (error) {
             console.error("Error fetching news:", error);
+        }
+    };
+
+    const departmentAll = async () =>{
+        try {
+            const response = await getAllDepartments();
+            console.log("departments data:", response.data);
+            setDepartments(response.data);
+        } catch (error) {
+            console.error("Error fetching departments:", error);
         }
     };
 
@@ -260,7 +284,7 @@ const UpdatePost = (props) => {
                         </ImgCrop>
                     </div>
 
-                    <div className="flex flex-1 flex-col gap-2 w-full">
+                    {/* <div className="flex flex-1 flex-col gap-2 w-full">
                         <p className="text-sm">
                             Thể loại{" "}
                             <span className="text-red-500 font-bold">*</span>
@@ -280,7 +304,77 @@ const UpdatePost = (props) => {
                                 </Option>
                             ))}
                         </Select>
+                    </div> */}
+                    {stype === 1 ? (
+                            <div>
+                                <p className="text-sm">
+                                    Thể loại{" "}
+                                    <span className="text-red-500 font-bold">*</span>
+                                </p>
+                                <Select
+                                    defaultValue="Chọn loại"
+                                    onChange={handleCategoryChange}
+                                    size="large"
+                                >
+                                    {CategoryData.map((category) => (
+                                        <Option
+                                            key={category.id_category}
+                                            value={category.id_category}
+                                        >
+                                            {category.name_vi} ({category.name_en})
+                                        </Option>
+                                    ))}
+                                </Select>
+                            </div>
+                        ) : (
+                            <div>
+                                <div>
+                                    <p className="text-sm">
+                                        Thể loại{" "}
+                                        <span className="text-red-500 font-bold">*</span>
+                                    </p>
+                                    <Select
+                                        defaultValue="Chọn loại"
+                                        onChange={handleCategoryChange}
+                                        size="large"
+                                    >
+                                        {type_university.map((type) => (
+                                            <Option 
+                                                key={type.id}
+                                                value={type.id}
+                                            >
+                                                {type.type_university_vi}({type.type_university_en})
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </div>
+                                <div>
+                                    <p className="text-sm">
+                                        Chọn Bộ Môn{" "}
+                                        <span className="text-red-500 font-bold">*</span>
+                                    </p>
+                                    <Select
+                                        defaultValue="Chọn loại"
+                                        onChange={handleDepartmentsChange}
+                                        size="large"
+                                    >
+                                        {departments.map((departments) => (
+                                            <Option
+                                                key={departments.id_department}
+                                                value={departments.id_department}
+                                            >
+                                                {departments.name_department_vi}({departments.name_department_en})
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </div>
+                            </div>
+                        )}
                     </div>
+
+
+
+
                 </div>
 
                 <div

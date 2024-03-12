@@ -11,8 +11,10 @@ import {
 import { Upload, Select, message, Tooltip } from "antd";
 import ImgCrop from "antd-img-crop";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
-import { SaveDataNews, SaveDataNewsAdmissions } from "../../../../service/NewsService";
+import { SaveDataNews } from "../../../../service/NewsService";
 import { getAllCategories } from "../../../../service/CategoryService";
+import { getAllDepartments } from "../../../../service/DepartmentService";
+import { SaveAdmissionNews } from "../../../../service/AdmissionNewsService";
 import "./Post.css";
 import { Link } from "react-router-dom";
 
@@ -51,7 +53,7 @@ const CreatePost = (props) => {
                     { id: 2, type_university_vi: "Đại học", type_university_en: "Undergraduate"},
                 ];
                 setTypeUniversity(StringCatagory);
-                //departmentAll();
+                departmentAll();
             }
         } catch (error) {
             console.error("Error fetching news:", error);
@@ -60,7 +62,7 @@ const CreatePost = (props) => {
     
     const departmentAll = async () =>{
         try {
-            const response = await departmentAll();
+            const response = await getAllDepartments();
             console.log("departments data:", response.data);
             setDepartments(response.data);
         } catch (error) {
@@ -109,8 +111,8 @@ const CreatePost = (props) => {
                 type_university_vi: university_vi,
                 type_university_en: university_en,
             };
-
-            SaveDataNewsAdmissions(data)
+            console.log(data);
+            SaveAdmissionNews(data)
                 .then((response) => {
                     console.log("Phản hồi từ máy chủ:", response);
                 })
@@ -155,7 +157,7 @@ const CreatePost = (props) => {
     const handleCategoryChange = (value, option) => {
         setSelectedCategory(value);
     };
-    
+
     const handleDepartmentsChange = (value, option) => {
         
         setSelectedDepartments(value);
@@ -288,8 +290,6 @@ const CreatePost = (props) => {
                     </div>
 
                     <div className="flex flex-1 flex-col gap-2 w-full">
-
-
                     {stype === 1 ? (
                             <div>
                                 <p className="text-sm">
