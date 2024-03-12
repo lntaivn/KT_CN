@@ -115,13 +115,16 @@ function Menu() {
                             </Link>
                             <div className="absolute flex flex-col -translate-x-4 invisible group-hover/prarent-link:visible delay-100">
                                 <Link
-                                    to="/category/activity-tvu"
+                                    to="/news/category/activity-tvu"
                                     className="bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300"
                                 >
                                     <i className="fa-solid fa-caret-right mr-3"></i>
                                     {t("menu.text_link_3.sub1")}
                                 </Link>
-                                <Link className="bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300">
+                                <Link
+                                    to="/news/category/admission"
+                                    className="bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300"
+                                >
                                     <i className="fa-solid fa-caret-right mr-3"></i>
                                     {t("menu.text_link_3.sub2")}
                                 </Link>
@@ -413,7 +416,7 @@ function Menu() {
                     </Button>
                 </NavbarContent>
 
-                <NavbarMenu className='pt-5 gap-0 bg-[white]'>
+                <NavbarMenu className="pt-5 gap-0 bg-[white]">
                     <NavbarMenuItem>
                         <Link to="#" className="font-medium uppercase">
                             {t("menu.text_link_1")}
@@ -452,13 +455,16 @@ function Menu() {
                             >
                                 <div className="flex flex-col gap-4 pl-4 pb-2">
                                     <Link
-                                        to="/category/activity-tvu"
+                                        to="/news/category/activity-tvu"
                                         className="font-medium"
                                     >
                                         <i className="fa-solid fa-caret-right mr-3"></i>
                                         {t("menu.text_link_3.sub1")}
                                     </Link>
-                                    <Link to="#" className="font-medium">
+                                    <Link
+                                        to="/news/category/admission"
+                                        className="font-medium"
+                                    >
                                         <i className="fa-solid fa-caret-right mr-3"></i>
                                         {t("menu.text_link_3.sub2")}
                                     </Link>

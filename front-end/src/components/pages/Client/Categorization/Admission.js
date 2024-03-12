@@ -8,13 +8,13 @@ import { formatDateTime, formatTimeAgo } from "../../../../service/DateService";
 import i18next from "i18next";
 import { GetNewViEn } from "../../../../service/NewsService";
 
-const ActivityTVU = () => {
+const Admission = () => {
     const { t } = useTranslation();
 
     const [newsData, setNewsData] = useState([]);
     const [newsDataFitlered, setNewsDataFiltered] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(2);
+    const [pageSize, setPageSize] = useState(8);
 
     const [loading, setLoading] = useState(false);
 
@@ -159,4 +159,4 @@ const ActivityTVU = () => {
     );
 };
 
-export default ActivityTVU;
+export default Admission;

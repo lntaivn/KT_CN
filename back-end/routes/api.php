@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdmissionNewsController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Middleware\ExtractEmailFromJWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -91,6 +93,13 @@ Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCate
 Route::get('/news/search/TitleCategory', [NewsController::class, 'searchByTitleCategory']);//ok
 Route::put('/news/updateViewCount/{id}', [NewsController::class, 'updateViewCount']);//ok
 
+//department
+Route::post('/department', [DepartmentController::class, 'createDepartment']);
+
+//Admission news
+Route::middleware('check.jwt')->group(function () {
+    Route::post('/admission-news', [AdmissionNewsController::class, 'createAdmission']);
+});
 
 //Category
 Route::get('/categories', [CategoryController::class, 'getAll']);

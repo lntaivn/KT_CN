@@ -30,8 +30,13 @@ const PutNewsByID = (id, data) => {
 };
 
 const SaveDataNews = (data) => {
-    console.log("ada: ", data);
     return axiosInstance.post(`/admin/news`, data);
+};
+
+// client
+
+const GetNewViEn = () => {
+    return axiosInstance.get(`/news`);
 };
 
 export {
@@ -43,4 +48,5 @@ export {
     GetNewCanUpdate,
     PutNewsByID,
     SaveDataNews,
+    GetNewViEn,
 };

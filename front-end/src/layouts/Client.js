@@ -8,6 +8,7 @@ import Footer from "../components/pages/Client/Footer/Footer";
 import About from "../components/pages/Client/About/About";
 import NewsDetail from "../components/pages/Client/NewsDetail/NewsDetail";
 import ActivityTVU from "../components/pages/Client/Categorization/ActivityTVU";
+import Admission from "../components/pages/Client/Categorization/Admission";
 // import NewsDetail from '../components/pages/Client/NewsDetail/NewsDetail';
 
 function Client() {
@@ -26,8 +27,12 @@ function Client() {
                         <Route path="" element={<Home />} />
                         <Route path="/about" element={<About />} />
                         <Route
-                            path="/category/activity-tvu"
+                            path="news/category/activity-tvu"
                             element={<ActivityTVU />}
+                        />
+                        <Route
+                            path="news/category/admission"
+                            element={<Admission />}
                         />
                         <Route
                             path="/news-detail/:id"

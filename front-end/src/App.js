@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import {
     AppstoreOutlined,
     MailOutlined,
@@ -9,26 +9,25 @@ import {
 import Admin from "./layouts/Admin";
 import Client from "./layouts/Client";
 
-import "./App.css"
-import { useTranslation } from 'react-i18next';
+import "./App.css";
+import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 import Login from "./components/pages/Admin/Login/Login";
 
 function App() {
+    const { t, i18n } = useTranslation();
+    const location = useLocation();
+    const [showScrollButton, setShowScrollButton] = useState(false);
+    const [user, setUser] = useState();
 
-  const { t, i18n } = useTranslation();
-  const location = useLocation();
-  const [showScrollButton, setShowScrollButton] = useState(false);
-  const [user, setUser] = useState();
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
-
-  useEffect(() => {
-    console.log("test: ", i18next.language);
-    // if(i18n.language)
-  }, [])
+    useEffect(() => {
+        console.log("test: ", i18next.language);
+        // if(i18n.language)
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -51,9 +50,9 @@ function App() {
     return (
         <div className="App">
             <Routes>
+                <Route path="/*" element={<Client />} />
                 <Route path="/admin/*" element={<Admin user={user} />} />
-                <Route path="" element={<Client />} />
-                <Route path="/login" element={<Login setUser={setUser}/>} />
+                <Route path="/login" element={<Login setUser={setUser} />} />
             </Routes>
             {showScrollButton && (
                 <div className="scroll-to-top-button" onClick={scrollToTop}>

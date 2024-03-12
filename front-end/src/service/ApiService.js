@@ -1,10 +1,6 @@
 import axios from "axios";
 import { axiosInstance } from "./AxiosCofig";
 
-const GetNewViEn = () => {
-    return axios.get(`${process.env.REACT_APP_API_DOMAIN}/news`);
-};
-
 const GetNewViEnById = (id) => {
     return axios.get(`${process.env.REACT_APP_API_DOMAIN}/news/${id}`);
 };
@@ -44,7 +40,7 @@ const SaveDataNewViEn = (
         content_en: content_en,
         content_vi: content_vi,
         view_count: 0,
-        thumbnail: thumbnail
+        thumbnail: thumbnail,
     };
     console.log(data);
     return axios.post(`${process.env.REACT_APP_API_DOMAIN}/admin/news`, data, {
@@ -90,9 +86,13 @@ const PutNewsByID = (
         thumbnail: thumbnail,
     };
     console.log("data", data);
-    return axios.put(`${process.env.REACT_APP_API_DOMAIN}/admin/news/${id}`, data, {
-        withCredentials: true,
-    });
+    return axios.put(
+        `${process.env.REACT_APP_API_DOMAIN}/admin/news/${id}`,
+        data,
+        {
+            withCredentials: true,
+        }
+    );
 };
 
 const UpdateStatusVi = (id) => {
@@ -109,7 +109,6 @@ const UpdateStatuses = (data) => {
 };
 
 export {
-    GetNewViEn,
     GetNewViEnById,
     getTop5RelatedCategory,
     getTop5ViewCount,
