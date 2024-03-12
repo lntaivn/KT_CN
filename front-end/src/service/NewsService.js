@@ -32,4 +32,9 @@ const PutNewsByID = (id, data) => {
 const SaveDataNews = (data) => {
     return axiosInstance.post(`/admin/news`, data);
 };
-export { getAllNewsForAdmin, getAllNewsHiddenForAdmin, softDeleteNewsById, softDeleteNewsByIds, forceDeleteNewsByIds, GetNewCanUpdate, PutNewsByID, SaveDataNews};
+
+const SaveDataNewsAdmissions = (data) => { 
+
+}
+
+export { getAllNewsForAdmin, getAllNewsHiddenForAdmin, softDeleteNewsById, softDeleteNewsByIds, forceDeleteNewsByIds, GetNewCanUpdate, PutNewsByID, SaveDataNews, SaveDataNewsAdmissions};

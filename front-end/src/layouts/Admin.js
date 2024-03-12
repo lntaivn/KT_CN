@@ -42,9 +42,12 @@ function Admin(props) {
       <Navbar collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} setSpinning={setSpinning} user={user}/>
       <div className='Admin-Content flex-1 h-full overflow-auto p-5 px-7'>
         <Routes>
-          <Route path="/post" element={<Post successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
+          <Route path="/post" element={<Post successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning} />} />
           <Route path="/post/stored" element={<PostStored successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
-          <Route path="/post/create" element={<CreatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} />} />
+          <Route path="/post/create" element={<CreatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} stype={0}/>} />
+          <Route path="/post/createAdmissions" element={<CreatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} stype={1}/>} />
+
+          
           <Route path="/post/update/:id" element={<UpdatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} setSpinning={setSpinning} successNoti={successNoti} errorNoti={errorNoti}/>} />
           <Route path="/category" element={<CategoryManager successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
           <Route path="/category/create" element={<PostCategory successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />
