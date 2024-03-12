@@ -107,9 +107,9 @@ const CreatePost = (props) => {
                 content_vi: contentVI,
                 thumbnail: imageUrl,
                 type_university_vi: university_vi,
-                type_university_en: university_en
+                type_university_en: university_en,
             };
-        
+
             SaveDataNewsAdmissions(data)
                 .then((response) => {
                     console.log("Phản hồi từ máy chủ:", response);
@@ -153,14 +153,9 @@ const CreatePost = (props) => {
     };
 
     const handleCategoryChange = (value, option) => {
-
-
         setSelectedCategory(value);
-        const university_vi = value === 1 ? type_university[0].type_university_vi : type_university[1].type_university_vi;
-        const university_en = value === 1 ? type_university[0].type_university_en : type_university[1].type_university_en;
-        console.log("university_vi:", university_vi);
-        console.log("university_en:", university_en);
     };
+    
     const handleDepartmentsChange = (value, option) => {
         
         setSelectedDepartments(value);
