@@ -19,7 +19,7 @@ const UpdateCategory = (props) => {
 
     const [nameVi, setNameVi] = useState("");
     const [nameEn, setNameEn] = useState("");
-    const { successNoti, errorNoti} = props;
+    const { successNoti, errorNoti, TypeCategory} = props;
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const navigate = useNavigate();

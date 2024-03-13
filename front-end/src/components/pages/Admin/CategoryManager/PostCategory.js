@@ -18,7 +18,7 @@ import { postSaveCategory } from "../../../../service/CategoryService";
 const PostCategory = (props) => {
     const [nameVi, setNameVi] = useState("");
     const [nameEn, setNameEn] = useState("");
-    const { successNoti, errorNoti, setSpinning } = props;
+    const { successNoti, errorNoti, setSpinning, TypeCategory } = props;
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const navigate = useNavigate();
