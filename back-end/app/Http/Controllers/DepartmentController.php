@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admission_news;
 use App\Models\Department;
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -27,17 +29,16 @@ class DepartmentController extends Controller
             $department = Department::all();
             return response()->json($department, 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Server error'], 500);
+            return response()->json(['error' => 'Server error', $e->getMessage()], 500);
         }
     }
-
     public function getDepartmentById($id)
     {
         try {
-            $Department = Department::findOrFail($id);
-            return response()->json($Department, 200);
+            $department = Department::findOrFail($id);
+            return response()->json($department, 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Không tìm thấy danh mục'], 404);
+            return response()->json(['message' => 'Không tìm thấy bộ môn này'], 404);
         }
     }
 
@@ -49,53 +50,58 @@ class DepartmentController extends Controller
                 'name_department_en' => 'required|string',
             ]);
 
-            $department_vi = $validatedData['name_department_vi'];
-            $department_en = $validatedData['name_department_en'];
+            $name_vi = $validatedData['name_department_vi'];
+            $name_en = $validatedData['name_department_en'];
 
-            $Department = Department::find($id);
+            $department = Department::find($id);
 
-            $Department->name_department_vi = $department_vi;
-            $Department->name_department_en = $department_en;
-            $Department->save();
+            $department->name_department_vi = $name_vi;
+            $department->name_department_en = $name_en;
+            $department->save();
 
             return response()->json([
-                'message' => 'Cập nhật Department thành công',
+                'message' => 'Cập nhật department thành công',
                 'id_department' => $id
             ], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật Department', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật department', 'error' => $e->getMessage()], 500);
         }
     }
-    
+
     public function updateManyDeleted(Request $request)
     {
         try {
             $validatedData = $request->validate([
                 'id_department' => 'required|array',
-                'deleted' => 'required|boolean',
             ]);
-    
+
             $id_department_list = $validatedData['id_department'];
-            $deleted = $validatedData['deleted'];
-    
+            $deleted_department_ids = [];
+
             foreach ($id_department_list as $id_department) {
-                $Department = Department::where('id_department', $id_department)->exists();
-    
-                if (!$Department) {
-                    $category = Department::find($id_department);
-                    if ($category) {
-                        $category->delete();
+                $news = Admission_news::where('id_department', $id_department)->get();
+
+                if ($news->isEmpty()) {
+                    $department = Department::find($id_department);
+                    if ($department) {
+                        $department->delete();
+                        $deleted_department_ids[] = $id_department;
                     }
                 }
             }
-    
+
+            if (empty($deleted_department_ids)) {
+                return response()->json(['message' => 'Không có department ban nào được xóa'], 404);
+            }
+
             return response()->json([
-                'message' => 'Cập nhật trạng thái xóa thành công',
-                'id_department_list' => $id_department_list
+                'message' => 'Xóa thành công',
+                'id_department_list' => $deleted_department_ids,
             ], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật trạng thái', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Đã xảy ra lỗi khi xóa trạng thái', 'error' => $e->getMessage()], 500);
         }
     }
+
 
 }

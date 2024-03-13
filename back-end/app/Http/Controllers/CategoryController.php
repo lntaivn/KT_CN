@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\News;
 use Illuminate\Database\QueryException;
 
@@ -20,7 +21,7 @@ class CategoryController extends Controller
             return response()->json(['error' => 'Server error'], 500);
         }
     }
-    
+
     public function getCategoryById($id)
     {
         try {
@@ -30,7 +31,7 @@ class CategoryController extends Controller
             return response()->json(['message' => 'Không tìm thấy danh mục'], 404);
         }
     }
-    
+
     public function create(Request $request)
     {
         try {
@@ -38,20 +39,17 @@ class CategoryController extends Controller
                 'name_vi' => 'required|string',
                 'name_en' => 'required|string',
             ]);
-    
+
             $category = Category::create([
                 'name_vi' => $request->input('name_vi'),
                 'name_en' => $request->input('name_en'),
             ]);
-    
+
             return response()->json($category, 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi khi tạo danh mục'], 500);
         }
     }
-    
-
-
 
     public function get($id)
     {
@@ -97,13 +95,13 @@ class CategoryController extends Controller
                 'id_category' => 'required|array',
                 'deleted' => 'required|boolean',
             ]);
-    
+
             $id_category_list = $validatedData['id_category'];
             $deleted = $validatedData['deleted'];
-    
+
             foreach ($id_category_list as $id_category) {
                 $news = News::where('id_category', $id_category)->exists();
-    
+
                 if (!$news) {
                     $category = Category::find($id_category);
                     if ($category) {
@@ -111,13 +109,13 @@ class CategoryController extends Controller
                     }
                 }
             }
-    
+
             return response()->json([
-                'message' => 'Cập nhật trạng thái xóa thành công',
+                'message' => 'Xóa thành công',
                 'id_category_list' => $id_category_list
             ], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật trạng thái', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Đã xảy ra lỗi khi xóa trạng thái', 'error' => $e->getMessage()], 500);
         }
     }
 }
