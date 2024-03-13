@@ -803,4 +803,25 @@ class AdmissionNewsController extends Controller
         }
     }
 
+    public function updateViewCount($id)
+    {
+        try {
+            $news = Admission_news::find($id);
+
+            if ($news) {
+                $news->view_count = $news->view_count + 1;
+                $news->timestamps = false;
+                $news->save();
+                return response()->json([
+                    'message' => 'Cập nhật view thành công ',
+                    'id_new' => $id
+                ], 200);
+            } else {
+                return response()->json(['message' => 'Id không chính xác'], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật view'], 500);
+        }
+    }
+
 }

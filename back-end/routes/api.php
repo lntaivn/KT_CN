@@ -144,6 +144,7 @@ Route::get('/department', [DepartmentController::class, 'getAll']);
 Route::get('/admission-news', [AdmissionNewsController::class, 'getAll']);
 Route::get('/admission-news/{id}', [AdmissionNewsController::class, 'getAdmissionNewsById']);
 Route::get('/admission-news/department/{id}', [AdmissionNewsController::class, 'getAllByDepartment']);//ok
+Route::put('/admission-news/updateViewCount/{id}', [AdmissionNewsController::class, 'updateViewCount']);//ok
 
 
 //Category
