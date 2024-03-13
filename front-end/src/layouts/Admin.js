@@ -48,10 +48,10 @@ function Admin(props) {
           <Route path="/postAdmissions/storedAdmissions" element={<PostStored successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning} TypeNews={"admissionNews"} />} />
 
           <Route path="/post/create" element={<CreatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} TypeNews={"News"}/>} />
-          <Route path="/post/createAdmissions" element={<CreatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} TypeNews={"admissionNews"}/>} />
+          <Route path="/postAdmissions/createAdmissions" element={<CreatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} TypeNews={"admissionNews"}/>} />
           
           <Route path="/post/update/:id" element={<UpdatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} setSpinning={setSpinning} successNoti={successNoti} errorNoti={errorNoti} TypeNews={"News"}/>} />
-          <Route path="/post/updateAdmissions/:id" element={<UpdatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} setSpinning={setSpinning} successNoti={successNoti} errorNoti={errorNoti} TypeNews={"admissionNews"}/>} />
+          <Route path="/postAdmissions/updateAdmissions/:id" element={<UpdatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} setSpinning={setSpinning} successNoti={successNoti} errorNoti={errorNoti} TypeNews={"admissionNews"}/>} />
 
          
           <Route path="/category" element={<CategoryManager successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />

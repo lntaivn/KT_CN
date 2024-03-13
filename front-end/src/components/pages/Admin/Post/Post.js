@@ -636,7 +636,7 @@ const Post = (props) => {
                 color="primary"
                 radius="sm"
                 as={Link}
-                to={TypeNews === "News" ? "/admin/post/create" : "/admin/post/createAdmissions"}
+                to={TypeNews === "News" ? "create" : "createAdmissions"}
 
             >
                 Tạo bài viết mới
