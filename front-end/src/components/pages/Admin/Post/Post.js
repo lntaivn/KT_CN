@@ -302,7 +302,7 @@ const Post = (props) => {
 
     const handleUpdateStatuses = async (lang) => {
         setSpinning(true);
-        if (TypeNews === 'news') { 
+        if (TypeNews === 'News') { 
             const checkValueVI = getValueOfVISelectedRow();
             const checkValueEN = getValueOfENSelectedRow();
 
@@ -339,7 +339,7 @@ const Post = (props) => {
             deleted: true,
         }
         try {
-            if (TypeNews === 'news') {
+            if (TypeNews === 'News') {
             const response = await softDeleteNewsByIds(putData);
             await getNews();
             setSpinning(false);
@@ -366,7 +366,7 @@ const Post = (props) => {
             deleted: true,
         }
         try {
-            if (TypeNews === 'news') {
+            if (TypeNews === 'News') {
                 const response = await softDeleteNewsByIds(putData);
                 await getNews();
                 setSpinning(false);

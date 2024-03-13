@@ -15,7 +15,10 @@ import {
     ModalFooter, useDisclosure
 } from "@nextui-org/react";
 import { getAllNewsHiddenForAdmin, forceDeleteNewsByIds, softDeleteNewsByIds, softDeleteNewsById, UpdateStatusVi, UpdateStatusEn, GetAllCategories, UpdateStatuses, } from "../../../../service/NewsService";
-import { getAllAdmissionNewsHiddenForAdmin} from "../../../../service/AdmissionNewsService";
+import { getAllAdmissionNewsHiddenForAdmin, softDeleteAdmissionNewsByIds, forceDeleteAdmissionNewsByIds} from "../../../../service/AdmissionNewsService";
+
+// forceDeleteNewsByIds
+
 const PostStored = (props) => {
     const { successNoti, errorNoti, setSpinning, TypeNews } = props;
 
@@ -249,11 +252,20 @@ const PostStored = (props) => {
             deleted: false,
         }
         try {
-            const response = await softDeleteNewsByIds(putData);
-            await getNews();
-            setSpinning(false);
-            successNoti("Khôi phục thành công");
-            handleUnSelect();
+            if (TypeNews === 'News') {
+                const response = await softDeleteNewsByIds(putData);
+                await getNews();
+                setSpinning(false);
+                successNoti("Khôi phục thành công");
+                handleUnSelect();
+            } 
+            else if (TypeNews === "admissionNews") {
+                const response = await softDeleteAdmissionNewsByIds(putData);
+                await getAdmissionNews();
+                setSpinning(false);
+                successNoti("Khôi phục thành công");
+                handleUnSelect();
+            }
         } catch (error) {
             setSpinning(false);
             successNoti("Khôi phục thất bại");
@@ -268,11 +280,19 @@ const PostStored = (props) => {
             deleted: false,
         }
         try {
-            const response = await softDeleteNewsByIds(putData);
-            await getNews();
-            setSpinning(false);
-            successNoti("Khôi phục thành công");
-            handleUnSelect();
+            if (TypeNews === 'News') { 
+                const response = await softDeleteNewsByIds(putData);
+                await getNews();
+                setSpinning(false);
+                successNoti("Khôi phục thành công");
+                handleUnSelect();
+            }  else if (TypeNews === "admissionNews") {
+                const response = await softDeleteAdmissionNewsByIds(putData);
+                await getAdmissionNews();
+                setSpinning(false);
+                successNoti("Khôi phục thành công");
+                handleUnSelect();
+            }
         } catch (error) {
             setSpinning(false);
             successNoti("Khôi phục thất bại");
@@ -296,11 +316,20 @@ const PostStored = (props) => {
         }
 
         try {
-            const response = await forceDeleteNewsByIds(putData);
-            await getNews();
-            setSpinning(false);
-            successNoti("Cập nhật thành công");
-            handleUnSelect();
+            if (TypeNews === 'News') { 
+                const response = await forceDeleteNewsByIds(putData);
+                await getNews();
+                setSpinning(false);
+                successNoti("Cập nhật thành công");
+                handleUnSelect();
+            }  else if (TypeNews === "admissionNews") {
+                const response = await forceDeleteAdmissionNewsByIds(putData);
+                await getAdmissionNews();
+                setSpinning(false);
+                successNoti("Cập nhật thành công");
+                handleUnSelect();
+            }
+
         } catch (error) {
             setSpinning(false);
             errorNoti("Cập nhật thất bại");

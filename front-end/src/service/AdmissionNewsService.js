@@ -1,7 +1,5 @@
 import { axiosInstance } from "./AxiosCofig";
 
-
-
 const SaveAdmissionNews = (data)=>{
     return axiosInstance.post(`/admin/admission-news`,data);
 }
@@ -37,8 +35,17 @@ const getAllAdmissionNewsHiddenForAdmin = () => {
     return axiosInstance.get(`/admin/admission-news-hidden`);
 };
 
+const softDeleteAdmissionNewsByIds = (data) => {
+    return axiosInstance.put(`/admin/admission-news/soft-list/delete`, data);
+
+};
+
+const forceDeleteAdmissionNewsByIds = (data) => {
+    return axiosInstance.delete(`/admin/admission-news/force-delete`, { params: data });
+}
 export { SaveAdmissionNews, GetAdmissionNews, UpdateAdmissionNews, 
     getAllNewsAdmissionForAdmin, softDeleteNewsAdmissionByIds,
     UpdateAdmissionStatuses,UpdateAdmissionStatusVi, 
-    UpdateAdmissionStatusEn, getAllAdmissionNewsHiddenForAdmin
+    UpdateAdmissionStatusEn, getAllAdmissionNewsHiddenForAdmin, softDeleteAdmissionNewsByIds,
+    forceDeleteAdmissionNewsByIds
 };
