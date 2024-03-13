@@ -16,9 +16,9 @@ import { GetNewCanUpdate, PutNewsByID } from "../../../../service/NewsService";
 import "./Post.css";
 import { Link, useParams } from "react-router-dom";
 import { getAllDepartments } from "../../../../service/DepartmentService";
-import { GetAdmissionNews } from "../../../../service/AdmissionNewsService";
+import { GetAdmissionNews, UpdateAdmissionNews } from "../../../../service/AdmissionNewsService";
 const UpdatePost = (props) => {
-    const { setCollapsedNav, setSpinning, successNoti, errorNoti, stype} = props;
+    const { setCollapsedNav, setSpinning, successNoti, errorNoti, TypeNews} = props;
     const { id } = useParams();
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
@@ -40,28 +40,63 @@ const UpdatePost = (props) => {
     //hangle database
     const Update = async () => {
         setSpinning(true);
-        try {
-            if (!titleEN || !titleVI) {
-                throw new Error(
-                    "Vui lòng nhập tiêu đề tiếng Anh và tiếng Việt."
-                );
+        if(TypeNews === "News") {
+            try {
+                if (!titleEN || !titleVI) {
+                    throw new Error(
+                        "Vui lòng nhập tiêu đề tiếng Anh và tiếng Việt."
+                    );
+                }
+                const data = {
+                    id_category: selectedCategory,
+                    title_en: titleEN || null,
+                    title_vi: titleVI || null,
+                    content_en: contentEN,
+                    content_vi: contentVI,
+                    view_count: viewcount,
+                    thumbnail: imageUrl,
+                };
+                const response = await PutNewsByID(id, data);
+                setSpinning(false);
+                successNoti("Cập nhật thành công");
+            } catch (error) {
+                console.error("Lỗi khi gửi dữ liệu:", error);
+                setSpinning(false);
+                errorNoti("Cập nhật thất bại");
             }
-            const data = {
-                id_category: selectedCategory,
-                title_en: titleEN || null,
-                title_vi: titleVI || null,
-                content_en: contentEN,
-                content_vi: contentVI,
-                view_count: viewcount,
-                thumbnail: imageUrl,
-            };
-            const response = await PutNewsByID(id, data);
-            setSpinning(false);
-            successNoti("Cập nhật thành công");
-        } catch (error) {
-            console.error("Lỗi khi gửi dữ liệu:", error);
-            setSpinning(false);
-            errorNoti("Cập nhật thất bại");
+        }  else {
+            try {
+                if (!titleEN || !titleVI) {
+                    throw new Error("Chưa nhập đủ tiêu đề tiếng Việt hoặc tiếng Anh");
+                }
+                if (!selectedCategory || !selectedDepartments) {
+                    throw new Error("Chưa chọn bộ môn hoặc chưa chọn loại");
+                }
+                const university_vi = selectedCategory === 1 ? type_university[0].type_university_vi : type_university[1].type_university_vi;
+                const university_en = selectedCategory === 1 ? type_university[0].type_university_en : type_university[1].type_university_en;
+                console.log("university_vi:", university_vi);
+                console.log("university_en:", university_en);
+
+                const data = {
+                    id_department: selectedDepartments,
+                    title_en: titleEN || null,
+                    title_vi: titleVI || null,
+                    content_en: contentEN,
+                    content_vi: contentVI,
+                    view_count: viewcount,
+                    thumbnail: imageUrl,
+                    type_university_vi: university_vi,
+                    type_university_en: university_en,
+                };
+
+                const response = await UpdateAdmissionNews(id, data);
+                setSpinning(false);
+                successNoti("Cập nhật thành công");
+            } catch (error) {
+                console.error("Lỗi khi gửi dữ liệu:", error);
+                setSpinning(false);
+                errorNoti("Cập nhật thất bại");
+            }
         }
     };
 
@@ -126,7 +161,7 @@ const UpdatePost = (props) => {
 
     const getCategorys = async () => {
         try {
-            if(stype === 1) {
+            if(TypeNews === "News") {
                 const response = await getAllCategories();
                 console.log("News data:", response.data);
                 setCategoryData(response.data);
@@ -156,7 +191,7 @@ const UpdatePost = (props) => {
     useEffect(() => {
         console.log("id bài viết", id);
         getCategorys();
-        if(stype === 1) {
+        if(TypeNews === "News") {
             getDetailNews();
         } else {
             getAdmissionNews();
@@ -344,7 +379,7 @@ const UpdatePost = (props) => {
                             ))}
                         </Select>
                     </div> */}
-                    {stype === 1 ? (
+                    {TypeNews === "News" ? (
                             <div>
                                 <p className="text-sm">
                                     Thể loại{" "}

@@ -21,7 +21,7 @@ import { Link } from "react-router-dom";
 const { Option } = Select;
 
 const CreatePost = (props) => {
-    const { setCollapsedNav, stype } = props;
+    const { setCollapsedNav, TypeNews } = props;
 
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
@@ -42,7 +42,7 @@ const CreatePost = (props) => {
     //hangle database
     const getCategorys = async () => {
         try {
-            if(stype === 1) {
+            if(TypeNews === "News") {
                 const response = await getAllCategories();
                 console.log("News data:", response.data);
                 setCategoryData(response.data);
@@ -73,7 +73,7 @@ const CreatePost = (props) => {
 
 
     const SaveData = () => {
-        if(stype === 1) {
+        if(TypeNews === "News") {
             const title_vi = titleVI !== "" ? titleVI : null;
             const title_en = titleEN !== "" ? titleEN : null;
             const data = {
@@ -289,7 +289,7 @@ const CreatePost = (props) => {
                     </div>
 
                     <div className="flex flex-1 flex-col gap-2 w-full">
-                    {stype === 1 ? (
+                    {TypeNews === "News" ? (
                             <div>
                                 <p className="text-sm">
                                     Thể loại{" "}
