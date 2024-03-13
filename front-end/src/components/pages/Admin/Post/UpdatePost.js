@@ -15,14 +15,19 @@ import { getAllCategories } from "../../../../service/CategoryService";
 import { GetNewCanUpdate, PutNewsByID } from "../../../../service/NewsService";
 import "./Post.css";
 import { Link, useParams } from "react-router-dom";
-
+import { getAllDepartments } from "../../../../service/DepartmentService";
+import { GetAdmissionNews, UpdateAdmissionNews } from "../../../../service/AdmissionNewsService";
 const UpdatePost = (props) => {
-    const { setCollapsedNav, setSpinning, successNoti, errorNoti } = props;
+    const { setCollapsedNav, setSpinning, successNoti, errorNoti, TypeNews} = props;
     const { id } = useParams();
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedDepartments, setSelectedDepartments] = useState("");
     const [CategoryData, setCategoryData] = useState([]);
+    const [type_university, setTypeUniversity] = useState([]);
+    const [departments, setDepartments] = useState([]);
+
     const [titleEN, setTitleEN] = useState("");
     const [titleVI, setTitleVI] = useState("");
     const [contentEN, setContentEN] = useState("");
@@ -35,72 +40,162 @@ const UpdatePost = (props) => {
     //hangle database
     const Update = async () => {
         setSpinning(true);
-        try {
-            if (!titleEN || !titleVI) {
-                throw new Error(
-                    "Vui lòng nhập tiêu đề tiếng Anh và tiếng Việt."
-                );
+        if(TypeNews === "News") {
+            try {
+                if (!titleEN || !titleVI) {
+                    throw new Error(
+                        "Vui lòng nhập tiêu đề tiếng Anh và tiếng Việt."
+                    );
+                }
+                const data = {
+                    id_category: selectedCategory,
+                    title_en: titleEN || null,
+                    title_vi: titleVI || null,
+                    content_en: contentEN,
+                    content_vi: contentVI,
+                    view_count: viewcount,
+                    thumbnail: imageUrl,
+                };
+                const response = await PutNewsByID(id, data);
+                setSpinning(false);
+                successNoti("Cập nhật thành công");
+            } catch (error) {
+                console.error("Lỗi khi gửi dữ liệu:", error);
+                setSpinning(false);
+                errorNoti("Cập nhật thất bại");
             }
-            const data = {
-                id_category: selectedCategory,
-                title_en: titleEN || null,
-                title_vi: titleVI || null,
-                content_en: contentEN,
-                content_vi: contentVI,
-                view_count: viewcount,
-                thumbnail: imageUrl,
-            };
-            const response = await PutNewsByID(id, data);
-            setSpinning(false);
-            successNoti("Cập nhật thành công");
-        } catch (error) {
-            console.error("Lỗi khi gửi dữ liệu:", error);
-            setSpinning(false);
-            errorNoti("Cập nhật thất bại");
+        }  else {
+            try {
+                if (!titleEN || !titleVI) {
+                    throw new Error("Chưa nhập đủ tiêu đề tiếng Việt hoặc tiếng Anh");
+                }
+                if (!selectedCategory || !selectedDepartments) {
+                    throw new Error("Chưa chọn bộ môn hoặc chưa chọn loại");
+                }
+                const university_vi = selectedCategory === 1 ? type_university[0].type_university_vi : type_university[1].type_university_vi;
+                const university_en = selectedCategory === 1 ? type_university[0].type_university_en : type_university[1].type_university_en;
+                console.log("university_vi:", university_vi);
+                console.log("university_en:", university_en);
+
+                const data = {
+                    id_department: selectedDepartments,
+                    title_en: titleEN || null,
+                    title_vi: titleVI || null,
+                    content_en: contentEN,
+                    content_vi: contentVI,
+                    view_count: viewcount,
+                    thumbnail: imageUrl,
+                    type_university_vi: university_vi,
+                    type_university_en: university_en,
+                };
+
+                const response = await UpdateAdmissionNews(id, data);
+                setSpinning(false);
+                successNoti("Cập nhật thành công");
+            } catch (error) {
+                console.error("Lỗi khi gửi dữ liệu:", error);
+                setSpinning(false);
+                errorNoti("Cập nhật thất bại");
+            }
         }
     };
 
-    const getDetailNews = async () => {
+       
+    const getAdmissionNews = async ()=> {
         setSpinning(true);
-        try {
-            const response = await GetNewCanUpdate(id);
-            console.log("newsDetailData:", response.data);
-            const newsDetail = response.data[0];
-            if (newsDetail) {
-                const { en, vi, thumbnail, id_category, view_count } =
-                    newsDetail;
+            try {
+                const response = await GetAdmissionNews(id);
+                console.log("newsDetailData:", response.data);
+                const AdmissionNews = response.data[0];
+                if (AdmissionNews) {
+                    const { en, vi, thumbnail, id_department, view_count } =
+                    AdmissionNews;
+                    vi.type_university_vi=== "Sau đại học"? setSelectedCategory(1) :setSelectedCategory(2); 
+                    setTitleEN(en.title_en);
+                    setTitleVI(vi.title_vi);
 
-                setTitleEN(en.title_en);
-                setTitleVI(vi.title_vi);
-                setSelectedCategory(id_category);
-                setImageUrl(thumbnail);
-                setContentEN(en.content_en || "");
-                setContentVI(vi.content_vi || "");
-                setviewcount(view_count);
-            } else {
-                console.error("No data found in the response");
+                    setSelectedDepartments(id_department);
+                    setImageUrl(thumbnail);
+                    setContentEN(en.content_en || "");
+                    setContentVI(vi.content_vi || "");
+
+                    setviewcount(view_count);
+                } else {
+                    console.error("No data found in the response");
+                }
+                setSpinning(false);
+            } catch (error) {
+                console.error("Error fetching newsDetailData:", error);
+                setSpinning(false);
             }
-            setSpinning(false);
-        } catch (error) {
-            console.error("Error fetching newsDetailData:", error);
-            setSpinning(false);
-        }
+    }
+    const getDetailNews = async () => {
+            setSpinning(true);
+            try {
+                const response = await GetNewCanUpdate(id);
+                console.log("newsDetailData:", response.data);
+                const newsDetail = response.data[0];
+                if (newsDetail) {
+                    const { en, vi, thumbnail, id_category, view_count } =
+                        newsDetail;
+
+                    setTitleEN(en.title_en);
+                    setTitleVI(vi.title_vi);
+                    setSelectedCategory(id_category);
+                    setImageUrl(thumbnail);
+                    setContentEN(en.content_en || "");
+                    setContentVI(vi.content_vi || "");
+                    setviewcount(view_count);
+                } else {
+                    console.error("No data found in the response");
+                }
+                setSpinning(false);
+            } catch (error) {
+                console.error("Error fetching newsDetailData:", error);
+                setSpinning(false);
+            }
     };
+
+
+
 
     const getCategorys = async () => {
         try {
-            const response = await getAllCategories();
-            console.log("News data:", response.data);
-            setCategoryData(response.data);
+            if(TypeNews === "News") {
+                const response = await getAllCategories();
+                console.log("News data:", response.data);
+                setCategoryData(response.data);
+            } else {
+                const StringCatagory = [
+                    { id: 1, type_university_vi: "Sau đại học", type_university_en: "SporHigher educationts"},
+                    { id: 2, type_university_vi: "Đại học", type_university_en: "Undergraduate"},
+                ];
+                setTypeUniversity(StringCatagory);
+                departmentAll();
+            }
         } catch (error) {
             console.error("Error fetching news:", error);
+        }
+    };
+
+    const departmentAll = async () =>{
+        try {
+            const response = await getAllDepartments();
+            console.log("departments data:", response.data);
+            setDepartments(response.data);
+        } catch (error) {
+            console.error("Error fetching departments:", error);
         }
     };
 
     useEffect(() => {
         console.log("id bài viết", id);
         getCategorys();
-        getDetailNews();
+        if(TypeNews === "News") {
+            getDetailNews();
+        } else {
+            getAdmissionNews();
+        }
         const handleResize = () => {
             if (window.innerWidth < 1024) {
                 setLayout("col");
@@ -135,6 +230,9 @@ const UpdatePost = (props) => {
         setSelectedCategory(value);
     };
 
+    const handleDepartmentsChange = (value, option) => {
+        setSelectedDepartments(value);
+    };
     //hangle layout
     const handleToggleLayout = (_layout) => {
         setLayout(_layout);
@@ -260,7 +358,7 @@ const UpdatePost = (props) => {
                         </ImgCrop>
                     </div>
 
-                    <div className="flex flex-1 flex-col gap-2 w-full">
+                    {/* <div className="flex flex-1 flex-col gap-2 w-full">
                         <p className="text-sm">
                             Thể loại{" "}
                             <span className="text-red-500 font-bold">*</span>
@@ -280,7 +378,76 @@ const UpdatePost = (props) => {
                                 </Option>
                             ))}
                         </Select>
-                    </div>
+                    </div> */}
+                    {TypeNews === "News" ? (
+                            <div>
+                                <p className="text-sm">
+                                    Thể loại{" "}
+                                    <span className="text-red-500 font-bold">*</span>
+                                </p>
+                                <Select
+                                    defaultValue="Chọn loại"
+                                    value={selectedCategory}
+                                    onChange={handleCategoryChange}
+                                    size="large"
+                                >
+                                    {CategoryData.map((category) => (
+                                        <Option
+                                            key={category.id_category}
+                                            value={category.id_category}
+                                        >
+                                            {category.name_vi} ({category.name_en})
+                                        </Option>
+                                    ))}
+                                </Select>
+                            </div>
+                        ) : (
+                            <div>
+                                <div>
+                                    <p className="text-sm">
+                                        Thể loại{" "}
+                                        <span className="text-red-500 font-bold">*</span>
+                                    </p>
+                                    <Select
+                                        defaultValue="Chọn loại"
+                                        value={selectedCategory}
+                                        onChange={handleCategoryChange}
+                                        size="large"
+                                    >
+                                        {type_university.map((type) => (
+                                            <Option 
+                                                key={type.id}
+                                                value={type.id}
+                                            >
+                                                {type.type_university_vi}({type.type_university_en})
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </div>
+                                <div>
+                                    <p className="text-sm">
+                                        Chọn Bộ Môn{" "}
+                                        <span className="text-red-500 font-bold">*</span>
+                                    </p>
+                                    <Select
+                                        defaultValue="Chọn loại"
+                                        value={selectedDepartments}
+                                        onChange={handleDepartmentsChange}
+                                        size="large"
+                                    >
+                                        {departments.map((departments) => (
+                                            <Option
+                                                key={departments.id_department}
+                                                value={departments.id_department}
+                                            >
+                                                {departments.name_department_vi}({departments.name_department_en})
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </div>
+                            </div>
+                        )}
+              
                 </div>
 
                 <div

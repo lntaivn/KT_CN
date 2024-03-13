@@ -27,7 +27,7 @@ import { getAllCategories, softDeleteCategoryByIds} from "../../../../service/Ca
 
 const CategoryManager = (props) => {
 
-    const { successNoti, errorNoti, setSpinning } = props;
+    const { successNoti, errorNoti, setSpinning, TypeCategory} = props;
 
     const [categoryData, setCategoryData] = useState([]);
 

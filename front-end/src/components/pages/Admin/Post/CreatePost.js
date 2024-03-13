@@ -13,64 +13,116 @@ import ImgCrop from "antd-img-crop";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import { SaveDataNews } from "../../../../service/NewsService";
 import { getAllCategories } from "../../../../service/CategoryService";
+import { getAllDepartments } from "../../../../service/DepartmentService";
+import { SaveAdmissionNews } from "../../../../service/AdmissionNewsService";
 import "./Post.css";
 import { Link } from "react-router-dom";
 
 const { Option } = Select;
 
 const CreatePost = (props) => {
-    const { setCollapsedNav } = props;
+    const { setCollapsedNav, TypeNews } = props;
 
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedDepartments, setSelectedDepartments] = useState("");
+
     const [CategoryData, setCategoryData] = useState([]);
+    const [type_university, setTypeUniversity] = useState([]);
+    const [departments, setDepartments] = useState([]);
     const [titleEN, setTitleEN] = useState("");
     const [titleVI, setTitleVI] = useState("");
     const [contentEN, setContentEN] = useState("");
     const [contentVI, setContentVI] = useState("");
-
+    
     const [layout, setLayout] = useState("col");
     const [disableRowLayout, setDisableRowLayout] = useState(false);
 
     //hangle database
     const getCategorys = async () => {
         try {
-            const response = await getAllCategories();
-            console.log("News data:", response.data);
-            setCategoryData(response.data);
+            if(TypeNews === "News") {
+                const response = await getAllCategories();
+                console.log("News data:", response.data);
+                setCategoryData(response.data);
+            } else {
+                const StringCatagory = [
+                    { id: 1, type_university_vi: "Sau đại học", type_university_en: "SporHigher educationts"},
+                    { id: 2, type_university_vi: "Đại học", type_university_en: "Undergraduate"},
+                ];
+                setTypeUniversity(StringCatagory);
+                departmentAll();
+            }
         } catch (error) {
             console.error("Error fetching news:", error);
         }
     };
+    
+    const departmentAll = async () =>{
+        try {
+            const response = await getAllDepartments();
+            console.log("departments data:", response.data);
+            setDepartments(response.data);
+        } catch (error) {
+            console.error("Error fetching departments:", error);
+        }
+    };
+
+
+
 
     const SaveData = () => {
-        const title_vi = titleVI !== "" ? titleVI : null;
-        const title_en = titleEN !== "" ? titleEN : "";
+        if(TypeNews === "News") {
+            const title_vi = titleVI !== "" ? titleVI : null;
+            const title_en = titleEN !== "" ? titleEN : null;
+            const data = {
+                id_category: selectedCategory,
+                title_en: title_en,
+                title_vi: title_vi,
+                content_en: contentEN,
+                content_vi: contentVI,
+                thumbnail: imageUrl
+            };
+        
+            SaveDataNews(data)
+                .then((response) => {
+                    console.log("Phản hồi từ máy chủ:", response);
+                })
+                .catch((error) => {
+                    console.error("Lỗi khi gửi dữ liệu:", error);
+                });
+        } else { 
+            const title_vi = titleVI !== "" ? titleVI : null;
+            const title_en = titleEN !== "" ? titleEN : null;
+            const university_vi = selectedCategory === 1 ? type_university[0].type_university_vi : type_university[1].type_university_vi;
+            const university_en = selectedCategory === 1 ? type_university[0].type_university_en : type_university[1].type_university_en;
+            console.log("university_vi:", university_vi);
+            console.log("university_en:", university_en);
 
-        const data = {
-            id_category: selectedCategory,
-            title_en: title_en,
-            title_vi: title_vi,
-            content_en: contentEN,
-            content_vi: contentVI,
-            thumbnail: imageUrl,
-        };
-
-        SaveDataNews(data)
-            .then((response) => {
-                console.log("Phản hồi từ máy chủ:", response);
-            })
-            .catch((error) => {
-                console.log("data: ", data);
-
-                console.error("Lỗi khi gửi dữ liệu:", error);
-            });
+            const data = {
+                id_department: selectedDepartments,
+                title_en: title_en,
+                title_vi: title_vi,
+                content_en: contentEN,
+                content_vi: contentVI,
+                thumbnail: imageUrl,
+                type_university_vi: university_vi,
+                type_university_en: university_en,
+            };
+            console.log(data);
+            SaveAdmissionNews(data)
+                .then((response) => {
+                    console.log("Phản hồi từ máy chủ:", response);
+                })
+                .catch((error) => {
+                    console.error("Lỗi khi gửi dữ liệu:", error);
+                });
+        }      
     };
 
     useEffect(() => {
         getCategorys();
-
         const handleResize = () => {
             if (window.innerWidth < 1024) {
                 setLayout("col");
@@ -105,7 +157,11 @@ const CreatePost = (props) => {
         setSelectedCategory(value);
     };
 
-    //hangle Layout
+    const handleDepartmentsChange = (value, option) => {
+        
+        setSelectedDepartments(value);
+    };
+    //hangle Layout 
     const handleToggleLayout = (_layout) => {
         setLayout(_layout);
         if (_layout === "col") {
@@ -233,24 +289,71 @@ const CreatePost = (props) => {
                     </div>
 
                     <div className="flex flex-1 flex-col gap-2 w-full">
-                        <p className="text-sm">
-                            Thể loại{" "}
-                            <span className="text-red-500 font-bold">*</span>
-                        </p>
-                        <Select
-                            defaultValue="Chọn loại"
-                            onChange={handleCategoryChange}
-                            size="large"
-                        >
-                            {CategoryData.map((category) => (
-                                <Option
-                                    key={category.id_category}
-                                    value={category.id_category}
+                    {TypeNews === "News" ? (
+                            <div>
+                                <p className="text-sm">
+                                    Thể loại{" "}
+                                    <span className="text-red-500 font-bold">*</span>
+                                </p>
+                                <Select
+                                    defaultValue="Chọn loại"
+                                    onChange={handleCategoryChange}
+                                    size="large"
                                 >
-                                    {category.name_vi} ({category.name_en})
-                                </Option>
-                            ))}
-                        </Select>
+                                    {CategoryData.map((category) => (
+                                        <Option
+                                            key={category.id_category}
+                                            value={category.id_category}
+                                        >
+                                            {category.name_vi} ({category.name_en})
+                                        </Option>
+                                    ))}
+                                </Select>
+                            </div>
+                        ) : (
+                            <div>
+                                <div>
+                                    <p className="text-sm">
+                                        Thể loại{" "}
+                                        <span className="text-red-500 font-bold">*</span>
+                                    </p>
+                                    <Select
+                                        defaultValue="Chọn loại"
+                                        onChange={handleCategoryChange}
+                                        size="large"
+                                    >
+                                        {type_university.map((type) => (
+                                            <Option 
+                                                key={type.id}
+                                                value={type.id}
+                                            >
+                                                {type.type_university_vi}({type.type_university_en})
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </div>
+                                <div>
+                                    <p className="text-sm">
+                                        Chọn Bộ Môn{" "}
+                                        <span className="text-red-500 font-bold">*</span>
+                                    </p>
+                                    <Select
+                                        defaultValue="Chọn loại"
+                                        onChange={handleDepartmentsChange}
+                                        size="large"
+                                    >
+                                        {departments.map((departments) => (
+                                            <Option
+                                                key={departments.id_department}
+                                                value={departments.id_department}
+                                            >
+                                                {departments.name_department_vi}({departments.name_department_en})
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
 
