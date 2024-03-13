@@ -6,6 +6,10 @@ import {
     getTop5RelatedCategory,
     updateViewCount,
 } from "../../../../service/ApiService";
+
+
+
+
 import { useTranslation } from "react-i18next";
 
 import { Link, useParams } from "react-router-dom";
@@ -13,10 +17,12 @@ import "./NewsDetail.css";
 import i18next from "i18next";
 import { formatDateTime, formatTimeAgo } from "../../../../service/DateService";
 import { Image, Tooltip } from "@nextui-org/react";
+import { GetNewAdmissionById } from "../../../../service/AdmissionNewsService";
 
-const NewsDetail = () => {
+const NewsDetail = (props) => {
     const { t } = useTranslation();
     const { id } = useParams();
+    const { TypeNews } = props;
 
     const [newsDetailData, setNewsDetailData] = useState({});
     const [latestNews, setLatestNews] = useState([]);
@@ -25,9 +31,15 @@ const NewsDetail = () => {
 
     const getDetailNews = async () => {
         try {
-            const response = await GetNewViEnById(id);
-            console.log("newsDetailData:", response.data);
-            setNewsDetailData(response.data[0]);
+            if (TypeNews ==="News") {
+                const response = await GetNewViEnById(id);
+                console.log("newsDetailData:", response.data);
+                setNewsDetailData(response.data[0]);
+            } else if (TypeNews === "admissionNews") {
+                const response = await GetNewAdmissionById(id);
+                console.log("newsDetailData:", response.data);
+                setNewsDetailData(response.data[0]);
+            }
         } catch (error) {
             console.error("Error fetching newsDetailData:", error);
         }

@@ -34,10 +34,9 @@ function Client() {
                             path="news/category/admission"
                             element={<Admission />}
                         />
-                        <Route
-                            path="/news-detail/:id"
-                            element={<NewsDetail />}
-                        />
+                        <Route path="/news-detail/:id" element={<NewsDetail TypeNews={"News"} />}/>
+                        <Route path="/newsAdmissions-detail/:id" element={<NewsDetail TypeNews={"admissionNews"} />}/>
+
                     </Routes>
                 </div>
             </div>

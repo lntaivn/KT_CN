@@ -43,9 +43,16 @@ const softDeleteAdmissionNewsByIds = (data) => {
 const forceDeleteAdmissionNewsByIds = (data) => {
     return axiosInstance.delete(`/admin/admission-news/force-delete`, { params: data });
 }
+
+
+//slient
+const GetNewAdmissionById = (id)=> { 
+    return axiosInstance.get(`/admission-news/${id}`);
+}
 export { SaveAdmissionNews, GetAdmissionNews, UpdateAdmissionNews, 
     getAllNewsAdmissionForAdmin, softDeleteNewsAdmissionByIds,
     UpdateAdmissionStatuses,UpdateAdmissionStatusVi, 
     UpdateAdmissionStatusEn, getAllAdmissionNewsHiddenForAdmin, softDeleteAdmissionNewsByIds,
-    forceDeleteAdmissionNewsByIds
+    forceDeleteAdmissionNewsByIds,
+    GetNewAdmissionById
 };
