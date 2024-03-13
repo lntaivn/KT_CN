@@ -3,7 +3,6 @@
 use App\Http\Controllers\AdmissionNewsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DepartmentController;
-use App\Http\Middleware\ExtractEmailFromJWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -54,7 +53,13 @@ Route::middleware('check.jwt')->group(function () {
 });
 //Admission news
 Route::middleware('check.jwt')->group(function () {
+    Route::get('/admin/admission-news', [AdmissionNewsController::class, 'getAllNewsAdmin']);//ok
+    Route::get('/admin/admission-news-hidden', [AdmissionNewsController::class, 'getAllNewsAdminHidden']);//ok
     Route::post('/admin/admission-news', [AdmissionNewsController::class, 'createAdmission']);
+    Route::put('/admin/admission-news/{id}', [AdmissionNewsController::class, 'updateNews']);//ok
+    Route::put('/admin/admission-news/softDelete/{id}', [AdmissionNewsController::class, 'updateDeleted']);
+    Route::put('/admin/admission-news/soft-list/delete', [AdmissionNewsController::class, 'updateManyDeleted']);
+
 });
 
 //category
