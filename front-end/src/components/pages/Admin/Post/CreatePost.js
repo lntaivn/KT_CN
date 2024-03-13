@@ -31,12 +31,11 @@ const CreatePost = (props) => {
     const [CategoryData, setCategoryData] = useState([]);
     const [type_university, setTypeUniversity] = useState([]);
     const [departments, setDepartments] = useState([]);
-
     const [titleEN, setTitleEN] = useState("");
     const [titleVI, setTitleVI] = useState("");
     const [contentEN, setContentEN] = useState("");
     const [contentVI, setContentVI] = useState("");
-
+    
     const [layout, setLayout] = useState("col");
     const [disableRowLayout, setDisableRowLayout] = useState(false);
 

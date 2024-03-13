@@ -16,7 +16,7 @@ import { GetNewCanUpdate, PutNewsByID } from "../../../../service/NewsService";
 import "./Post.css";
 import { Link, useParams } from "react-router-dom";
 import { getAllDepartments } from "../../../../service/DepartmentService";
-
+import { GetAdmissionNews } from "../../../../service/AdmissionNewsService";
 const UpdatePost = (props) => {
     const { setCollapsedNav, setSpinning, successNoti, errorNoti, stype} = props;
     const { id } = useParams();
@@ -27,7 +27,7 @@ const UpdatePost = (props) => {
     const [CategoryData, setCategoryData] = useState([]);
     const [type_university, setTypeUniversity] = useState([]);
     const [departments, setDepartments] = useState([]);
-    
+
     const [titleEN, setTitleEN] = useState("");
     const [titleVI, setTitleVI] = useState("");
     const [contentEN, setContentEN] = useState("");
@@ -65,32 +65,64 @@ const UpdatePost = (props) => {
         }
     };
 
-    const getDetailNews = async () => {
+       
+    const getAdmissionNews = async ()=> {
         setSpinning(true);
-        try {
-            const response = await GetNewCanUpdate(id);
-            console.log("newsDetailData:", response.data);
-            const newsDetail = response.data[0];
-            if (newsDetail) {
-                const { en, vi, thumbnail, id_category, view_count } =
-                    newsDetail;
+            try {
+                const response = await GetAdmissionNews(id);
+                console.log("newsDetailData:", response.data);
+                const AdmissionNews = response.data[0];
+                if (AdmissionNews) {
+                    const { en, vi, thumbnail, id_department, view_count } =
+                    AdmissionNews;
+                    vi.type_university_vi=== "Sau đại học"? setSelectedCategory(1) :setSelectedCategory(2); 
+                    setTitleEN(en.title_en);
+                    setTitleVI(vi.title_vi);
 
-                setTitleEN(en.title_en);
-                setTitleVI(vi.title_vi);
-                setSelectedCategory(id_category);
-                setImageUrl(thumbnail);
-                setContentEN(en.content_en || "");
-                setContentVI(vi.content_vi || "");
-                setviewcount(view_count);
-            } else {
-                console.error("No data found in the response");
+                    setSelectedDepartments(id_department);
+                    setImageUrl(thumbnail);
+                    setContentEN(en.content_en || "");
+                    setContentVI(vi.content_vi || "");
+
+                    setviewcount(view_count);
+                } else {
+                    console.error("No data found in the response");
+                }
+                setSpinning(false);
+            } catch (error) {
+                console.error("Error fetching newsDetailData:", error);
+                setSpinning(false);
             }
-            setSpinning(false);
-        } catch (error) {
-            console.error("Error fetching newsDetailData:", error);
-            setSpinning(false);
-        }
+    }
+    const getDetailNews = async () => {
+            setSpinning(true);
+            try {
+                const response = await GetNewCanUpdate(id);
+                console.log("newsDetailData:", response.data);
+                const newsDetail = response.data[0];
+                if (newsDetail) {
+                    const { en, vi, thumbnail, id_category, view_count } =
+                        newsDetail;
+
+                    setTitleEN(en.title_en);
+                    setTitleVI(vi.title_vi);
+                    setSelectedCategory(id_category);
+                    setImageUrl(thumbnail);
+                    setContentEN(en.content_en || "");
+                    setContentVI(vi.content_vi || "");
+                    setviewcount(view_count);
+                } else {
+                    console.error("No data found in the response");
+                }
+                setSpinning(false);
+            } catch (error) {
+                console.error("Error fetching newsDetailData:", error);
+                setSpinning(false);
+            }
     };
+
+
+
 
     const getCategorys = async () => {
         try {
@@ -124,7 +156,11 @@ const UpdatePost = (props) => {
     useEffect(() => {
         console.log("id bài viết", id);
         getCategorys();
-        getDetailNews();
+        if(stype === 1) {
+            getDetailNews();
+        } else {
+            getAdmissionNews();
+        }
         const handleResize = () => {
             if (window.innerWidth < 1024) {
                 setLayout("col");
@@ -159,6 +195,9 @@ const UpdatePost = (props) => {
         setSelectedCategory(value);
     };
 
+    const handleDepartmentsChange = (value, option) => {
+        setSelectedDepartments(value);
+    };
     //hangle layout
     const handleToggleLayout = (_layout) => {
         setLayout(_layout);
@@ -313,6 +352,7 @@ const UpdatePost = (props) => {
                                 </p>
                                 <Select
                                     defaultValue="Chọn loại"
+                                    value={selectedCategory}
                                     onChange={handleCategoryChange}
                                     size="large"
                                 >
@@ -335,6 +375,7 @@ const UpdatePost = (props) => {
                                     </p>
                                     <Select
                                         defaultValue="Chọn loại"
+                                        value={selectedCategory}
                                         onChange={handleCategoryChange}
                                         size="large"
                                     >
@@ -355,6 +396,7 @@ const UpdatePost = (props) => {
                                     </p>
                                     <Select
                                         defaultValue="Chọn loại"
+                                        value={selectedDepartments}
                                         onChange={handleDepartmentsChange}
                                         size="large"
                                     >
@@ -370,11 +412,7 @@ const UpdatePost = (props) => {
                                 </div>
                             </div>
                         )}
-                    </div>
-
-
-
-
+              
                 </div>
 
                 <div
