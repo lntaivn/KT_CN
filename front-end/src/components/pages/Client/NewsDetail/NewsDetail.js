@@ -17,7 +17,8 @@ import "./NewsDetail.css";
 import i18next from "i18next";
 import { formatDateTime, formatTimeAgo } from "../../../../service/DateService";
 import { Image, Tooltip } from "@nextui-org/react";
-import { GetNewAdmissionById } from "../../../../service/AdmissionNewsService";
+import { GetNewAdmissionById, getTop5RelatedDepartment, updateViewCountAdmission } from "../../../../service/AdmissionNewsService";
+import { EmailAuthCredential } from "firebase/auth";
 
 const NewsDetail = (props) => {
     const { t } = useTranslation();
@@ -28,7 +29,11 @@ const NewsDetail = (props) => {
     const [latestNews, setLatestNews] = useState([]);
     const [topViewCountNews, setTopViewCountNews] = useState([]);
     const [relativeCategoryNews, setRelativeCategoryNews] = useState([]);
+    const [RelativeDepartmentNewNews, setRelativeDepartmentNewNews] = useState([]);
 
+
+
+    
     const getDetailNews = async () => {
         try {
             if (TypeNews ==="News") {
@@ -65,6 +70,17 @@ const NewsDetail = (props) => {
             console.error("Error fetching latestNews:", error);
         }
     };
+    const getRelativeDepartmentNews = async () => {
+        try {
+            // note: data DepartmentNews
+            const response = await getTop5RelatedDepartment(id);
+            console.log("relativeCategoryNews:", response.data);
+            setRelativeDepartmentNewNews(response.data);
+        } catch (error) {
+            console.error("Error fetching relativeCategoryNews:", error);
+        }
+    }
+
 
     const getTopViewCountNews = async () => {
         try {
@@ -78,7 +94,11 @@ const NewsDetail = (props) => {
 
     const updateView = async () => {
         try {
-            const response = await updateViewCount(id);
+            if (TypeNews === "News"){
+                const response = await updateViewCount(id);
+            } else if (TypeNews === "admissionNews") {
+                const response = await updateViewCountAdmission(id);
+            }
         } catch (error) {
             console.error("Error fetching updateViewCount:", error);
         }
@@ -88,7 +108,12 @@ const NewsDetail = (props) => {
         getDetailNews();
         getLatestNews();
         getTopViewCountNews();
-        getRelativeCategoryNews();
+
+        if(TypeNews ==="News") {
+            getRelativeCategoryNews();
+        } else if(TypeNews ==="admissionNews") {
+            getRelativeDepartmentNews();
+        }
         updateView();
     }, [id]);
 
@@ -141,26 +166,50 @@ const NewsDetail = (props) => {
                         </p>
                     </div>
                     <div className="New_Relative_top5 flex flex-col gap-5">
-                        {relativeCategoryNews.map((news) => (
-                            <Link
-                                to={`../news-detail/${news.id_new}`}
-                                key={news.id_new}
-                                className="flex gap-3"
-                            >
-                                <Image
-                                    src={news.thumbnail}
-                                    classNames={{
-                                        img: "aspect-[4/3] w-[120px] rounded",
-                                    }}
-                                    radius="none"
-                                />
-                                <p className="flex-1 text-[14px] font-medium">
-                                    {i18next.language === "vi"
-                                        ? news?.title_vi
-                                        : news?.title_en}
-                                </p>
-                            </Link>
-                        ))}
+                    {
+                        TypeNews === "News" ?
+                            relativeCategoryNews.map((news) => (
+                                <Link
+                                    to={`../news-detail/${news.id_new}`}
+                                    key={news.id_new}
+                                    className="flex gap-3"
+                                >
+                                    <Image
+                                        src={news.thumbnail}
+                                        classNames={{
+                                            img: "aspect-[4/3] w-[120px] rounded",
+                                        }}
+                                        radius="none"
+                                    />
+                                    <p className="flex-1 text-[14px] font-medium">
+                                        {i18next.language === "vi"
+                                            ? news?.title_vi
+                                            : news?.title_en}
+                                    </p>
+                                </Link>
+                            ))
+                        :
+                            RelativeDepartmentNewNews.map((news) => (
+                                <Link
+                                    to={`../newsAdmissions-detail/${news.id_admission_news}`}
+                                    key={news.id_admission_news}
+                                    className="flex gap-3"
+                                >
+                                    <Image
+                                        src={news.thumbnail}
+                                        classNames={{
+                                            img: "aspect-[4/3] w-[120px] rounded",
+                                        }}
+                                        radius="none"
+                                    />
+                                    <p className="flex-1 text-[14px] font-medium">
+                                        {i18next.language === "vi"
+                                            ? news?.title_vi
+                                            : news?.title_en}
+                                    </p>
+                                </Link>
+                            ))
+                    }
                     </div>
                 </div>
 
