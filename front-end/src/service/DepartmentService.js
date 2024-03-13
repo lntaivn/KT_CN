@@ -1,6 +1,6 @@
 import { axiosInstance } from "./AxiosCofig";
 
-const getAllDepartment = () => {
+const getAllDepartments = () => {
     return axiosInstance.get(`/admin/department`);
 };
 
@@ -21,7 +21,7 @@ const postDepartment = (data) => {
 };
 
 export {
-    getAllDepartment,
+    getAllDepartments,
     deleteDepartment,
     updateDepartment,
     getDepartmentById,

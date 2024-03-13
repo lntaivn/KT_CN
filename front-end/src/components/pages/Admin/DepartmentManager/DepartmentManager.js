@@ -20,7 +20,7 @@ import {
 } from "@nextui-org/react";
 import {
     deleteDepartment,
-    getAllDepartment,
+    getAllDepartments,
 } from "../../../../service/DepartmentService";
 
 const DepartmentManager = (props) => {
@@ -158,7 +158,7 @@ const DepartmentManager = (props) => {
     const getCategory = async () => {
         setSpinning(true);
         try {
-            const response = await getAllDepartment();
+            const response = await getAllDepartments();
             console.log("department: ", response.data);
             const newsCategoryData = response.data.map((department) => {
                 return {

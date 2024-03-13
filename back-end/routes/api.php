@@ -52,7 +52,6 @@ Route::middleware('check.jwt')->group(function () {
 //department
 Route::middleware('check.jwt')->group(function () {
     Route::get('/admin/department', [DepartmentController::class, 'getAll']);
-    Route::get('/admin/department/{id}', [DepartmentController::class, 'getDepartmentById']);
     Route::post('/admin/department', [DepartmentController::class, 'createDepartment']);
     Route::get('/admin/department/{id}', [DepartmentController::class, 'getDepartmentById']);
     Route::get('/admin/department', [DepartmentController::class, 'getAll']);
