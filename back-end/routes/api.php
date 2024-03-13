@@ -51,6 +51,11 @@ Route::middleware('check.jwt')->group(function () {
 //department
 Route::middleware('check.jwt')->group(function () {
     Route::post('/admin/department', [DepartmentController::class, 'createDepartment']);
+    Route::get('/admin/department/{id}', [DepartmentController::class, 'getDepartmentById']);
+    Route::get('/admin/department', [DepartmentController::class, 'getAll']);
+    Route::put('/admin/department/{id}', [DepartmentController::class, 'update']);
+    Route::put('/admin/department/soft-list/delete', [DepartmentController::class, 'updateManyDeleted']);
+
 });
 //Admission news
 Route::middleware('check.jwt')->group(function () {
