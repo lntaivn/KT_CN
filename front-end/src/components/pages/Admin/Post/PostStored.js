@@ -1,12 +1,5 @@
 import "./Post.css";
 import { useEffect, useState } from "react";
-import {
-    UpdateStatusVi,
-    UpdateStatusEn,
-    GetAllCategories,
-    UpdateStatuses,
-} from "../../../../service/ApiService";
-
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { Table, Tooltip, Image } from "antd";
@@ -21,10 +14,10 @@ import {
     ModalBody,
     ModalFooter, useDisclosure
 } from "@nextui-org/react";
-import { getAllNewsHiddenForAdmin, forceDeleteNewsByIds, softDeleteNewsByIds, softDeleteNewsById } from "../../../../service/NewsService";
-
+import { getAllNewsHiddenForAdmin, forceDeleteNewsByIds, softDeleteNewsByIds, softDeleteNewsById, UpdateStatusVi, UpdateStatusEn, GetAllCategories, UpdateStatuses, } from "../../../../service/NewsService";
+import { getAllAdmissionNewsHiddenForAdmin} from "../../../../service/AdmissionNewsService";
 const PostStored = (props) => {
-    const { successNoti, errorNoti, setSpinning } = props;
+    const { successNoti, errorNoti, setSpinning, TypeNews } = props;
 
     const [newsListData, setNewsListData] = useState([]);
     const [categoryData, setCategoryData] = useState([]);
@@ -387,8 +380,66 @@ const PostStored = (props) => {
         }
     };
 
+    const getAdmissionNews = async () => {
+        setSpinning(true);
+        try {
+            const response = await getAllAdmissionNewsHiddenForAdmin();
+
+            console.log(response.data)
+
+            const updatedNewsData = response.data.map((news) => {
+                return {
+                    key: news.id_admission_news,
+                    thumbnail: news.thumbnail,
+                    name_group: {
+                        thumbnail: news.thumbnail,
+                        title_vi: news.vi.title_vi,
+                        title_en: news.en.title_en,
+                    },
+                    view_count: news.view_count,
+                    category: {
+                        en: news.en.category_name_en,
+                        vi: news.vi.category_name_vi,
+                        id: news.id_category,
+                    },
+                    date: {
+                        created_at: moment(news.created_at).format(
+                            "DD/MM/YYYY HH:mm"
+                        ),
+                        create_by: {
+                            email: news.user.email,
+                            photoURL: news.user.photoURL,
+                            name: news.user.name
+                        },
+                        updated_at: moment(news.updated_at).format(
+                            "DD/MM/YYYY HH:mm"
+                        ),
+                        update_by: {
+                            email: news.user_update.email,
+                            photoURL: news.user_update.photoURL,
+                            name: news.user_update.name
+                        }
+                    },
+                    action: news.id_admission_news,
+                    auto_delete: news.updated_at
+                };
+            });
+
+            setNewsListData(updatedNewsData);
+
+            setSpinning(false);
+        } catch (error) {
+            console.error("Error fetching news:", error);
+            setSpinning(false);
+        }
+    }
+
     useEffect(() => {
-        getNews();
+        if(TypeNews === "News") {
+            getNews(); 
+        } else if(TypeNews === "admissionNews") {
+            getAdmissionNews();
+        }
         getCategory();
     }, []);
 
