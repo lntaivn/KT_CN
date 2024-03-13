@@ -126,6 +126,7 @@ Route::middleware(['check.jwt', 'check.role'])->group(function () {
 //----------------------------------User---------------------------------//
 //'top 5
 Route::get('news/get5LatestNews', [NewsController::class, 'get5LatestNews']);//ok
+Route::get('admission-news/getTop5RelatedDepartment/{id}', [AdmissionNewsController::class, 'getTop5RelatedDepartment']);//ok
 Route::get('news/getTop5ViewCount', [NewsController::class, 'getTop5ViewCount']);//ok
 Route::get('news/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5RelatedCategory']);//ok
 
@@ -138,9 +139,11 @@ Route::put('/news/updateViewCount/{id}', [NewsController::class, 'updateViewCoun
 
 //department
 Route::get('/department', [DepartmentController::class, 'getAll']);
+
 //Admission news
 Route::get('/admission-news', [AdmissionNewsController::class, 'getAll']);
 Route::get('/admission-news/{id}', [AdmissionNewsController::class, 'getAdmissionNewsById']);
+Route::get('/admission-news/department/{id}', [AdmissionNewsController::class, 'getAllByDepartment']);//ok
 
 
 //Category

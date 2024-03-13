@@ -435,7 +435,9 @@ class NewsController extends Controller
             'news.id_category',
             'news.status_vi',
             'news.status_en'
-        )->orderBy('created_at', 'desc')->take(5)->get();
+        )->orderBy('created_at', 'desc')
+            ->where('is_deleted', 0)
+            ->take(5)->get();
 
         if (!$news) {
             return response()->json(['message' => 'Bài viết không tồn tại'], 404);
@@ -457,7 +459,9 @@ class NewsController extends Controller
             'news.id_category',
             'news.status_vi',
             'news.status_en'
-        )->orderBy('view_count', 'desc')->take(5)->get();
+        )->orderBy('view_count', 'desc')
+            ->where('is_deleted', 0)
+            ->take(5)->get();
 
         if (!$news) {
             return response()->json(['message' => 'Bài viết không tồn tại'], 404);
@@ -487,6 +491,7 @@ class NewsController extends Controller
                     ->where('id_new', '=', $id_new);
             })
             ->where('news.id_new', '!=', $id_new)
+            ->where('is_deleted', 0)
             ->take(5)
             ->get();
         if (!$news) {

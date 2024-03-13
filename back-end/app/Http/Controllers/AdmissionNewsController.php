@@ -755,4 +755,52 @@ class AdmissionNewsController extends Controller
             return response()->json(['message' => 'error', $th], 404);
         }
     }
+
+    public function getTop5RelatedDepartment($id_admission_news)
+    {
+        $news = Admission_news::join('departments', 'departments.id_department', '=', 'admission_news.id_department')
+            ->select(
+                'admission_news.id_admission_news',
+                'admission_news.title_vi',
+                'admission_news.title_en',
+                'admission_news.view_count',
+                'admission_news.updated_at',
+                'admission_news.created_at',
+                'admission_news.thumbnail',
+                'admission_news.id_department',
+                'admission_news.status_vi',
+                'admission_news.status_en',
+                'admission_news.is_deleted'
+            )
+            ->where('admission_news.id_department', '=', function ($query) use ($id_admission_news) {
+                $query->select('id_department')
+                    ->from('admission_news')
+                    ->where('id_admission_news', '=', $id_admission_news);
+            })
+            ->where('is_deleted', 0)
+            ->where('admission_news.id_admission_news', '!=', $id_admission_news)
+            ->take(5)
+            ->get();
+        if (!$news) {
+            return response()->json(['message' => 'Bài viết không tồn tại'], 404);
+        }
+        return response()->json($news, 200);
+    }
+
+    public function getAllByDepartment($id)
+    {
+        try {
+            $news = Admission_news::where('id_department', $id)
+                ->where('admission_news.is_deleted', '=', 0)
+                ->orderBy('admission_news.created_at')
+                ->get();
+            if ($news->isEmpty()) {
+                return response()->json(['message' => 'Không có tin tức nào trong danh mục này.'], 404);
+            }
+            return response()->json($news, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi khi lấy dữ liệu tin tức.'], 500);
+        }
+    }
+
 }
