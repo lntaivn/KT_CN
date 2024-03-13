@@ -49,16 +49,11 @@ Route::middleware('check.jwt')->group(function () {
 
 //department
 Route::middleware('check.jwt')->group(function () {
+    Route::get('/admin/department', [DepartmentController::class, 'getAll']);
+    Route::get('/admin/department/{id}', [DepartmentController::class, 'getCategoryById']);
     Route::post('/admin/department', [DepartmentController::class, 'createDepartment']);
-});
-//Admission news
-Route::middleware('check.jwt')->group(function () {
-    Route::get('/admin/admission-news', [AdmissionNewsController::class, 'getAllNewsAdmin']);//ok
-    Route::get('/admin/admission-news-hidden', [AdmissionNewsController::class, 'getAllNewsAdminHidden']);//ok
-    Route::post('/admin/admission-news', [AdmissionNewsController::class, 'createAdmission']);
-    Route::put('/admin/admission-news/{id}', [AdmissionNewsController::class, 'updateNews']);//ok
-    Route::put('/admin/admission-news/softDelete/{id}', [AdmissionNewsController::class, 'updateDeleted']);
-    Route::put('/admin/admission-news/soft-list/delete', [AdmissionNewsController::class, 'updateManyDeleted']);
+    Route::put('/admin/department/{id}', [DepartmentController::class, 'update']);
+    Route::put('/admin/department/soft-list/delete', [DepartmentController::class, 'updateManyDeleted']);
 
 });
 
@@ -69,6 +64,17 @@ Route::middleware('check.jwt')->group(function () {
     Route::post('/admin/category', [CategoryController::class, 'create']);
     Route::put('/admin/category/{id}', [CategoryController::class, 'update']);
     Route::put('/admin/category/soft-list/delete', [CategoryController::class, 'updateManyDeleted']);
+});
+
+//Admission news
+Route::middleware('check.jwt')->group(function () {
+    Route::get('/admin/admission-news', [AdmissionNewsController::class, 'getAllNewsAdmin']);//ok
+    Route::get('/admin/admission-news-hidden', [AdmissionNewsController::class, 'getAllNewsAdminHidden']);//ok
+    Route::post('/admin/admission-news', [AdmissionNewsController::class, 'createAdmission']);
+    Route::put('/admin/admission-news/{id}', [AdmissionNewsController::class, 'updateNews']);//ok
+    Route::put('/admin/admission-news/softDelete/{id}', [AdmissionNewsController::class, 'updateDeleted']);
+    Route::put('/admin/admission-news/soft-list/delete', [AdmissionNewsController::class, 'updateManyDeleted']);
+
 });
 
 Route::post('/admin/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');
