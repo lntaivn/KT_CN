@@ -30,7 +30,7 @@ class ImageUploadController extends Controller
     {
         // Validate the uploaded file
         $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         // Save the uploaded file

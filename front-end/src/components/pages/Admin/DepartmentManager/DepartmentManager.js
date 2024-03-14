@@ -1,8 +1,5 @@
-
 import { useEffect, useState } from "react";
-import {
-    UpdateStatuses,
-} from "../../../../service/ApiService";
+import { UpdateStatuses } from "../../../../service/ApiService";
 
 import { Link } from "react-router-dom";
 import moment from "moment";
@@ -13,21 +10,21 @@ import {
     Breadcrumbs,
     Button,
     Switch,
-    Modal, Chip,
+    Modal,
+    Chip,
     ModalContent,
     ModalHeader,
     ModalBody,
-    ModalFooter, 
-    useDisclosure
+    ModalFooter,
+    useDisclosure,
 } from "@nextui-org/react";
+import {
+    deleteDepartment,
+    getAllDepartments,
+} from "../../../../service/DepartmentService";
 
-
-
-import { getAllCategories, softDeleteCategoryByIds} from "../../../../service/CategoryService";
-
-const CategoryManager = (props) => {
-
-    const { successNoti, errorNoti, setSpinning, TypeCategory} = props;
+const DepartmentManager = (props) => {
+    const { successNoti, errorNoti, setSpinning } = props;
 
     const [categoryData, setCategoryData] = useState([]);
 
@@ -40,32 +37,32 @@ const CategoryManager = (props) => {
 
     const columns = [
         {
-            title:
-                <p className="flex gap-2">Tên danh mục
+            title: (
+                <p className="flex gap-2">
+                    Tên bộ môn
                     <Avatar
                         alt="Việt Nam"
                         className="w-5 h-5"
                         src="https://flagcdn.com/vn.svg"
                     />
-                </p>,
-            dataIndex: "name_vi",
-            render: (text) => (
-                <p className="font-medium">{text}</p>
+                </p>
             ),
+            dataIndex: "name_vi",
+            render: (text) => <p className="font-medium">{text}</p>,
         },
         {
-            title:
-                <p className="flex gap-2">Tên danh mục
+            title: (
+                <p className="flex gap-2">
+                    Tên bộ môn
                     <Avatar
                         alt="Việt Nam"
                         className="w-5 h-5"
                         src="https://flagcdn.com/gb.svg"
                     />
-                </p>,
-            dataIndex: "name_en",
-            render: (text) => (
-                <p className="font-medium">{text}</p>
+                </p>
             ),
+            dataIndex: "name_en",
+            render: (text) => <p className="font-medium">{text}</p>,
         },
         {
             title: (
@@ -88,8 +85,6 @@ const CategoryManager = (props) => {
                         >
                             <i className="fa-solid fa-pen"></i>
                         </Button>
-
-                        
                     </Tooltip>
                     <Tooltip title="Xoá">
                         <Button
@@ -97,7 +92,10 @@ const CategoryManager = (props) => {
                             variant="light"
                             radius="full"
                             size="sm"
-                            onClick={() => { onOpen(); setDeleteId(_id); }}
+                            onClick={() => {
+                                onOpen();
+                                setDeleteId(_id);
+                            }}
                         >
                             <i className="fa-solid fa-trash-can"></i>
                         </Button>
@@ -124,18 +122,17 @@ const CategoryManager = (props) => {
     const handleSoftDelete = async () => {
         setSpinning(true);
         const putData = {
-            id_category: selectedRowKeys,
-            deleted: true,
-        }
+            id_department: selectedRowKeys,
+        };
         try {
-            const response = await softDeleteCategoryByIds(putData);
+            const response = await deleteDepartment(putData);
             setSpinning(false);
             getCategory();
             successNoti("Xoá thành công");
             handleUnSelect();
         } catch (error) {
             setSpinning(false);
-            successNoti("Xoá thất bại");
+            errorNoti("Xoá thất bại");
             console.error("Error fetching news:", error);
         }
     };
@@ -143,17 +140,17 @@ const CategoryManager = (props) => {
     const handleSoftDeleteById = async (_id) => {
         setSpinning(true);
         const putData = {
-            id_category: [_id],
-            deleted: true,
-        }
+            id_department: [_id],
+        };
+        console.log("putData: ", putData);
         try {
-            const response = await softDeleteCategoryByIds(putData);
+            const response = await deleteDepartment(putData);
             setSpinning(false);
             getCategory();
             successNoti("Xoá thành công");
         } catch (error) {
             setSpinning(false);
-            successNoti("Xoá thất bại");
+            errorNoti("Xoá thất bại");
             console.error("Error fetching news:", error);
         }
     };
@@ -161,16 +158,16 @@ const CategoryManager = (props) => {
     const getCategory = async () => {
         setSpinning(true);
         try {
-            const response = await getAllCategories();
-
-            const newsCategoryData = response.data.map((category) => {
+            const response = await getAllDepartments();
+            console.log("department: ", response.data);
+            const newsCategoryData = response.data.map((department) => {
                 return {
-                    key: category.id_category,
-                    name_vi: category.name_vi,
-                    name_en: category.name_en,
-                    created_at: category.created_at,
-                    updated_at: category.updated_at,
-                    action: category.id_category,
+                    key: department.id_department,
+                    name_vi: department.name_department_vi,
+                    name_en: department.name_department_en,
+                    created_at: department.created_at,
+                    updated_at: department.updated_at,
+                    action: department.id_department,
                 };
             });
 
@@ -205,7 +202,7 @@ const CategoryManager = (props) => {
             <div className="flex items-start justify-between w-full">
                 <Breadcrumbs underline="hover">
                     <BreadcrumbItem>Admin Dashboard</BreadcrumbItem>
-                    <BreadcrumbItem>Quản lý danh mục</BreadcrumbItem>
+                    <BreadcrumbItem>Quản lý bộ môn</BreadcrumbItem>
                 </Breadcrumbs>
                 <div className="flex gap-2">
                     <Tooltip title="Làm mới">
@@ -218,15 +215,9 @@ const CategoryManager = (props) => {
                             <i className="fa-solid fa-rotate-right text-[17px]"></i>
                         </Button>
                     </Tooltip>
-                    
                 </div>
             </div>
-            <Button
-                color="primary"
-                radius="sm"
-                as={Link}
-                to="create"
-            >
+            <Button color="primary" radius="sm" as={Link} to="create">
                 Tạo danh mục mới
             </Button>
 
@@ -243,7 +234,12 @@ const CategoryManager = (props) => {
                                 document.querySelector(".Quick__Option")
                             }
                         >
-                            <Button isIconOnly variant="light" radius="full" onClick={onOpen}>
+                            <Button
+                                isIconOnly
+                                variant="light"
+                                radius="full"
+                                onClick={onOpen}
+                            >
                                 <i className="fa-solid fa-trash-can"></i>
                             </Button>
                         </Tooltip>
@@ -283,18 +279,17 @@ const CategoryManager = (props) => {
     );
 };
 
-export default CategoryManager;
+export default DepartmentManager;
 
 function ConfirmAction(props) {
-
     const { isOpen, onOpenChange, onConfirm } = props;
 
     const handleOnOKClick = (onClose) => {
         onClose();
-        if (typeof onConfirm === 'function') {
+        if (typeof onConfirm === "function") {
             onConfirm();
         }
-    }
+    };
 
     return (
         <Modal
@@ -318,7 +313,7 @@ function ConfirmAction(props) {
                             ease: "easeIn",
                         },
                     },
-                }
+                },
             }}
         >
             <ModalContent>
@@ -334,7 +329,11 @@ function ConfirmAction(props) {
                             <Button variant="light" onPress={onClose}>
                                 Huỷ
                             </Button>
-                            <Button color="danger" className="font-medium" onPress={() => handleOnOKClick(onClose)}>
+                            <Button
+                                color="danger"
+                                className="font-medium"
+                                onPress={() => handleOnOKClick(onClose)}
+                            >
                                 Xoá
                             </Button>
                         </ModalFooter>
@@ -342,5 +341,5 @@ function ConfirmAction(props) {
                 )}
             </ModalContent>
         </Modal>
-    )
+    );
 }

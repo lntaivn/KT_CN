@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdmissionNewsController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Middleware\ExtractEmailFromJWT;
+use App\Http\Controllers\DepartmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -42,15 +43,63 @@ Route::middleware('check.jwt')->group(function () {
     Route::put('/admin/news/softDelete/{id}', [NewsController::class, 'updateDeleted']);
     Route::put('/admin/news/soft-list/delete', [NewsController::class, 'updateManyDeleted']);
     Route::delete('/admin/news/force-delete', [NewsController::class, 'deleteNews']);
-    
+    Route::get('admin/news/search/TitleCategoryIsDeleted', [NewsController::class, 'searchByTitleCategoryIsDeleted']);//ok
     Route::get('/admin/getCurrentUser', [AuthController::class, 'getCurrentUser']);
+
+    Route::get('/news/search/TitleCategoryIsDeleted', [NewsController::class, 'searchByTitleCategoryIsDeleted']);//ok
 });
 
+//department
+Route::middleware('check.jwt')->group(function () {
+    Route::get('/admin/department', [DepartmentController::class, 'getAll']);
+    Route::post('/admin/department', [DepartmentController::class, 'createDepartment']);
+    Route::get('/admin/department/{id}', [DepartmentController::class, 'getDepartmentById']);
+    Route::get('/admin/department', [DepartmentController::class, 'getAll']);
+    Route::put('/admin/department/{id}', [DepartmentController::class, 'update']);
+    Route::put('/admin/department/soft-list/delete', [DepartmentController::class, 'updateManyDeleted']);
+
+});
+//Admission news
+Route::middleware('check.jwt')->group(function () {
+    Route::get('/admin/admission-news', [AdmissionNewsController::class, 'getAllNewsAdmin']);
+    Route::get('/admin/admission-news-hidden', [AdmissionNewsController::class, 'getAllNewsAdminHidden']);
+    Route::get('/admin/admission-news-hidden/{id}', [AdmissionNewsController::class, 'getNewByIDAdminHidden']);
+    Route::post('/admin/admission-news', [AdmissionNewsController::class, 'createAdmission']);
+    Route::put('/admin/admission-news/{id}', [AdmissionNewsController::class, 'updateNews']);
+    Route::put('/admin/admission-news/softDelete/{id}', [AdmissionNewsController::class, 'updateDeleted']);
+    Route::put('/admin/admission-news/soft-list/delete', [AdmissionNewsController::class, 'updateManyDeleted']);
+    Route::put('/admin/admission-news/update/status-en/{id}', [AdmissionNewsController::class, 'updateStatusEn']);
+    Route::put('/admin/admission-news/update/status-vi/{id}', [AdmissionNewsController::class, 'updateStatusVi']);
+    Route::put('/admin/admission-news/update/UpdateStatuses', [AdmissionNewsController::class, 'UpdateStatuses']);
+    Route::delete('/admin/admission-news/force-delete', [AdmissionNewsController::class, 'deleteNews']);
+    Route::get('admin/admission-news/search/TitleCategoryIsDeleted', [AdmissionNewsController::class, 'searchByTitleCategoryIsDeleted']);//ok
+
+});
 
 //category
 Route::middleware('check.jwt')->group(function () {
+    Route::get('/admin/categories', [CategoryController::class, 'getAll']);
+    Route::get('/admin/category/{id}', [CategoryController::class, 'getCategoryById']);
     Route::post('/admin/category', [CategoryController::class, 'create']);
     Route::put('/admin/category/{id}', [CategoryController::class, 'update']);
+    Route::put('/admin/category/soft-list/delete', [CategoryController::class, 'updateManyDeleted']);
+});
+
+//Admission news
+Route::middleware('check.jwt')->group(function () {
+    Route::get('/admin/admission-news', [AdmissionNewsController::class, 'getAllNewsAdmin']);
+    Route::get('/admin/admission-news-hidden', [AdmissionNewsController::class, 'getAllNewsAdminHidden']);
+    Route::get('/admin/admission-news-hidden/{id}', [AdmissionNewsController::class, 'getNewByIDAdminHidden']);
+    Route::post('/admin/admission-news', [AdmissionNewsController::class, 'createAdmission']);
+    Route::put('/admin/admission-news/{id}', [AdmissionNewsController::class, 'updateNews']);
+    Route::put('/admin/admission-news/softDelete/{id}', [AdmissionNewsController::class, 'updateDeleted']);
+    Route::put('/admin/admission-news/soft-list/delete', [AdmissionNewsController::class, 'updateManyDeleted']);
+    Route::put('/admin/admission-news/update/status-en/{id}', [AdmissionNewsController::class, 'updateStatusEn']);
+    Route::put('/admin/admission-news/update/status-vi/{id}', [AdmissionNewsController::class, 'updateStatusVi']);
+    Route::put('/admin/admission-news/update/UpdateStatuses', [AdmissionNewsController::class, 'UpdateStatuses']);
+    Route::delete('/admin/admission-news/force-delete', [AdmissionNewsController::class, 'deleteNews']);
+    Route::get('admin/admission-news/search/TitleCategoryIsDeleted', [AdmissionNewsController::class, 'searchByTitleCategoryIsDeleted']);//ok
+
 });
 
 Route::post('/admin/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');
@@ -69,7 +118,6 @@ Route::middleware(['check.jwt', 'check.role'])->group(function () {
 
 //Admin: check role
 Route::middleware(['check.jwt', 'check.role'])->group(function () {
-    Route::get('/admin/news/test', [NewsController::class, 'getAllNews']);
     Route::get('/news/user/{id_user}', [NewsController::class, 'getAllByUser']);
 });
 
@@ -78,6 +126,7 @@ Route::middleware(['check.jwt', 'check.role'])->group(function () {
 //----------------------------------User---------------------------------//
 //'top 5
 Route::get('news/get5LatestNews', [NewsController::class, 'get5LatestNews']);//ok
+Route::get('admission-news/getTop5RelatedDepartment/{id}', [AdmissionNewsController::class, 'getTop5RelatedDepartment']);//ok
 Route::get('news/getTop5ViewCount', [NewsController::class, 'getTop5ViewCount']);//ok
 Route::get('news/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5RelatedCategory']);//ok
 
@@ -85,7 +134,18 @@ Route::get('news/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5R
 Route::get('/news', [NewsController::class, 'getAllNews']);
 Route::get('/news/{id}', [NewsController::class, 'getNewByID']);//ok
 Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);//ok
-Route::put('/news/update/viewCount/{id}', [NewsController::class, 'updateViewCount']);//ok
+Route::get('/news/search/TitleCategory', [NewsController::class, 'searchByTitleCategory']);//ok
+Route::put('/news/updateViewCount/{id}', [NewsController::class, 'updateViewCount']);//ok
+
+//department
+Route::get('/department', [DepartmentController::class, 'getAll']);
+
+//Admission news
+Route::get('/admission-news', [AdmissionNewsController::class, 'getAll']);
+Route::get('/admission-news/{id}', [AdmissionNewsController::class, 'getAdmissionNewsById']);
+Route::get('/admission-news/department/{id}', [AdmissionNewsController::class, 'getAllByDepartment']);//ok
+Route::put('/admission-news/updateViewCount/{id}', [AdmissionNewsController::class, 'updateViewCount']);//ok
+
 
 //Category
 Route::get('/categories', [CategoryController::class, 'getAll']);

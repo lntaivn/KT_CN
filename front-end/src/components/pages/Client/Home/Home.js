@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { GetNewViEn } from "../../../../service/ApiService";
 import { useTranslation } from "react-i18next";
 
 import { Link } from "react-router-dom";
-import "./Home.css"
+import "./Home.css";
 
 import { Tooltip, Spinner, Image, Button, Divider, Card, CardHeader, CardFooter } from "@nextui-org/react";
 import { formatDateTime, formatTimeAgo } from "../../../../service/DateService";
 import i18next from "i18next";
 
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/effect-fade';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 // import required modules
-import { EffectFade, Navigation, Pagination } from 'swiper/modules';
+import { EffectFade, Navigation, Pagination } from "swiper/modules";
 
 import home_cover from "../../../../assets/home_cover.jpg"
 import home_cover1 from "../../../../assets/home_cover1.png"
@@ -29,10 +28,10 @@ import DH from "../../../../assets/DH.jfif"
 import SDH from "../../../../assets/SDH.jfif"
 
 
-import { Carousel } from 'antd';
+import { Carousel } from "antd";
+import { GetNewViEn } from "../../../../service/NewsService";
 
 const Home = () => {
-
     const { t } = useTranslation();
 
     const [newsData, setNewsData] = useState([]); // State to store news data
@@ -45,7 +44,7 @@ const Home = () => {
     const getNews = async () => {
         setLoading(true);
         try {
-            const response = await GetNewViEn(i18next.language);
+            const response = await GetNewViEn();
             setNewsData(response.data);
             setLoading(false);
         } catch (error) {
@@ -61,10 +60,10 @@ const Home = () => {
             } else if (i18next.language === "en" && news.status_en === 1) {
                 return news;
             }
-        })
+        });
 
         setNewsDataFiltered(filterNewsData);
-    }
+    };
 
     useEffect(() => {
         changePostByLang();
@@ -131,13 +130,21 @@ const Home = () => {
             </div> */}
             <Carousel autoplay>
                 <div className="flex justify-center items-center overflow-hidden w-full h-[500px] relative">
-                    <img src={home_cover} alt="" className="object-cover w-full h-full" />
+                    <img
+                        src={home_cover}
+                        alt=""
+                        className="object-cover w-full h-full"
+                    />
                 </div>
                 <div className="flex justify-center items-center overflow-hidden w-full h-[500px] relative">
                     <img src={home_cover2} alt="" className="object-cover w-full h-full" />
                 </div>
                 <div className="flex justify-center items-center overflow-hidden w-full h-[500px] relative">
-                    <img src={home_cover} alt="" className="object-cover w-full h-full" />
+                    <img
+                        src={home_cover}
+                        alt=""
+                        className="object-cover w-full h-full"
+                    />
                 </div>
             </Carousel>
 
