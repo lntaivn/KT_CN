@@ -14,7 +14,7 @@ const ActivityTVU = () => {
     const [newsData, setNewsData] = useState([]);
     const [newsDataFitlered, setNewsDataFiltered] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(2);
+    const [pageSize, setPageSize] = useState(8);
 
     const [loading, setLoading] = useState(false);
 
@@ -51,7 +51,7 @@ const ActivityTVU = () => {
     }, []);
 
     const onShowSizeChange = (current, size) => {
-        setCurrentPage(1); // Reset về trang đầu tiên khi thay đổi kích thước trang
+        setCurrentPage(1);
         setPageSize(size);
     };
 
@@ -68,19 +68,6 @@ const ActivityTVU = () => {
 
     return (
         <div className="Home p-5">
-            <div className="Home_link_ret">
-                <Link to="https://ret.tvu.edu.vn/">
-                    <img
-                        alt="example"
-                        src="https://ktcn.tvu.edu.vn/ht96_image/thongbao/call_for_papers.jpg"
-                    />
-                </Link>
-            </div>
-
-            <div>
-                <h1>{t("News.text_new_1")}</h1>
-            </div>
-
             <div className="News w-full">
                 <div className="grid gap-2 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
                     {newsDataFitlered.length === 0 ? (
