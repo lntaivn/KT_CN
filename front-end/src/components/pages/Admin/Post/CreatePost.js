@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Breadcrumbs, BreadcrumbItem, Button, Avatar, Input} from "@nextui-org/react";
+import { Breadcrumbs, BreadcrumbItem, Button, Avatar, Input } from "@nextui-org/react";
 import { Upload, Select, message, Tooltip } from "antd";
 import ImgCrop from "antd-img-crop";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
@@ -9,6 +9,7 @@ import { SaveDataNews } from "../../../../service/NewsService";
 import { getAllCategories } from "../../../../service/CategoryService";
 import "./Post.css";
 import { Link } from "react-router-dom";
+import imageCompression from "browser-image-compression";
 
 const { Option } = Select;
 
@@ -26,6 +27,8 @@ const CreatePost = (props) => {
 
     const [layout, setLayout] = useState("col");
     const [disableRowLayout, setDisableRowLayout] = useState(false);
+
+    const [fileList, setFileList] = useState([]);
 
     //hangle database
     const getCategorys = async () => {
@@ -50,7 +53,7 @@ const CreatePost = (props) => {
             content_vi: contentVI,
             thumbnail: imageUrl
         };
-    
+
         SaveDataNews(data)
             .then((response) => {
                 console.log("Phản hồi từ máy chủ:", response);
@@ -107,6 +110,19 @@ const CreatePost = (props) => {
         }
     };
 
+    const compressImage = async (imageFile) => {
+        try {
+            const options = {
+                maxSizeMB: 1, // Giới hạn kích thước ảnh nén dưới 1MB (tùy chỉnh theo nhu cầu của bạn)
+                maxWidthOrHeight: 1920, // Giới hạn kích thước chiều rộng hoặc chiều cao của ảnh (tùy chỉnh theo nhu cầu của bạn)
+            };
+            const compressedFile = await imageCompression(imageFile, options);
+            return compressedFile;
+        } catch (error) {
+            throw error;
+        }
+    };
+
     //hangle Img
     const handleChange = (info) => {
         if (info.file.status === "uploading") {
@@ -130,11 +146,7 @@ const CreatePost = (props) => {
         if (!isJpgOrPng) {
             message.error("You can only upload JPG/PNG file!");
         }
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isLt2M) {
-            message.error("Image must smaller than 2MB!");
-        }
-        return isJpgOrPng && isLt2M;
+        return true;
     };
 
     const uploadButton = (
@@ -218,6 +230,7 @@ const CreatePost = (props) => {
                                 action={`${process.env.REACT_APP_API_DOMAIN}/admin/upload-image-`}
                                 beforeUpload={beforeUpload}
                                 onChange={handleChange}
+                                withCredentials
                             >
                                 {imageUrl ? (
                                     <img src={imageUrl} alt="avatar" />
@@ -251,14 +264,12 @@ const CreatePost = (props) => {
                 </div>
 
                 <div
-                    className={`flex w-full gap-${
-                        layout === "col" ? "10" : "8"
-                    } flex-${layout}`}
+                    className={`flex w-full gap-${layout === "col" ? "10" : "8"
+                        } flex-${layout}`}
                 >
                     <div
-                        className={`${
-                            layout === "col" ? "w-full" : "w-[40%]"
-                        } flex-1 flex flex-col gap-6`}
+                        className={`${layout === "col" ? "w-full" : "w-[40%]"
+                            } flex-1 flex flex-col gap-6`}
                     >
                         <Input
                             label={
@@ -304,9 +315,8 @@ const CreatePost = (props) => {
                         </div>
                     </div>
                     <div
-                        className={`${
-                            layout === "col" ? "w-full" : "w-[40%]"
-                        } flex-1 flex flex-col gap-6`}
+                        className={`${layout === "col" ? "w-full" : "w-[40%]"
+                            } flex-1 flex flex-col gap-6`}
                     >
                         <Input
                             label="Tiêu đề bài viết tiếng Anh"

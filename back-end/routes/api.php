@@ -54,10 +54,10 @@ Route::middleware('check.jwt')->group(function () {
 });
 
 Route::post('/admin/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');
-Route::post('/admin/upload-image-', [ImageUploadController::class, 'upload1'])->name('upload.image');
 
 //users
 Route::middleware(['check.jwt', 'check.role'])->group(function () {
+    Route::post('/admin/upload-image-', [ImageUploadController::class, 'upload1'])->name('upload.image');
     Route::get('admin/users', [UserController::class, 'index']);
     Route::get('admin/users/{id_user}', [UserController::class, 'findByIdUser']);
     Route::post('admin/users', [UserController::class, 'store']);
