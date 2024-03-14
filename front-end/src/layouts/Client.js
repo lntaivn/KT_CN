@@ -9,6 +9,7 @@ import About from "../components/pages/Client/About/About";
 import NewsDetail from "../components/pages/Client/NewsDetail/NewsDetail";
 import ActivityTVU from "../components/pages/Client/Categorization/ActivityTVU";
 import Admission from "../components/pages/Client/Categorization/Admission";
+import StudentSet from "../components/pages/Client/StudentSet/StudentSet";
 // import NewsDetail from '../components/pages/Client/NewsDetail/NewsDetail';
 
 function Client() {
@@ -33,6 +34,10 @@ function Client() {
                         <Route
                             path="news/category/admission"
                             element={<Admission />}
+                        />
+                        <Route
+                            path="student-set"
+                            element={<StudentSet />}
                         />
                         <Route path="/news-detail/:id" element={<NewsDetail TypeNews={"News"} />}/>
                         <Route path="/newsAdmissions-detail/:id" element={<NewsDetail TypeNews={"admissionNews"} />}/>

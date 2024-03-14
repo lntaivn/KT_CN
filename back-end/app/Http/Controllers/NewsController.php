@@ -201,6 +201,7 @@ class NewsController extends Controller
                 ->where('news.is_deleted', '=', 0)
                 ->orderBy('news.created_at')
                 ->get();
+
             if ($news->isEmpty()) {
                 return response()->json(['message' => 'Không có tin tức nào trong danh mục này.'], 404);
             }
@@ -210,6 +211,23 @@ class NewsController extends Controller
         }
     }
 
+    public function get6ByCategory($category_id)
+    {
+        try {
+            $news = News::where('id_category', $category_id)
+                ->where('news.is_deleted', '=', 0)
+                ->orderBy('news.created_at')
+                ->take(6)
+                ->get();
+
+            if ($news->isEmpty()) {
+                return response()->json(['message' => 'Không có tin tức nào trong danh mục này.'], 404);
+            }
+            return response()->json($news, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi khi lấy dữ liệu tin tức.'], 500);
+        }
+    }
     public function getAllByUser($id)
     {
         try {

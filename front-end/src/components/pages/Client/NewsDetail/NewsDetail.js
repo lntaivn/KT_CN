@@ -7,9 +7,6 @@ import {
     updateViewCount,
 } from "../../../../service/ApiService";
 
-
-
-
 import { useTranslation } from "react-i18next";
 
 import { Link, useParams } from "react-router-dom";
