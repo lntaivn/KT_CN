@@ -51,7 +51,8 @@ const GetNewAdmissionById = (id)=> {
 }
 
 const updateViewCountAdmission = (id)=> {
-    return axiosInstance.put(`/admission-news/updateViewCount/${id}`);
+    console.log('Updating view count',id);
+    return axiosInstance.put(`/admission-news/updateViewCount/1`);
 }
 
 const getTop5RelatedDepartment = (id)=> {

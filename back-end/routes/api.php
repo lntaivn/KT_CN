@@ -139,7 +139,7 @@ Route::get('news/getTop5RelatedCategory/{id}', [NewsController::class, 'getTop5R
 Route::get('/news', [NewsController::class, 'getAllNews']);
 Route::get('/news/{id}', [NewsController::class, 'getNewByID']);//ok
 Route::get('/news/category/{id_category}', [NewsController::class, 'getAllByCategory']);//ok
-Route::get('/news/category/Take6/TakeFullNewsByCategory', [NewsController::class, 'TakeFullNewsByCategory3_4_5_6_7_8']);//ok
+Route::get('/news/category/Take6/TakeFullNewsByCategory', [NewsController::class, 'TakeFullNewsByCategory3_4_5_6_7_8_9_10']);//ok
 
 
 Route::get('/news/search/TitleCategory', [NewsController::class, 'searchByTitleCategory']);//ok
