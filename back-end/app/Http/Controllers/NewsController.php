@@ -201,12 +201,46 @@ class NewsController extends Controller
                 ->where('news.is_deleted', '=', 0)
                 ->orderBy('news.created_at')
                 ->get();
+
             if ($news->isEmpty()) {
                 return response()->json(['message' => 'Không có tin tức nào trong danh mục này.'], 404);
             }
             return response()->json($news, 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi khi lấy dữ liệu tin tức.'], 500);
+        }
+    }
+
+    public function TakeFullNewsByCategory3_4_5_6_7_8_9_10()
+    {
+        try {
+            $categoryIds = [3, 4, 5, 6, 7, 8, 9, 10];
+            $newsCollection = collect();
+    
+            foreach ($categoryIds as $categoryId) {
+                $news = News::where('id_category', $categoryId)
+                    ->where('is_deleted', '=', 0)
+                    ->orderBy('created_at')
+                    ->take(6)
+                    ->get();
+    
+                $newsCollection = $newsCollection->concat($news);
+            }
+    
+            $newsCategory10 = News::where('id_category', 10)
+            ->where('is_deleted', 0)
+            ->orderBy('created_at')
+            ->get();
+
+            $newsCollection = $newsCollection->concat($newsCategory10);
+
+            if ($newsCollection->isEmpty()) {
+                return response()->json(['message' => 'Không có tin tức nào trong các danh mục này.'], 404);
+            }
+    
+            return response()->json($newsCollection, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi khi lấy dữ liệu tin tức: ' . $e->getMessage()], 500);
         }
     }
 
@@ -477,6 +511,7 @@ class NewsController extends Controller
                 'id_category' => 'required|integer',
             ]);
             $id_category = $validatedData['id_category'];
+            error_log($id_category);
             $news = News::join('categories', 'categories.id_category', '=', 'news.id_category')
                 ->select(
                     'news.id_new',

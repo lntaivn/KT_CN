@@ -43,9 +43,27 @@ const softDeleteAdmissionNewsByIds = (data) => {
 const forceDeleteAdmissionNewsByIds = (data) => {
     return axiosInstance.delete(`/admin/admission-news/force-delete`, { params: data });
 }
+
+
+//slient
+const GetNewAdmissionById = (id)=> { 
+    return axiosInstance.get(`/admission-news/${id}`);
+}
+
+const updateViewCountAdmission = (id)=> {
+    console.log('Updating view count',id);
+    return axiosInstance.put(`/admission-news/updateViewCount/1`);
+}
+
+const getTop5RelatedDepartment = (id)=> {
+    return axiosInstance.get(`/admission-news/getTop5RelatedDepartment/${id}`);
+}
 export { SaveAdmissionNews, GetAdmissionNews, UpdateAdmissionNews, 
     getAllNewsAdmissionForAdmin, softDeleteNewsAdmissionByIds,
     UpdateAdmissionStatuses,UpdateAdmissionStatusVi, 
     UpdateAdmissionStatusEn, getAllAdmissionNewsHiddenForAdmin, softDeleteAdmissionNewsByIds,
-    forceDeleteAdmissionNewsByIds
+    forceDeleteAdmissionNewsByIds,
+    GetNewAdmissionById,
+    updateViewCountAdmission,
+    getTop5RelatedDepartment
 };

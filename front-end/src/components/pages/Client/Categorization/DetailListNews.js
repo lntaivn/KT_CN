@@ -79,7 +79,7 @@ const DetailListNews = () => {
                                 <Link
                                     key={news.id_new}
                                     className="w-full flex flex-col gap-3 border-4 border-y-brown-500 hover:bg-gray-100 rounded"
-                                    to={`/news-detail/${news.id_new}`}
+                                    to={`/newsAdmissions-detail/${news.id_new}`}
                                 >
                                     <h2 className="font-medium text-justify">
                                         {i18next.language === "vi"

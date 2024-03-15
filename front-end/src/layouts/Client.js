@@ -9,9 +9,9 @@ import About from "../components/pages/Client/About/About";
 import NewsDetail from "../components/pages/Client/NewsDetail/NewsDetail";
 import ActivityTVU from "../components/pages/Client/Categorization/ActivityTVU";
 import Admission from "../components/pages/Client/Categorization/Admission";
-import DetailListNews from "../components/pages/Client/Categorization/DetailListNews";
+import StudentSet from "../components/pages/Client/StudentSet/StudentSet";
 // import NewsDetail from '../components/pages/Client/NewsDetail/NewsDetail';
-
+import DetailListNews from "../components/pages/Client/Categorization/DetailListNews";
 function Client() {
     return (
         <div className="Client">
@@ -39,10 +39,14 @@ function Client() {
                             path="news/category/undergraduate/:id"
                             element={<DetailListNews />}
                         />
+                        {/* //DetailListNews */}
                         <Route
-                            path="/news-detail/:id"
-                            element={<NewsDetail />}
+                            path="student-set"
+                            element={<StudentSet />}
                         />
+                        <Route path="/news-detail/:id" element={<NewsDetail TypeNews={"News"} />}/>
+                        <Route path="/newsAdmissions-detail/:id" element={<NewsDetail TypeNews={"admissionNews"} />}/>
+
                     </Routes>
                 </div>
             </div>

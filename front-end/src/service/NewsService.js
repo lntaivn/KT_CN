@@ -57,9 +57,16 @@ const UpdateStatuses =(data)=>{
     return axiosInstance.put(`/admin/news/update/UpdateStatuses`, data);
 
 }
+
+const getTop5RelatedCategory = (id, data)=> {
+    console.log('getTop5RelatedCategory', id, data);
+    return axiosInstance.get(`/news/getTop5RelatedCategory/${id}`,  { params: data });
+}
+
 export {
     getAllNewsForAdmin,
     getAllNewsHiddenForAdmin,
+    getTop5RelatedCategory,
     softDeleteNewsById,
     softDeleteNewsByIds,
     forceDeleteNewsByIds,
