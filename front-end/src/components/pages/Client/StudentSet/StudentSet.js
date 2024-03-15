@@ -48,8 +48,8 @@ const StudentSet = (props) => {
                 <div className="w-full sm:m-auto lg:w-full xl:w-full bg-[#ffffff] p-4">
                
                     <div> 
-                        <div className="w-full p-5 bg-[#e95a13] ">
-                            <h1 className="text-white text-left font-medium	">TEST SCHEDULE</h1>
+                        <div className="w-full p-3 border-[#e95a13] border-l-8 border-y-2  border-r-2 boder-[#e95a13]		">
+                            <h1 className=" text-left font-medium	">TEST SCHEDULE</h1>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">
                             {
@@ -68,8 +68,8 @@ const StudentSet = (props) => {
                         </div>
                     </div>
                     <div>
-                        <div className="w-full p-5 bg-[#e95a13] ">
-                            <h1 className="text-white text-left font-medium	">LEARN BURNS</h1>
+                        <div className="w-full p-3 border-[#e95a13] border-l-8 border-y-2  border-r-2 boder-[#e95a13]		">
+                            <h1 className=" text-left font-medium	">LEARN BURNS</h1>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">
                             {
@@ -88,8 +88,8 @@ const StudentSet = (props) => {
                         </div>
                     </div>
                     <div>
-                        <div className="w-full p-5 bg-[#e95a13] ">
-                            <h1 className="text-white text-left font-medium	">TUITION</h1>
+                        <div className="w-full p-3 border-[#e95a13] border-l-8 border-y-2  border-r-2 boder-[#e95a13]		">
+                            <h1 className=" text-left font-medium	">TUITION</h1>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]"> 
                             {
@@ -108,8 +108,8 @@ const StudentSet = (props) => {
                         </div>
                     </div>
                     <div>
-                        <div className="w-full p-5 bg-[#e95a13] ">
-                            <h1 className="text-white text-left font-medium	">NOTIFICATION</h1>
+                        <div className="w-full p-3 border-[#e95a13] border-l-8 border-y-2  border-r-2 boder-[#e95a13]		">
+                            <h1 className=" text-left font-medium	">NOTIFICATION</h1>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">           
                             {
@@ -128,8 +128,8 @@ const StudentSet = (props) => {
                         </div>
                     </div>
                     <div>
-                        <div className="w-full p-5 bg-[#e95a13] ">
-                            <h1 className="text-white text-left font-medium	">STUDENT HANDBOOK</h1>
+                        <div className="w-full p-3 border-[#e95a13] border-l-8 border-y-2  border-r-2 boder-[#e95a13]		">
+                            <h1 className=" text-left font-medium	">STUDENT HANDBOOK</h1>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">           
                             {
@@ -149,8 +149,8 @@ const StudentSet = (props) => {
                         
                     </div>
                     <div>
-                        <div className="w-full p-5 bg-[#e95a13] ">
-                            <h1 className="text-white text-left font-medium	">RECRUITMENT</h1>
+                        <div className="w-full p-3 border-[#e95a13] border-l-8 border-y-2  border-r-2 boder-[#e95a13]		">
+                            <h1 className=" text-left font-medium	">RECRUITMENT</h1>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">           
                             {
@@ -170,8 +170,8 @@ const StudentSet = (props) => {
                     </div>
                 </div>
                 <div className="w-full p-3 bg-[#ffffff]  sm:w-full sm: mx-auto lg:w-[400px]  xl:w-[500px]  ">
-                    <div className="w-full p-5 bg-[#e95a13] ">
-                        <h1 className="text-white text-left font-medium">TEST SCHEDULE</h1>
+                    <div className="w-full p-3 border-[#e95a13]  border-l-8 border-y-2  border-r-2 ">
+                        <h1 className=" text-left font-medium">TEST SCHEDULE</h1>
                     </div>
                 </div>
             </div>
