@@ -58,11 +58,9 @@ const UpdateStatuses =(data)=>{
 
 }
 
-const getTop5RelatedCategory = (id, id_category)=> {
-    const data = {
-        id_category: id_category
-    }
-    return axiosInstance.get(`/news/getTop5RelatedCategory/${id}`,data);
+const getTop5RelatedCategory = (id, data)=> {
+    console.log('getTop5RelatedCategory', id, data);
+    return axiosInstance.get(`/news/getTop5RelatedCategory/${id}`,  { params: data });
 }
 
 export {

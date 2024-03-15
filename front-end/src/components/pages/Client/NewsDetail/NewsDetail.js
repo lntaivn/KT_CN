@@ -28,7 +28,7 @@ const NewsDetail = (props) => {
     const [topViewCountNews, setTopViewCountNews] = useState([]);
     const [relativeCategoryNews, setRelativeCategoryNews] = useState([]);
     const [RelativeDepartmentNewNews, setRelativeDepartmentNewNews] = useState([]);
-
+    const [hhh, setIdCategory] = useState("");
 
 
     
@@ -38,6 +38,10 @@ const NewsDetail = (props) => {
                 const response = await GetNewViEnById(id);
                 console.log("newsDetailData:", response.data);
                 setNewsDetailData(response.data[0]);
+                const data = {
+                    "id_category": response.data[0].id_category
+                }
+                await getRelativeCategoryNews(id, data);
             } else if (TypeNews === "admissionNews") {
                 const response = await GetNewAdmissionById(id);
                 console.log("newsDetailData:", response.data);
@@ -48,10 +52,10 @@ const NewsDetail = (props) => {
         }
     };
 
-    const getRelativeCategoryNews = async () => {
+    const getRelativeCategoryNews = async (id, data) => {
         try {
-            // note: data id_category
-            const response = await getTop5RelatedCategory(id, newsDetailData.id_category);
+  
+            const response = await getTop5RelatedCategory(id, data);
             console.log("relativeCategoryNews:", response.data);
             setRelativeCategoryNews(response.data);
         } catch (error) {
@@ -108,7 +112,7 @@ const NewsDetail = (props) => {
         getTopViewCountNews();
 
         if(TypeNews ==="News") {
-            getRelativeCategoryNews();
+            
         } else if(TypeNews ==="admissionNews") {
             getRelativeDepartmentNews();
         }

@@ -504,6 +504,7 @@ class NewsController extends Controller
                 'id_category' => 'required|integer',
             ]);
             $id_category = $validatedData['id_category'];
+            error_log($id_category);
             $news = News::join('categories', 'categories.id_category', '=', 'news.id_category')
                 ->select(
                     'news.id_new',
