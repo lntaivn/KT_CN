@@ -3,9 +3,9 @@ import {
     GetNewViEnById,
     get5LatestNews,
     getTop5ViewCount,
-    getTop5RelatedCategory,
     updateViewCount,
 } from "../../../../service/ApiService";
+
 
 import { useTranslation } from "react-i18next";
 
@@ -16,6 +16,7 @@ import { formatDateTime, formatTimeAgo } from "../../../../service/DateService";
 import { Image, Tooltip } from "@nextui-org/react";
 import { GetNewAdmissionById, getTop5RelatedDepartment, updateViewCountAdmission } from "../../../../service/AdmissionNewsService";
 import { EmailAuthCredential } from "firebase/auth";
+import { getTop5RelatedCategory } from "../../../../service/NewsService";
 
 const NewsDetail = (props) => {
     const { t } = useTranslation();
@@ -50,7 +51,7 @@ const NewsDetail = (props) => {
     const getRelativeCategoryNews = async () => {
         try {
             // note: data id_category
-            const response = await getTop5RelatedCategory(id);
+            const response = await getTop5RelatedCategory(id, newsDetailData.id_category);
             console.log("relativeCategoryNews:", response.data);
             setRelativeCategoryNews(response.data);
         } catch (error) {

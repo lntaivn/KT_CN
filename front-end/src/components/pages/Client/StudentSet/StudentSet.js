@@ -51,7 +51,7 @@ const StudentSet = (props) => {
                         <div className="w-full p-5 bg-[#e95a13] ">
                             <h1 className="text-white text-left font-medium	">TEST SCHEDULE</h1>
                         </div>
-                        <div className="w-full py-5 pl-10 flex flex-col gap-[10px]">
+                        <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">
                             {
                                 testSchedule.length !== 0 ?
                                     testSchedule.map((item) => (
@@ -71,7 +71,7 @@ const StudentSet = (props) => {
                         <div className="w-full p-5 bg-[#e95a13] ">
                             <h1 className="text-white text-left font-medium	">LEARN BURNS</h1>
                         </div>
-                        <div className="w-full py-5 pl-10 flex flex-col gap-[10px]">
+                        <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">
                             {
                                 learnBurns.length !== 0 ?
                                     learnBurns.map((item) => (
@@ -91,7 +91,7 @@ const StudentSet = (props) => {
                         <div className="w-full p-5 bg-[#e95a13] ">
                             <h1 className="text-white text-left font-medium	">TUITION</h1>
                         </div>
-                        <div className="w-full py-5 pl-10 flex flex-col gap-[10px]"> 
+                        <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]"> 
                             {
                                 tuition.length !== 0 ?
                                     tuition.map((item) => (
@@ -111,7 +111,7 @@ const StudentSet = (props) => {
                         <div className="w-full p-5 bg-[#e95a13] ">
                             <h1 className="text-white text-left font-medium	">NOTIFICATION</h1>
                         </div>
-                        <div className="w-full py-5 pl-10 flex flex-col gap-[10px]">           
+                        <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">           
                             {
                                 notification.length !== 0 ?
                                     notification.map((item) => (
@@ -131,7 +131,7 @@ const StudentSet = (props) => {
                         <div className="w-full p-5 bg-[#e95a13] ">
                             <h1 className="text-white text-left font-medium	">STUDENT HANDBOOK</h1>
                         </div>
-                        <div className="w-full py-5 pl-10 flex flex-col gap-[10px]">           
+                        <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">           
                             {
                                 studentHandbook.length !== 0 ?
                                     studentHandbook.map((item) => (
@@ -152,7 +152,7 @@ const StudentSet = (props) => {
                         <div className="w-full p-5 bg-[#e95a13] ">
                             <h1 className="text-white text-left font-medium	">RECRUITMENT</h1>
                         </div>
-                        <div className="w-full py-5 pl-10 flex flex-col gap-[10px]">           
+                        <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">           
                             {
                                 recruitment.length !== 0 ?
                                     recruitment.map((item) => (

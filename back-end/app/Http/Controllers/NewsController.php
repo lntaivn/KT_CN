@@ -499,6 +499,10 @@ class NewsController extends Controller
 
     public function getTop5RelatedCategory($id_new)
     {
+        try {
+            $valia
+        } catch (\Exception $e) {
+        }
         $news = News::join('categories', 'categories.id_category', '=', 'news.id_category')
             ->select(
                 'news.id_new',
@@ -512,11 +516,7 @@ class NewsController extends Controller
                 'news.status_vi',
                 'news.status_en'
             )
-            ->where('news.id_category', '=', function ($query) use ($id_new) {
-                $query->select('id_category')
-                    ->from('news')
-                    ->where('id_new', '=', $id_new);
-            })
+            ->where('news.id_category', '=', )
             ->where('news.id_new', '!=', $id_new)
             ->where('is_deleted', 0)
             ->take(5)
