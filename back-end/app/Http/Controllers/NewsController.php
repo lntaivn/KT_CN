@@ -497,34 +497,38 @@ class NewsController extends Controller
         return response()->json($news, 200);
     }
 
-    public function getTop5RelatedCategory($id_new)
+    public function getTop5RelatedCategory(Request $request, $id_new)
     {
         try {
-            $valia
-        } catch (\Exception $e) {
+            $validatedData = $request->validate([
+                'id_category' => 'required|integer',
+            ]);
+            $id_category = $validatedData['id_category'];
+            $news = News::join('categories', 'categories.id_category', '=', 'news.id_category')
+                ->select(
+                    'news.id_new',
+                    'news.title_vi',
+                    'news.title_en',
+                    'news.view_count',
+                    'news.updated_at',
+                    'news.created_at',
+                    'news.thumbnail',
+                    'news.id_category',
+                    'news.status_vi',
+                    'news.status_en'
+                )
+                ->where('news.id_category', '=', $id_category)
+                ->where('news.id_new', '!=', $id_new)
+                ->where('is_deleted', 0)
+                ->take(5)
+                ->get();
+            if (!$news) {
+                return response()->json(['message' => 'Bài viết không tồn tại'], 404);
+            }
+            return response()->json($news, 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'lỗi', $th->getMessage()], 500);
         }
-        $news = News::join('categories', 'categories.id_category', '=', 'news.id_category')
-            ->select(
-                'news.id_new',
-                'news.title_vi',
-                'news.title_en',
-                'news.view_count',
-                'news.updated_at',
-                'news.created_at',
-                'news.thumbnail',
-                'news.id_category',
-                'news.status_vi',
-                'news.status_en'
-            )
-            ->where('news.id_category', '=', )
-            ->where('news.id_new', '!=', $id_new)
-            ->where('is_deleted', 0)
-            ->take(5)
-            ->get();
-        if (!$news) {
-            return response()->json(['message' => 'Bài viết không tồn tại'], 404);
-        }
-        return response()->json($news, 200);
     }
 
     public function saveNews(Request $request)
