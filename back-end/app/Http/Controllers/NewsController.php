@@ -6,6 +6,7 @@ use App\Models\NewEn;
 use App\Models\NewVi;
 use Illuminate\Http\JsonResponse;
 use App\Models\News;
+use App\Models\Admission_news;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -228,10 +229,10 @@ class NewsController extends Controller
         }
     }
 
-    public function TakeFullNewsByCategory3_4_5_6_7_8_9_10()
+    public function TakeFullNewsByCategory3_4_5_6_7_9_10_And_NewsAdmission()
     {
         try {
-            $categoryIds = [3, 4, 5, 6, 7, 8, 9, 10];
+            $categoryIds = [3, 4, 5, 6, 7, 9, 10];
             $newsCollection = collect();
 
             foreach ($categoryIds as $categoryId) {
@@ -243,13 +244,12 @@ class NewsController extends Controller
 
                 $newsCollection = $newsCollection->concat($news);
             }
+    
+            $NewsAdmission = Admission_news::where('is_deleted', 0)
+            ->orderBy('created_at')
+            ->get();
 
-            $newsCategory10 = News::where('id_category', 10)
-                ->where('is_deleted', 0)
-                ->orderBy('created_at')
-                ->get();
-
-            $newsCollection = $newsCollection->concat($newsCategory10);
+            $newsCollection = $newsCollection->concat($NewsAdmission);
 
             if ($newsCollection->isEmpty()) {
                 return response()->json(['message' => 'Không có tin tức nào trong các danh mục này.'], 404);
