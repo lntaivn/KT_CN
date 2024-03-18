@@ -25,14 +25,16 @@ const StudentSet = (props) => {
     const fetchData = async () => {
         try {
             const NewsData = await getSixNewsByIdCategory();
-            setTestSchedule(NewsData.data.filter(item => item.id_category === 3));
-            setLearnBurns(NewsData.data.filter(item => item.id_category === 4));
-            setTuition(NewsData.data.filter(item => item.id_category === 5));
-            setNotification(NewsData.data.filter(item => item.id_category === 6));
-            setStudentHandbook(NewsData.data.filter(item => item.id_category === 7));
-            setRecruitment(NewsData.data.filter(item => item.id_category === 8));
-            setRules(NewsData.data.filter(item => item.id_category === 9));
-            setForm(NewsData.data.filter(item => item.id_category === 10));
+            console.log(NewsData);
+            setTestSchedule(NewsData.data.filter(item => item.id_category === 3).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
+            setLearnBurns(NewsData.data.filter(item => item.id_category === 4).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
+            setTuition(NewsData.data.filter(item => item.id_category === 5).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
+            setNotification(NewsData.data.filter(item => item.id_category === 6).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
+            setStudentHandbook(NewsData.data.filter(item => item.id_category === 7).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
+            setRecruitment(NewsData.data.filter(item => item.id_admission_news).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
+            
+            setRules(NewsData.data.filter(item => item.id_category === 9).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
+            setForm(NewsData.data.filter(item => item.id_category === 10).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -279,8 +281,8 @@ const StudentSet = (props) => {
                             {
                                 recruitment.length !== 0 ?
                                     recruitment.map((item) => (
-                                        <div key={item.id_new}>
-                                            <Link to={`/news-detail/${item.id_new}`}>
+                                        <div key={item.id_admission_news}>
+                                            <Link to={`/newsAdmissions-detail/${item.id_admission_news}`}>
                                                 {i18next.language === "vi"? item.title_vi: item.title_en}
                                             </Link>
                                             <div className="flex items-center gap-5 text-gray-400 text-[14px]">
@@ -333,7 +335,7 @@ const StudentSet = (props) => {
                             ))}
                         </Select>
                         <Select
-                            label = {t("StudentSet.button.label1")}
+                            label = {t("StudentSet.button.label2")}
                             placeholder={t("StudentSet.button.placeholder2")}
                             labelPlacement="outside"
                             className="w-full rounded-sm"
@@ -365,7 +367,7 @@ const StudentSet = (props) => {
                             ))}
                         </Select>
                         <Select
-                            label = {t("StudentSet.button.label1")}
+                            label = {t("StudentSet.button.label2")}
                             placeholder={t("StudentSet.button.placeholder2")}
                             labelPlacement="outside"
                             className="w-full rounded-sm"
