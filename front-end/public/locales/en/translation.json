@@ -1,11 +1,11 @@
 {
     "header": {
-        "left_text_tvu" : "Tra Vinh University",
+        "left_text_tvu": "Tra Vinh University",
         "left_text_1": "Student Portal",
         "left_text_2": "Academic Affairs Office",
         "left_text_3": "Testing Office",
         "left_text_4": "Learning Resource Center",
-        "tooltip_text" : "Language",
+        "tooltip_text": "Language",
         "login_button_text": "Login"
     },
     "menu": {
@@ -27,7 +27,8 @@
             "sub2": "Department of Information Technology",
             "sub3": "Department of Mechanical Engineering",
             "sub4": "Department of Electrical and Electronic Engineering",
-            "sub5": "Department of Civil Engineering"
+            "sub5": "Department of Civil Engineering",
+            "sub6": "Others"
         },
         "text_link_5": "Admissions",
         "text_link_6": {
@@ -68,9 +69,9 @@
         "Button": "View More"
     },
     "admissions": {
-        "title":"ADMISSIONS",
-        "type1":"Higher education",
-        "type2":"Under graduate"
+        "title": "ADMISSIONS",
+        "type1": "Higher education",
+        "type2": "Under graduate"
     },
     "News": {
         "text_new_1": "News",
@@ -105,7 +106,16 @@
             "placeholder1": "Selecting a department",
             "placeholder2": "Selecting a class"
         }
+    },
+    "home": {
+        "title_1": "Departments as Engineering and Technology",
+        "introduce": {
+            "text_1": "Introduce",
+            "text_2": "Achievement and development orientation",
+            "text_3": "It is obvious that Engineering and Technology play a very important role in the industrial development. Tra Vinh University has established the School of Engineering and Technology with four departments, including:",
+            "text_4": "The school has 80  fulltime faculty members and staffs who are young, active and inquisitive. Strategically, the school has been carrying out plans for fostering, studying in order to improve its profession. Every year, the school enrolls over 500 new students. Especially, 90% of graduated students were able to find jobs after one year graduation.",
+            "text_5": "Admissions",
+            "text_6": "Learn more"
+        }
     }
-    
-    
 }
