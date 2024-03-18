@@ -27,7 +27,8 @@
             "sub2": "Công nghệ thông tin",
             "sub3": "Cơ khí - Động lực",
             "sub4": "Điện - Điện tử",
-            "sub5": "Xây dựng"
+            "sub5": "Xây dựng",
+            "sub6": "Các lớp ngoài Khoa"
         },
         "text_link_5": "Tuyển sinh",
         "text_link_6": {
@@ -44,7 +45,7 @@
         },
         "text_link_8": {
             "title": "Sinh viên",
-            "sub1": "Sinh viên RET",
+            "sub1": "Sinh viên SET",
             "sub2": "Học viên cao học",
             "sub3": "Nghiên cứu sinh"
         },
@@ -84,33 +85,5 @@
         "related": "Tin liên quan",
         "latest": "Tin mới nhất",
         "popular": "Xem nhiều nhất"
-    },
-    "StudentSet": {
-        "tital": {
-            "title1": "SINH VIÊN SET",
-            "title2": "LỊCH THI LẠI LẦN 2",
-            "title3": "HỌC BỔNG",
-            "title4": "HỌC PHÍ",
-            "title5": "THÔNG BÁO",
-            "title6": "SỔ TAY SINH VIÊN + KẾ HOẠCH HỌC TẬP",
-            "title7": "TUYỂN DỤNG",
-            "title8": "TRA CỨU KẾT QUẢ THI",
-            "title9": "ĐỀ CƯƠNG CHI TIẾT",
-            "title10": "BIỂU MẪU",
-            "title11": "QUY ĐỊNH - QUY CHẾ"
-
-        },
-        "button": {
-            "watch": "Xem thêm",
-            "label1": "Chọn bộ môn",
-            "label2": "Chọn lớp",
-            "placeholder1": "Chọn bộ môn",
-            "placeholder2": "Chọn lớp"
-        }
     }
 }
-
-
-
-
-

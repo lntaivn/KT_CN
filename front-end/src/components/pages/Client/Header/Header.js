@@ -1,9 +1,11 @@
 
 import './Header.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth, signInWithGoogle, signOut} from "../../../../service/firebase";
 import {
     Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Avatar,
-    Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Tooltip
+    Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Tooltip,
+    Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure
 }
     from "@nextui-org/react";
 
@@ -15,17 +17,73 @@ import { useTranslation } from 'react-i18next';
 
 function Header() {
 
+    const navigate = useNavigate();
+
     const { t, i18n } = useTranslation();
 
     const [selectedKeys, setSelectedKeys] = useState(new Set([i18n.language ? i18n.language : "vi"]));
+
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const selectedValue = useMemo(
         () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
         [selectedKeys]
     );
 
+    const Logout = async()=>{
+        try {
+            alert("Đăng nhập thất bại");
+            await signOut(auth);
+            navigate("/login");
+        } catch (err) {
+            console.error(err);
+        }
+    }
+    
+    const handleLoginWithGoogle = async (onClose) => {
+        try {
+            const response = await signInWithGoogle();
+            console.log(response);
+            // if (response) {
+            //     navigate("/admin/");
+            // } else {
+            //     Logout();
+            // }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     return (
         <div className="Header hidden xl:flex">
+            <Modal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                disableAnimation
+                classNames={{
+                    header: "px-5",
+                    body: "px-5",
+                    footer: "px-5"
+                }}
+            >
+
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">Login to Admin Dashboard</ModalHeader>
+                            <ModalBody>
+                                <p>Đăng nhập dành cho quản trị viên</p>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="primary" className='w-full bg-orange-600 font-medium' radius='sm' onPress={() => handleLoginWithGoogle(onClose)}>
+                                    <i className="fa-brands fa-google"></i> Đăng nhập với Google
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
+
             <Navbar
                 disableAnimation
                 // isBordered
@@ -71,9 +129,9 @@ function Header() {
 
                 <NavbarContent justify="end" className='gap-2'>
                     <NavbarItem>
-                        <Link variant="default" className="font-semibold text-sm hidden lg:flex text-orange-500" to="/login">
+                        <Button variant="default" className="font-semibold text-sm hidden lg:flex text-orange-500" onPress={onOpen}>
                             {t('header.login_button_text')}
-                        </Link>
+                        </Button>
                     </NavbarItem>
                     <NavbarItem>
                         <Dropdown>

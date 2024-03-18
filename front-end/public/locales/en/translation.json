@@ -1,11 +1,11 @@
 {
     "header": {
-        "left_text_tvu" : "Tra Vinh University",
+        "left_text_tvu": "Tra Vinh University",
         "left_text_1": "Student Portal",
         "left_text_2": "Academic Affairs Office",
         "left_text_3": "Testing Office",
         "left_text_4": "Learning Resource Center",
-        "tooltip_text" : "Language",
+        "tooltip_text": "Language",
         "login_button_text": "Login"
     },
     "menu": {
@@ -27,7 +27,8 @@
             "sub2": "Department of Information Technology",
             "sub3": "Department of Mechanical Engineering",
             "sub4": "Department of Electrical and Electronic Engineering",
-            "sub5": "Department of Civil Engineering"
+            "sub5": "Department of Civil Engineering",
+            "sub6": "Others"
         },
         "text_link_5": "Admissions",
         "text_link_6": {
@@ -68,9 +69,9 @@
         "Button": "View More"
     },
     "admissions": {
-        "title":"ADMISSIONS",
-        "type1":"Higher education",
-        "type2":"Under graduate"
+        "title": "ADMISSIONS",
+        "type1": "Higher education",
+        "type2": "Under graduate"
     },
     "News": {
         "text_new_1": "News",
@@ -83,29 +84,5 @@
         "related": "Related news",
         "latest": "The latest stories",
         "popular": "Most popular"
-    },
-    "StudentSet": {
-        "tital": {
-            "title1": "UNDERGRADUATE STUDENTS",
-            "title2": "TEST SCHEDULE",
-            "title3": "LEARN BURNS",
-            "title4": "TUITION",
-            "title5": "NOTIFICATION",
-            "title6": "STUDENT HANDBOOK",
-            "title7": "RECRUITMENT",
-            "title8": "SEARCHING ANSWERS",
-            "title9": "SYLLABUS",
-            "title10": "FORM",
-            "title11": "RULES"
-        },
-        "button": {
-            "watch": "Read more",
-            "label1": "Selecting a department",
-            "label2": "Selecting a class",
-            "placeholder1": "Selecting a department",
-            "placeholder2": "Selecting a class"
-        }
     }
-    
-    
 }

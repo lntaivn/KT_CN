@@ -17,6 +17,7 @@ import { getAllDepartments } from "../../../../service/DepartmentService";
 import { SaveAdmissionNews } from "../../../../service/AdmissionNewsService";
 import "./Post.css";
 import { Link } from "react-router-dom";
+import imageCompression from "browser-image-compression";
 
 const { Option } = Select;
 
@@ -38,6 +39,8 @@ const CreatePost = (props) => {
     
     const [layout, setLayout] = useState("col");
     const [disableRowLayout, setDisableRowLayout] = useState(false);
+
+    const [fileList, setFileList] = useState([]);
 
     //hangle database
     const getCategorys = async () => {
@@ -171,6 +174,19 @@ const CreatePost = (props) => {
         }
     };
 
+    const compressImage = async (imageFile) => {
+        try {
+            const options = {
+                maxSizeMB: 1, // Giới hạn kích thước ảnh nén dưới 1MB (tùy chỉnh theo nhu cầu của bạn)
+                maxWidthOrHeight: 1920, // Giới hạn kích thước chiều rộng hoặc chiều cao của ảnh (tùy chỉnh theo nhu cầu của bạn)
+            };
+            const compressedFile = await imageCompression(imageFile, options);
+            return compressedFile;
+        } catch (error) {
+            throw error;
+        }
+    };
+
     //hangle Img
     const handleChange = (info) => {
         if (info.file.status === "uploading") {
@@ -278,6 +294,7 @@ const CreatePost = (props) => {
                                 action={`${process.env.REACT_APP_API_DOMAIN}/admin/upload-image-`}
                                 beforeUpload={beforeUpload}
                                 onChange={handleChange}
+                                withCredentials
                             >
                                 {imageUrl ? (
                                     <img src={imageUrl} alt="avatar" />
@@ -358,14 +375,12 @@ const CreatePost = (props) => {
                 </div>
 
                 <div
-                    className={`flex w-full gap-${
-                        layout === "col" ? "10" : "8"
-                    } flex-${layout}`}
+                    className={`flex w-full gap-${layout === "col" ? "10" : "8"
+                        } flex-${layout}`}
                 >
                     <div
-                        className={`${
-                            layout === "col" ? "w-full" : "w-[40%]"
-                        } flex-1 flex flex-col gap-6`}
+                        className={`${layout === "col" ? "w-full" : "w-[40%]"
+                            } flex-1 flex flex-col gap-6`}
                     >
                         <Input
                             label={
@@ -411,9 +426,8 @@ const CreatePost = (props) => {
                         </div>
                     </div>
                     <div
-                        className={`${
-                            layout === "col" ? "w-full" : "w-[40%]"
-                        } flex-1 flex flex-col gap-6`}
+                        className={`${layout === "col" ? "w-full" : "w-[40%]"
+                            } flex-1 flex flex-col gap-6`}
                     >
                         <Input
                             label="Tiêu đề bài viết tiếng Anh"
