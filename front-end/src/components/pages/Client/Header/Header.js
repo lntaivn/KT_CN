@@ -44,11 +44,11 @@ function Header() {
         try {
             const response = await signInWithGoogle();
             console.log(response);
-            // if (response) {
-            //     navigate("/admin/");
-            // } else {
-            //     Logout();
-            // }
+            if (response) {
+                navigate("/admin/");
+            } else {
+                Logout();
+            }
         } catch (err) {
             console.error(err);
         }

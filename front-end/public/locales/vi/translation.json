@@ -85,5 +85,39 @@
         "related": "Tin liên quan",
         "latest": "Tin mới nhất",
         "popular": "Xem nhiều nhất"
+    },
+    "StudentSet": {
+        "tital": {
+            "title1": "SINH VIÊN SET",
+            "title2": "LỊCH THI LẠI LẦN 2",
+            "title3": "HỌC BỔNG",
+            "title4": "HỌC PHÍ",
+            "title5": "THÔNG BÁO",
+            "title6": "SỔ TAY SINH VIÊN + KẾ HOẠCH HỌC TẬP",
+            "title7": "TUYỂN DỤNG",
+            "title8": "TRA CỨU KẾT QUẢ THI",
+            "title9": "ĐỀ CƯƠNG CHI TIẾT",
+            "title10": "BIỂU MẪU",
+            "title11": "QUY ĐỊNH - QUY CHẾ"
+
+        },
+        "button": {
+            "watch": "Xem thêm",
+            "label1": "Chọn bộ môn",
+            "label2": "Chọn lớp",
+            "placeholder1": "Chọn bộ môn",
+            "placeholder2": "Chọn lớp"
+        }
+    },
+    "home": {
+        "title_1": "Các Bộ môn thuộc Khoa Kỹ thuật và Công nghệ",
+        "introduce": {
+            "text_1": "Giới thiệu",
+            "text_2": "Thành tựu và phát triển",
+            "text_3": "Với sự phát triển của kỹ thuật hiện đại, Kỹ thụât và Công nghệ đóng một vai trò rất quan trọng trong phát triển công nghiệp, Khoa Kỹ thuật và Công nghệ (KT&CN) được thành lập theo quyết định số: 179/QĐ-ĐHTV ngày 20/10/2006 của Hiệu trưởng trường Đại học Trà Vinh với 5 đơn vị:",
+            "text_4": "Hiện tại, đội ngũ của Khoa có 80 viên chức, tất cả họ đều trẻ, năng động và ham học hỏi. Vì thế, Khoa tạo nhiều cơ hội để họ được bồi dưỡng và nâng cao nghề nghiệp. Hằng năm, Khoa tuyển mới trên 500 sinh viên. Đặc biệt, số lượng sinh viên tìm được việc làm sau 1 năm tốt nghiệp là trên 90%.",
+            "text_5": "Tuyển sinh",
+            "text_6": "Tìm hiểu thêm"
+        }
     }
 }
