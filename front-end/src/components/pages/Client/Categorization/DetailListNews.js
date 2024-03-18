@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { List, Pagination } from "antd";
-import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 import { Tooltip, Spinner, Image } from "@nextui-org/react";
 import i18next from "i18next";
