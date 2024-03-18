@@ -6,6 +6,7 @@ use App\Models\NewEn;
 use App\Models\NewVi;
 use Illuminate\Http\JsonResponse;
 use App\Models\News;
+use App\Models\Admission_news;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -197,16 +198,66 @@ class NewsController extends Controller
     public function getAllByCategory($category_id)
     {
         try {
-            $news = News::where('id_category', $category_id)
-                ->where('news.is_deleted', '=', 0)
+            $news = News::join('categories', 'news.id_category', '=', 'categories.id_category')
+                ->select(
+                    'news.id_new',
+                    'news.title_vi',
+                    'news.title_en',
+                    'news.content_en',
+                    'news.content_vi',
+                    'news.view_count',
+                    'news.updated_at',
+                    'news.created_at',
+                    'news.thumbnail',
+                    'news.id_category',
+                    'categories.name_en as category_name_en',
+                    'categories.name_vi as category_name_vi',
+                    'news.status_vi',
+                    'news.status_en',
+                )
                 ->orderBy('news.created_at')
+                ->where('news.id_category', '=', $category_id)
+                ->where('news.is_deleted', '=', 0)
                 ->get();
+
             if ($news->isEmpty()) {
                 return response()->json(['message' => 'Không có tin tức nào trong danh mục này.'], 404);
             }
             return response()->json($news, 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi khi lấy dữ liệu tin tức.'], 500);
+        }
+    }
+
+    public function TakeFullNewsByCategory3_4_5_6_7_9_10_And_NewsAdmission()
+    {
+        try {
+            $categoryIds = [3, 4, 5, 6, 7, 9, 10];
+            $newsCollection = collect();
+
+            foreach ($categoryIds as $categoryId) {
+                $news = News::where('id_category', $categoryId)
+                    ->where('is_deleted', '=', 0)
+                    ->orderBy('created_at')
+                    ->take(6)
+                    ->get();
+
+                $newsCollection = $newsCollection->concat($news);
+            }
+    
+            $NewsAdmission = Admission_news::where('is_deleted', 0)
+            ->orderBy('created_at')
+            ->get();
+
+            $newsCollection = $newsCollection->concat($NewsAdmission);
+
+            if ($newsCollection->isEmpty()) {
+                return response()->json(['message' => 'Không có tin tức nào trong các danh mục này.'], 404);
+            }
+
+            return response()->json($newsCollection, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Đã xảy ra lỗi khi lấy dữ liệu tin tức: ' . $e->getMessage()], 500);
         }
     }
 
@@ -470,34 +521,39 @@ class NewsController extends Controller
         return response()->json($news, 200);
     }
 
-    public function getTop5RelatedCategory($id_new)
+    public function getTop5RelatedCategory(Request $request, $id_new)
     {
-        $news = News::join('categories', 'categories.id_category', '=', 'news.id_category')
-            ->select(
-                'news.id_new',
-                'news.title_vi',
-                'news.title_en',
-                'news.view_count',
-                'news.updated_at',
-                'news.created_at',
-                'news.thumbnail',
-                'news.id_category',
-                'news.status_vi',
-                'news.status_en'
-            )
-            ->where('news.id_category', '=', function ($query) use ($id_new) {
-                $query->select('id_category')
-                    ->from('news')
-                    ->where('id_new', '=', $id_new);
-            })
-            ->where('news.id_new', '!=', $id_new)
-            ->where('is_deleted', 0)
-            ->take(5)
-            ->get();
-        if (!$news) {
-            return response()->json(['message' => 'Bài viết không tồn tại'], 404);
+        try {
+            $validatedData = $request->validate([
+                'id_category' => 'required|integer',
+            ]);
+            $id_category = $validatedData['id_category'];
+            error_log($id_category);
+            $news = News::join('categories', 'categories.id_category', '=', 'news.id_category')
+                ->select(
+                    'news.id_new',
+                    'news.title_vi',
+                    'news.title_en',
+                    'news.view_count',
+                    'news.updated_at',
+                    'news.created_at',
+                    'news.thumbnail',
+                    'news.id_category',
+                    'news.status_vi',
+                    'news.status_en'
+                )
+                ->where('news.id_category', '=', $id_category)
+                ->where('news.id_new', '!=', $id_new)
+                ->where('is_deleted', 0)
+                ->take(5)
+                ->get();
+            if (!$news) {
+                return response()->json(['message' => 'Bài viết không tồn tại'], 404);
+            }
+            return response()->json($news, 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'lỗi', $th->getMessage()], 500);
         }
-        return response()->json($news, 200);
     }
 
     public function saveNews(Request $request)

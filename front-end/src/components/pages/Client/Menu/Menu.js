@@ -232,7 +232,7 @@ function Menu() {
                                 <i className="fa-solid fa-sort-down ml-3 -translate-y-1"></i>
                             </Link>
                             <div className="absolute flex flex-col -translate-x-4 invisible group-hover/prarent-link:visible delay-100">
-                                <Link className="bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300">
+                                <Link to="/student-set" className="bg-zinc-200 hover:bg-zinc-300 text-gray-800 p-3 px-4 border-b-[1px] border-gray-300">
                                     <i className="fa-solid fa-caret-right mr-3"></i>
                                     {t("menu.text_link_8.sub1")}
                                 </Link>
@@ -567,8 +567,18 @@ function Menu() {
                                     title: "font-medium uppercase",
                                 }}
                             >
+
+            {/*----------------------------------link student-set----------------------------------*/}
+
+
+
+
+
+
+
+
                                 <div className="flex flex-col gap-4 pl-4 pb-2">
-                                    <Link to="#" className="font-medium">
+                                    <Link to="/student-set" className="font-medium">
                                         <i className="fa-solid fa-caret-right mr-3"></i>
                                         {t("menu.text_link_8.sub1")}
                                     </Link>

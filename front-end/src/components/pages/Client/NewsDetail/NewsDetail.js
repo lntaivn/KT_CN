@@ -3,11 +3,8 @@ import {
     GetNewViEnById,
     get5LatestNews,
     getTop5ViewCount,
-    getTop5RelatedCategory,
     updateViewCount,
 } from "../../../../service/ApiService";
-
-
 
 
 import { useTranslation } from "react-i18next";
@@ -19,6 +16,7 @@ import { formatDateTime, formatTimeAgo } from "../../../../service/DateService";
 import { Image, Tooltip } from "@nextui-org/react";
 import { GetNewAdmissionById, getTop5RelatedDepartment, updateViewCountAdmission } from "../../../../service/AdmissionNewsService";
 import { EmailAuthCredential } from "firebase/auth";
+import { getTop5RelatedCategory } from "../../../../service/NewsService";
 
 const NewsDetail = (props) => {
     const { t } = useTranslation();
@@ -30,7 +28,7 @@ const NewsDetail = (props) => {
     const [topViewCountNews, setTopViewCountNews] = useState([]);
     const [relativeCategoryNews, setRelativeCategoryNews] = useState([]);
     const [RelativeDepartmentNewNews, setRelativeDepartmentNewNews] = useState([]);
-
+    const [hhh, setIdCategory] = useState("");
 
 
     
@@ -40,6 +38,10 @@ const NewsDetail = (props) => {
                 const response = await GetNewViEnById(id);
                 console.log("newsDetailData:", response.data);
                 setNewsDetailData(response.data[0]);
+                const data = {
+                    "id_category": response.data[0].id_category
+                }
+                await getRelativeCategoryNews(id, data);
             } else if (TypeNews === "admissionNews") {
                 const response = await GetNewAdmissionById(id);
                 console.log("newsDetailData:", response.data);
@@ -50,10 +52,10 @@ const NewsDetail = (props) => {
         }
     };
 
-    const getRelativeCategoryNews = async () => {
+    const getRelativeCategoryNews = async (id, data) => {
         try {
-            // note: data id_category
-            const response = await getTop5RelatedCategory(id);
+  
+            const response = await getTop5RelatedCategory(id, data);
             console.log("relativeCategoryNews:", response.data);
             setRelativeCategoryNews(response.data);
         } catch (error) {
@@ -110,7 +112,7 @@ const NewsDetail = (props) => {
         getTopViewCountNews();
 
         if(TypeNews ==="News") {
-            getRelativeCategoryNews();
+            
         } else if(TypeNews ==="admissionNews") {
             getRelativeDepartmentNews();
         }

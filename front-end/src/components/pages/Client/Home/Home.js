@@ -60,7 +60,7 @@ const Home = () => {
             } else if (i18next.language === "en" && news.status_en === 1) {
                 return news;
             }
-        });
+        }).slice(0, 8);
 
         setNewsDataFiltered(filterNewsData);
     };

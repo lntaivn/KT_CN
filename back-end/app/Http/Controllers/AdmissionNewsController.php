@@ -718,7 +718,7 @@ class AdmissionNewsController extends Controller
     {
         try {
             $news = Admission_news::find($id);
-
+            error_log("id".$news);
             if ($news) {
                 $news->view_count = $news->view_count + 1;
                 $news->timestamps = false;

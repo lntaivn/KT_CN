@@ -3,10 +3,10 @@ import { List, Pagination } from "antd";
 import { Link, useParams } from "react-router-dom";
 import { Tooltip, Spinner, Image } from "@nextui-org/react";
 import i18next from "i18next";
+import { getAllNewByCategory } from "../../../../service/CategoryService";
 import { formatDateTime, formatTimeAgo } from "../../../../service/DateService";
-import { GetNewAdmission } from "../../../../service/AdmissionNewsService";
 
-const Admission = () => {
+const DetailListNews = () => {
     const { id } = useParams();
     const [newsData, setNewsData] = useState([]);
     const [newsDataFitlered, setNewsDataFiltered] = useState([]);
@@ -19,7 +19,7 @@ const Admission = () => {
         setLoading(true);
 
         try {
-            const response = await GetNewAdmission();
+            const response = await getAllNewByCategory(id);
             setNewsData(response.data);
             console.log("new data", newsData);
             setLoading(false);
@@ -73,8 +73,8 @@ const Admission = () => {
                         <h1 className="w-full p-3 border-[#e95a13] border-l-8 border-y-2  border-r-2 mb-4 text-left text-[#e95a13] font-bold">
                             {/* {console.log("new data", newsData)} */}
                             {i18next.language === "vi"
-                                ? newsData[0]?.name_department_vi
-                                : newsData[0]?.name_department_en}
+                                ? newsData[0]?.category_name_vi
+                                : newsData[0]?.category_name_en}
                         </h1>
                         {newsDataFitlered.length === 0 ? (
                             <Spinner size="md" />
@@ -129,5 +129,4 @@ const Admission = () => {
         </>
     );
 };
-
-export default Admission;
+export default DetailListNews;
