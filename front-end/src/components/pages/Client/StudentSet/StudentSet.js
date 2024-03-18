@@ -32,7 +32,6 @@ const StudentSet = (props) => {
             setNotification(NewsData.data.filter(item => item.id_category === 6).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
             setStudentHandbook(NewsData.data.filter(item => item.id_category === 7).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
             setRecruitment(NewsData.data.filter(item => item.id_admission_news).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
-            
             setRules(NewsData.data.filter(item => item.id_category === 9).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
             setForm(NewsData.data.filter(item => item.id_category === 10).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
         } catch (error) {
@@ -60,7 +59,7 @@ const StudentSet = (props) => {
                
                     <div className="p-4 bg-[#ffffff]"> 
                         <div className="w-full p-3 bg-[#e95a13] mb-4">
-                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title2")}</h1>
+                            <p className="text-left text-sm font-bold text-[#ffffff]">{t("StudentSet.tital.title2")}</p>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[15px]">
                             {
@@ -102,7 +101,7 @@ const StudentSet = (props) => {
                     </div>
                     <div className="p-4 bg-[#ffffff]">
                         <div className="w-full p-3 bg-[#e95a13] mb-4">
-                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title3")}</h1>
+                            <p className="text-left text-sm font-bold text-[#ffffff]">{t("StudentSet.tital.title3")}</p>
                         </div>
                         <div className="w-full py-[10px] pl-10 flex flex-col gap-[10px]">
                             {
@@ -144,7 +143,7 @@ const StudentSet = (props) => {
                     </div>
                     <div className="p-4 bg-[#ffffff]">
                         <div className="w-full p-3 bg-[#e95a13] mb-4">
-                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title4")}</h1>
+                            <p className="text-left text-sm font-bold text-[#ffffff]">{t("StudentSet.tital.title4")}</p>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[15px]"> 
                             {
@@ -177,7 +176,6 @@ const StudentSet = (props) => {
                                     ))
                                     :
                                     i18next.language === "vi" ? (<p>Không có bài viết nào</p>) : (<p>No articles available</p>)
-
                             }
                         </div>
                         <div className="w-full flex justify-end">
@@ -186,7 +184,7 @@ const StudentSet = (props) => {
                     </div>
                     <div className="p-4 bg-[#ffffff]">
                         <div className="w-full p-3 bg-[#e95a13] mb-4">
-                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title5")}</h1>
+                            <p className="text-left text-sm font-bold text-[#ffffff]">{t("StudentSet.tital.title5")}</p>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[15px]">           
                             {
@@ -228,7 +226,7 @@ const StudentSet = (props) => {
                     </div>
                     <div className="p-4 bg-[#ffffff]">
                         <div className="w-full p-3 bg-[#e95a13] mb-4">
-                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title6")}</h1>
+                            <p className="text-left text-sm font-bold text-[#ffffff]">{t("StudentSet.tital.title6")}</p>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[15px]">           
                             {
@@ -275,7 +273,7 @@ const StudentSet = (props) => {
                     </div>
                     <div className="p-4 bg-[#ffffff]">
                         <div className="w-full p-3 bg-[#e95a13] mb-4">
-                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title7")}</h1>
+                            <p className="text-left text-sm font-bold text-[#ffffff]">{t("StudentSet.tital.title7")}</p>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[15px]">           
                             {
@@ -319,7 +317,7 @@ const StudentSet = (props) => {
                 <div className="w-full h-fit flex flex-col gap-[70px] p-5 bg-[#ffffff]  sm:w-full sm: mx-auto lg:w-[400px]  xl:w-[500px] ">
                     <div className="flex flex-col gap-[20px]">
                         <div className="w-full p-3 bg-[#e95a13]">
-                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title8")}</h1>
+                            <p className="text-left text-sm font-bold text-[#ffffff]">{t("StudentSet.tital.title8")}</p>
                         </div>
                         <Select
                             label = {t("StudentSet.button.label1")}
@@ -351,7 +349,7 @@ const StudentSet = (props) => {
 
                     <div className="flex flex-col gap-[20px]">
                         <div className="w-full p-3 bg-[#e95a13]">
-                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title9")}</h1>
+                            <p className="text-left text-sm font-bold text-[#ffffff]">{t("StudentSet.tital.title9")}</p>
                         </div>
                         <Select
                             label = {t("StudentSet.button.label1")}
@@ -383,7 +381,7 @@ const StudentSet = (props) => {
                     
                     <div className="flex flex-col gap-[20px]">
                         <div className="w-full p-3 bg-[#e95a13] ">
-                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title10")}</h1>
+                            <p className="text-left text-sm font-bold text-[#ffffff]">{t("StudentSet.tital.title10")}</p>
                         </div>
 
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[15px]">           
@@ -403,7 +401,7 @@ const StudentSet = (props) => {
                    
                     <div className="flex flex-col gap-[20px]">
                         <div className="w-full p-3 bg-[#e95a13]">
-                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title11")}</h1>
+                            <p className="text-left text-sm font-bold text-[#ffffff]">{t("StudentSet.tital.title11")}</p>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[15px]">           
                             {
