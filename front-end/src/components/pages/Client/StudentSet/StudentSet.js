@@ -11,6 +11,9 @@ import { getSixNewsByIdCategory } from "../../../../service/StudentSetApiService
 
 
 const StudentSet = (props) => {
+
+    const { t } = useTranslation();
+
     const [testSchedule, setTestSchedule] = useState([]);
     const [learnBurns, setLearnBurns] = useState([]);
     const [tuition, setTuition] = useState([]);
@@ -44,19 +47,18 @@ const StudentSet = (props) => {
         fetchData();
     }, []);
 
-
     return (
         <div className="bg-[#f5f5f5]">
             <div className="pt-[25px] w-full m-auto">
-                <h1 className="text-center font-bold text-4xl text-[#e95a13]">SINH VIÊN SET</h1>
+                <h1 className="text-center font-bold text-2xl text-[#e95a13]">{t("StudentSet.tital.title1")}</h1>
             </div>
 
             <div className="flex flex-col sm:p-[30px]  lg:flex-row lg:justify-center p-[20px] gap-[30px] xl:px-[70px] xl:justify-center ">
                 <div className="w-full flex flex-col gap-[30px] sm:m-auto lg:w-full xl:w-full">
                
                     <div className="p-4 bg-[#ffffff]"> 
-                        <div className="w-full p-3 border-[#e95a13] border-l-8 border-y-2  border-r-2 mb-4">
-                            <h1 className="text-left text-[#e95a13] font-bold">TEST SCHEDULE</h1>
+                        <div className="w-full p-3 bg-[#e95a13] mb-4">
+                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title2")}</h1>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">
                             {
@@ -71,12 +73,12 @@ const StudentSet = (props) => {
                             }
                         </div>
                         <div className="w-full py-5 flex justify-end">
-                            <div><Link to={`/news/category/undergraduate/3}`} className="text-blue-500 font-medium">Read more</Link></div>
+                            <div><Link to={`/news/category/undergraduate/3}`} className="text-blue-500 font-medium">{t("StudentSet.button.watch")}</Link></div>
                         </div>
                     </div>
                     <div className="p-4 bg-[#ffffff]">
-                        <div className="w-full p-3 border-[#e95a13] border-l-8 border-y-2  border-r-2 mb-4">
-                            <h1 className="text-left text-[#e95a13] font-bold">LEARN BURNS</h1>
+                        <div className="w-full p-3 bg-[#e95a13] mb-4">
+                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title3")}</h1>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">
                             {
@@ -91,12 +93,12 @@ const StudentSet = (props) => {
                             }
                         </div>
                         <div className="w-full py-5 flex justify-end">
-                            <div><Link to={`/news/category/undergraduate/4`} className="text-blue-500 font-medium">Read more</Link></div>
+                            <div><Link to={`/news/category/undergraduate/4`} className="text-blue-500 font-medium">{t("StudentSet.button.watch")}</Link></div>
                         </div>
                     </div>
                     <div className="p-4 bg-[#ffffff]">
-                        <div className="w-full p-3 border-[#e95a13] border-l-8 border-y-2  border-r-2 mb-4">
-                            <h1 className="text-left text-[#e95a13] font-bold">TUITION</h1>
+                        <div className="w-full p-3 bg-[#e95a13] mb-4">
+                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title4")}</h1>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]"> 
                             {
@@ -111,12 +113,12 @@ const StudentSet = (props) => {
                             }
                         </div>
                         <div className="w-full py-5 flex justify-end">
-                            <div><Link to={`/news/category/undergraduate/5`} className="text-blue-500 font-medium">Read more</Link></div>
+                            <div><Link to={`/news/category/undergraduate/5`} className="text-blue-500 font-medium">{t("StudentSet.button.watch")}</Link></div>
                         </div>
                     </div>
                     <div className="p-4 bg-[#ffffff]">
-                        <div className="w-full p-3 border-[#e95a13] border-l-8 border-y-2  border-r-2 mb-4">
-                            <h1 className="text-left text-[#e95a13] font-bold">NOTIFICATION</h1>
+                        <div className="w-full p-3 bg-[#e95a13] mb-4">
+                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title5")}</h1>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">           
                             {
@@ -131,12 +133,12 @@ const StudentSet = (props) => {
                             }
                         </div>
                         <div className="w-full py-5 flex justify-end">
-                            <div><Link to={`/news/category/undergraduate/6`} className="text-blue-500 font-medium">Read more</Link></div>
+                            <div><Link to={`/news/category/undergraduate/6`} className="text-blue-500 font-medium">{t("StudentSet.button.watch")}</Link></div>
                         </div>
                     </div>
                     <div className="p-4 bg-[#ffffff]">
-                        <div className="w-full p-3 border-[#e95a13] border-l-8 border-y-2  border-r-2 mb-4">
-                            <h1 className="text-left text-[#e95a13] font-bold">STUDENT HANDBOOK</h1>
+                        <div className="w-full p-3 bg-[#e95a13] mb-4">
+                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title6")}</h1>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">           
                             {
@@ -151,13 +153,17 @@ const StudentSet = (props) => {
                             }
                         </div>
                         <div className="w-full py-5 flex justify-end">
-                            <div><Link to={`/news/category/undergraduate/7`} className="text-blue-500 font-medium">Read more</Link></div>
+                        <div>
+                            <Link to={`/news/category/undergraduate/7`} className="text-blue-500 font-medium">
+                                {t("StudentSet.button.watch")}
+                            </Link>
+                            </div>
                         </div>
                         
                     </div>
                     <div className="p-4 bg-[#ffffff]">
-                        <div className="w-full p-3 border-[#e95a13] border-l-8 border-y-2  border-r-2 mb-4">
-                            <h1 className="text-left text-[#e95a13] font-bold">RECRUITMENT</h1>
+                        <div className="w-full p-3 bg-[#e95a13] mb-4">
+                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title7")}</h1>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">           
                             {
@@ -172,18 +178,18 @@ const StudentSet = (props) => {
                             }
                         </div>
                         <div className="w-full p-5  flex justify-end">
-                            <div><Link to={`/news/category/undergraduate/8`} className="text-blue-500 font-medium">Read more</Link></div>
+                            <div><Link to={`/news/category/undergraduate/8`} className="text-blue-500 font-medium">{t("StudentSet.button.watch")}</Link></div>
                         </div>
                     </div>
                 </div>
                 <div className="w-full h-fit flex flex-col gap-[70px] p-5 bg-[#ffffff]  sm:w-full sm: mx-auto lg:w-[400px]  xl:w-[500px] ">
                     <div className="flex flex-col gap-[20px]">
-                        <div className="w-full p-3 border-[#e95a13]  border-l-8 border-y-2  border-r-2 ">
-                            <h1 className="text-left text-[#e95a13] font-bold">SEARCHING ANSWERS</h1>
+                        <div className="w-full p-3 bg-[#e95a13]">
+                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title8")}</h1>
                         </div>
                         <Select
-                            label = "Selecting a department"
-                            placeholder="Select an department"
+                            label = {t("StudentSet.button.label1")}
+                            placeholder={t("StudentSet.button.placeholder1")}
                             labelPlacement="outside"
                             className="w-full rounded-sm"
                             disableSelectorIconRotation
@@ -195,8 +201,8 @@ const StudentSet = (props) => {
                             ))}
                         </Select>
                         <Select
-                            label = "Selecting a class"
-                            placeholder="Select an class"
+                            label = {t("StudentSet.button.label1")}
+                            placeholder={t("StudentSet.button.placeholder2")}
                             labelPlacement="outside"
                             className="w-full rounded-sm"
                             disableSelectorIconRotation
@@ -210,12 +216,12 @@ const StudentSet = (props) => {
                     </div>
 
                     <div className="flex flex-col gap-[20px]">
-                        <div className="w-full p-3 border-[#e95a13]  border-l-8 border-y-2  border-r-2 ">
-                            <h1 className="text-left text-[#e95a13] font-bold">SYLLABUS</h1>
+                        <div className="w-full p-3 bg-[#e95a13]">
+                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title9")}</h1>
                         </div>
                         <Select
-                            label = "Selecting a department"
-                            placeholder="Select an department"
+                            label = {t("StudentSet.button.label1")}
+                            placeholder={t("StudentSet.button.placeholder1")}
                             labelPlacement="outside"
                             className="w-full rounded-sm"
                             disableSelectorIconRotation
@@ -227,8 +233,8 @@ const StudentSet = (props) => {
                             ))}
                         </Select>
                         <Select
-                            label = "Selecting a class"
-                            placeholder="Select an class"
+                            label = {t("StudentSet.button.label1")}
+                            placeholder={t("StudentSet.button.placeholder2")}
                             labelPlacement="outside"
                             className="w-full rounded-sm"
                             disableSelectorIconRotation
@@ -242,8 +248,8 @@ const StudentSet = (props) => {
                     </div>
                     
                     <div className="flex flex-col gap-[20px]">
-                        <div className="w-full p-3 border-[#e95a13]  border-l-8 border-y-2  border-r-2 ">
-                            <h1 className="text-left text-[#e95a13] font-bold">FORM</h1>
+                        <div className="w-full p-3 bg-[#e95a13] ">
+                            <h1 className="text-left text-[#ffffff] font-bold">{t("StudentSet.tital.title10")}</h1>
                         </div>
 
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">           
@@ -261,8 +267,8 @@ const StudentSet = (props) => {
                     </div>
                    
                     <div className="flex flex-col gap-[20px]">
-                        <div className="w-full p-3 border-[#e95a13] border-l-8 border-y-2  border-r-2">
-                            <h1 className="text-left text-[#e95a13] font-bold">RULES</h1>
+                        <div className="w-full p-3 border-[#e95a13]">
+                            <h1 className="text-left text-[#e95a13] font-bold">{t("StudentSet.tital.title11")}</h1>
                         </div>
                         <div className="w-full py-[3px] pl-10 flex flex-col gap-[10px]">           
                             {
@@ -277,7 +283,7 @@ const StudentSet = (props) => {
                             }
                         </div>
                         <div className="w-full p-5  flex justify-end">
-                            <div><Link to={`/news/category/undergraduate/9`} className="text-blue-500 font-medium">Read more</Link></div>
+                            <div><Link to={`/news/category/undergraduate/9`} className="text-blue-500 font-medium">{t("StudentSet.button.watch")}</Link></div>
                         </div>
                     </div>
 

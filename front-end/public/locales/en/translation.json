@@ -83,5 +83,29 @@
         "related": "Related news",
         "latest": "The latest stories",
         "popular": "Most popular"
+    },
+    "StudentSet": {
+        "tital": {
+            "title1": "UNDERGRADUATE STUDENTS",
+            "title2": "TEST SCHEDULE",
+            "title3": "LEARN BURNS",
+            "title4": "TUITION",
+            "title5": "NOTIFICATION",
+            "title6": "STUDENT HANDBOOK",
+            "title7": "RECRUITMENT",
+            "title8": "SEARCHING ANSWERS",
+            "title9": "SYLLABUS",
+            "title10": "FORM",
+            "title11": "RULES"
+        },
+        "button": {
+            "watch": "Read more",
+            "label1": "Selecting a department",
+            "label2": "Selecting a class",
+            "placeholder1": "Selecting a department",
+            "placeholder2": "Selecting a class"
+        }
     }
+    
+    
 }
