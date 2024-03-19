@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 use App\Models\Program;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class ProgramController extends Controller
 {
@@ -28,22 +31,38 @@ class ProgramController extends Controller
     }
 
     // Thêm một bản ghi mới
-    public function create(Request $request)
-    {
-        $program = new Program();
-        $program->id_user = $request->input('id_user');
-        $program->id_majors = $request->input('id_majors');
-        $program->content = $request->input('content');
-        $program->name_program = $request->input('name_program');
-
-        error_log($request);
-
-
-        $program->status = $request->input('status', true); // Default status is true if not provided
-        $program->save();
-
-        return response()->json(['message' => 'Program created successfully', 'program' => $program], 201);
+    public function saveProgram(Request $request)
+{
+    if (!$request->has('user_info')) {
+        $user_info = $request->user_info;
     }
+    // error_log('Input data: ',$user_info);
+
+    // Validate incoming request data
+    $validatedData = $request->validate([
+        'id_majors' => 'required|exists:majors,id_majors',
+        'content' => 'nullable|string',
+        'name_program' => 'nullable|string',
+    ]);
+
+    try {
+        DB::beginTransaction();
+
+        $program = Program::create([
+            'id_user' => $user_info->id_user,
+            'id_majors' => $request->input('id_majors'),
+            'content' => $request->input('content'),
+            'name_program' => $request->input('name_program'),
+        ]);
+
+        DB::commit();
+        
+        return response()->json(['message' => 'Program created successfully', 'program' => $program], 201);
+    } catch (\Exception $e) {
+        DB::rollback();
+        return response()->json(['message' => 'Save failed', 'error' => $e->getMessage()], 500);
+    }
+}
 
     // Xóa một bản ghi
     public function delete($id)

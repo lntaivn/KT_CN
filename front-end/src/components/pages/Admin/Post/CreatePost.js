@@ -84,7 +84,6 @@ const CreatePost = (props) => {
                 return;
             }
             const data = {
-                id_user: 1,
                 id_majors: SelectedMajors,
                 content: contentProgram,
                 name_program: nameProgram,
@@ -133,7 +132,6 @@ const CreatePost = (props) => {
         setContentProgram(data);
     };
 
-    
 
     const handleCategoryChange = (value, option) => {
         setSelectedCategory(value);

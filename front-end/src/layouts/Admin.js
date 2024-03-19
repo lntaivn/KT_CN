@@ -57,7 +57,7 @@ function Admin(props) {
 
 
           <Route path="/post/update/:id" element={<UpdatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} setSpinning={setSpinning} successNoti={successNoti} errorNoti={errorNoti} TypeNews={"News"}/>} />
-          <Route path="/postAdmissions/updateAdmissions/:id" element={<UpdatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} setSpinning={setSpinning} successNoti={successNoti} errorNoti={errorNoti} TypeNews={"admissionNews"}/>} />
+          <Route path="/postProgram/updateProgram/:id" element={<UpdatePost collapsedNav={collapsedNav} setCollapsedNav={setCollapsedNav} setSpinning={setSpinning} successNoti={successNoti} errorNoti={errorNoti} TypeNews={"program"}/>} />
 
          
           <Route path="/category" element={<CategoryManager successNoti={successNoti} errorNoti={errorNoti} setSpinning={setSpinning}/>} />

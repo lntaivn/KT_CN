@@ -166,19 +166,23 @@ Route::get('/category/{id_category}', [CategoryController::class, 'get']);
 
 
 //program
-Route::get('/admin/programs', [ProgramController::class, 'getAll']);
 
-Route::get('/admin/programs/all/hidden', [ProgramController::class, 'getAllhidden']);
+Route::middleware(['check.jwt'])->group(function () {
+    Route::get('/admin/programs', [ProgramController::class, 'getAll']);
 
-Route::get('/admin/programs/{id}', [ProgramController::class, 'getDetails']);
+    Route::get('/admin/programs/all/hidden', [ProgramController::class, 'getAllhidden']);
 
-Route::post('/admin/programs', [ProgramController::class, 'create']);
+    Route::get('/admin/programs/{id}', [ProgramController::class, 'getDetails']);
 
-Route::delete('/admin/programs/{id}', [ProgramController::class, 'delete']);
+    Route::post('/admin/programs', [ProgramController::class, 'saveProgram']);
 
-Route::put('/admin/programs/{id}', [ProgramController::class, 'update']);
+    Route::delete('/admin/programs/{id}', [ProgramController::class, 'delete']);
 
-Route::put('/admin/programs/all/status', [ProgramController::class, 'updateStatus']);
+    Route::put('/admin/programs/{id}', [ProgramController::class, 'update']);
+
+    Route::put('/admin/programs/all/status', [ProgramController::class, 'updateStatus']);
+});
+
 
 
 Route::get('/admin/majors', [MajorsController::class, 'getAll']);
